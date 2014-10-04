@@ -1,0 +1,32 @@
+{
+  "name": "g4plus-header",
+  "version": "1.3.14",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus Header",
+  "main": [
+    "assets",
+    "./menu.coffee",
+    "./clock.coffee",
+    "./user.coffee",
+    "./settings/settings.coffee",
+    "./settings/profile/profile.coffee",
+    "./settings/preferences/preferences.coffee",
+    "./settings/devroles/devRoles.coffee",
+    "./settings/favorites/favorites.coffee",
+    "./settings/directives/directives.coffee",
+    "./services/favorites.coffee",
+    "./services/menu.coffee",
+    "./css/menu.less",
+    "./css/user.less"
+  ],
+  "private": true,
+  "dependencies": {
+    "moment":"2.3.1",
+    "angular-local-storage": "latest",
+    "g4plus-breadcrumb":"ssh://git@git.allegiantair.com:7999/bc/g4plus-breadcrumb-directive.git",
+    "g4plus-forbidden":"ssh://git@git.allegiantair.com:7999/bc/g4plus-forbidden.git",
+    "g4plus-app-code":"ssh://git@git.allegiantair.com:7999/bc/g4plus-app-code.git"
+  }
+}

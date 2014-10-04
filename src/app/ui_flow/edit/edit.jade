@@ -1,0 +1,224 @@
+header
+  div.row.header_bar
+    div.action_btns.col-sm-4.text-left
+      a.active(ng-click="goToPath($event, '/dashboard')")
+        i.fa.fa-angle-left &nbsp;&nbsp;
+        span Dashboard
+    div.row.col-sm-4
+      h1 Edit AOS
+    div.action_btns.col-sm-4.pull-right
+      div#search_box.pull-right.margin-right
+        div.margin-left.input-group
+          a(ng-click).input-group-addon
+            i.fa.fa-search
+          input.form-control.ng-pristine(type="text", placeholder="Search Event History", ng-model="filter_value", id="g4-list-filter-input", ng-keyup="goToPath($event, '/list', filter_value)")
+div.row#content_body
+  section#add_info.margin-top-large
+    form.col-sm-12.border-none(name="aosForm", ng-submit="submit()")
+      fieldset
+
+        div.row
+          section.col-sm-3.text-right.margin-bottom
+            p Time Stamp:
+          section.col-sm-9
+            div.col-sm-12
+              span {{currentTime}}
+                | UTC
+        div.row
+          section.col-sm-3.text-right.margin-bottom
+            span.required.text-danger *
+            = ' Tail Number:'
+          section.col-sm-9
+            div.col-sm-3
+              select#select_tailNbr(name="tailNumber", ng-required='true', ui-select2='ui-select2', ng-model='event.tailNbr', data-placeholder='Select a Tail #...', style="min-width:100%;")
+                option(value='')
+                  option(ng-repeat="tailNbr in tailNbrList", value="{{tailNbr.tailNbr}}") {{tailNbr.tailNbr.toUpperCase()}}
+              div(ng-show="aosForm.tailNumber.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.tailNumber-required(ng-show="aosForm.tailNumber.$error.required") Tail Number is required.
+
+
+        div.row.pad-top
+          section.col-sm-3.text-right.margin-bottom
+            span.required.text-danger *
+            = ' Station:'
+          section.col-sm-9
+            div.col-sm-3
+              select#select_station(name="station", ng-required="true", ui-select2='ui-select2', ng-model='event.station', data-placeholder='Select a Station...', style="min-width:100%;", required="true")
+                option(value='')
+                  option(ng-repeat="station in stationsList", value="{{station.name}}") {{station.name.toUpperCase()}}
+              div(ng-show="aosForm.station.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.station-required(ng-show="aosForm.station.$error.required") Station is required.
+
+        div.row.pad-top
+          section.col-sm-3.text-right.margin-bottom
+            span.required.text-danger *
+            = ' Location:'
+          section.col-sm-9
+            div.col-sm-3
+              input.form-control(name="location", ng-required="true", type="text", ng-model="event.location", id="location", required="true", maxlength=25)
+              div(ng-show="aosForm.location.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.location-required(ng-show="aosForm.location.$error.required") Location is required.
+
+
+        div.row.pad-top
+          section.col-sm-3.text-right
+            span.required.text-danger *
+            = ' Description:'
+          section.col-sm-9
+            div.col-sm-9
+              textarea.form-control(name="description", ng-required="true", ng-model="event.description", maxlength=100)
+              div(ng-show="aosForm.description.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.description-required(ng-show="aosForm.description.$error.required") Description is required.
+      section.container.border-bottom.margin-top-large.margin-bottom-large.clearfix
+
+
+
+
+      fieldset
+        div.row
+          section.col-sm-3.text-right.margin-bottom
+            span.required.text-danger *
+            = ' Event Code:'
+          section.col-sm-9
+            div.col-sm-3
+              select#select_eventCode(ng-options="v.description for (k, v) in eventCodeList track by v.code", name="eventCode", ng-required='true', ng-model='event.eventCode', data-placeholder='Select an Event Code...', style="min-width:100%;", ng-change="changeRootCauseList(event.eventCode)")
+                option(value="") Select Event Code...
+              div(ng-show="aosForm.eventCode.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.eventCode-required(ng-show="aosForm.eventCode.$error.required") Event Code is required.
+
+
+
+        div.row.margin-top-large
+          section.col-sm-3.text-right
+            span.required.text-danger *
+            = ' Root Cause:'
+
+            //select(ng-disabled="rootCauseCodeList.length==1", ng-model="event.rootCause", ng-options="rootCauseCode.code as rootCauseCode.description for rootCauseCode in rootCauseCodeList")
+          section.col-sm-9
+            div.col-sm-3
+              select#select_rootCause(ng-options="v.description for (k, v) in rootCauseCodeList track by v.code", name="rootCause", ng-required="true", ng-model='event.rootCause', data-placeholder='Select a Root Cause Code...', style="min-width:100%;")
+                option(value='') Select Root Cause Code...
+              div(ng-show="aosForm.rootCause.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.rootCause-required(ng-show="aosForm.rootCause.$error.required") Root Cause is required.
+
+
+
+      fieldset
+        div.row.margin-top-large
+          section.col-sm-3.text-right
+            p ATA Code:
+
+
+          section.col-sm-9
+            div.col-sm-2
+              div(g4ata-select, model="selectedCodes", display="true")
+
+            div.clearfix
+            div.margin-left.margin-top(ng-if='selectedCodes.length')
+              section(ng-repeat='code in selectedCodes')
+                .padding.margin-bottom
+                  a(ng-click='removeSelectedCode(code)')
+                    i.pull-left.fa.fa-times-circle
+                  h3.margin-left {{code.chapter}}{{code.section}}
+
+
+
+
+
+
+        div.row.margin-top-large
+          section.col-sm-3.text-right
+            span.required.text-danger *
+            = ' Status Code:'
+
+          section.col-sm-9.input-group
+            label.left ADV (Advise... Pending ETR)
+              input(ng-required="true", type='radio', name='statusCode', value='adv', ng-model="event.status")
+              span
+              div(ng-show="aosForm.statusCode.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.statusCode-required(ng-show="aosForm.statusCode.$error.required") Status Code is required.
+
+
+
+        div.row
+          section.col-sm-3.text-right
+
+          section.col-sm-9.input-group
+            label.left ETR (Estimated Time to Repair)
+              input(type='radio', name='statusCode', value='etr', ng-model="event.status")
+              span
+
+
+
+
+      section.container.border-bottom.margin-top-large.margin-bottom-large.clearfix(ng-show="event.status")
+
+
+
+      fieldset(ng-show="event.status.toUpperCase()=='ADV'")
+        div.row
+          section.col-sm-3.text-right
+            span.required.text-danger *
+            = ' UTC Advisory Date:'
+
+          section.col-sm-9
+            div.col-sm-5.datetimepicker
+              div.input-group.margin-bottom
+                input.form-control(name="utcAdvisoryDate", ng-required="true", type="text", show-button-bar="false", show-weeks="false", datepicker-popup="{{format}}", ng-model="dt", is-open="openDate", min-date="minDate", max-date="'2015-06-22'", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", close-text="Close")
+                span.input-group-btn
+                  button.btn.btn-default(type="button", ng-click="openDatepicker($event)")
+                    i.fa.fa-calendar
+              div(ng-show="aosForm.utcAdvisoryDate.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.utcAdvisoryDate-required(ng-show="aosForm.utcAdvisoryDate.$error.required") UTC Advisory Date is required.
+
+
+
+
+        div.row
+          section.col-sm-3.text-right.margin-bottom
+            span.required.text-danger *
+            = ' UTC Advisory Time:'
+
+          section.col-sm-9
+            div.col-sm-2.datetimepicker.timepicker
+              timepicker(name="utcAdvisoryTime", ng-required="true", ng-model="mytime", ng-change="changed()", show-meridian="false")
+              div(ng-show="aosForm.utcAdvisoryTime.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.utcAdvisoryTime-required(ng-show="aosForm.utcAdvisoryTime.$error.required") UTC Advisory Time is required.
+              //input.form-control(type="text", placeholder="HH:mm")
+
+
+
+      fieldset(ng-show="event.status.toUpperCase()=='ETR'")
+        div.row
+          section.col-sm-3.text-right
+            span.required.text-danger *
+            = ' UTC ETR Date:'
+          section.col-sm-9
+            div.col-sm-5.datetimepicker
+              div.input-group.margin-bottom
+                input.form-control(type="text", show-button-bar="false", show-weeks="false", datepicker-popup="{{format}}", ng-model="dt", is-open="openDate", min-date="minDate", max-date="'2015-06-22'", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", close-text="Close")
+                span.input-group-btn
+                  button.btn.btn-default(type="button", ng-click="openDatepicker($event)")
+                    i.fa.fa-calendar
+
+
+        div.row
+          section.col-sm-3.text-right.margin-bottom
+            span.required.text-danger *
+            = ' UTC ETR Time:'
+
+          section.col-sm-9
+            div.col-sm-2.datetimepicker.timepicker
+              timepicker(name="utcEtrTime", ng-required="true", ng-model="mytime", ng-change="changed()", show-meridian="false")
+              div(ng-show="aosForm.utcEtrTime.$dirty && !noModify")
+                p.small.no-bottom-margin.text-danger.utcEtrTime-required(ng-show="aosForm.utcEtrTime.$error.required") UTC ETR Time is required.
+
+
+
+
+      section.container.border-bottom.margin-top-large.margin-bottom-large.clearfix
+      fieldset.padding-top-large.padding-bottom-large.text-center
+        button.btn.btn-translucent.btn-larger.margin-right-large(ng-click="goToPath($event, '/view'+ event.id)")
+          | Cancel
+        button.btn.btn-solid.btn-larger(type="submit", id="submit", ng-disabled="aosForm.$invalid || noModify")
+          | Save

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>super-list.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>super-list.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-string">'use strict'</span>
+
+superList = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'g4plus-super-list'</span>, [
+  <span class="hljs-string">'ui.bootstrap'</span>
+  <span class="hljs-string">'g4plus-list-table.directive'</span>
+  <span class="hljs-string">'g4plus.pagination'</span>
+  <span class="hljs-string">'g4plus.list-filter'</span>
+  <span class="hljs-string">'g4plus.autofocus'</span>
+  <span class="hljs-string">'g4plus.load-component'</span>
+]
+
+superList.directive <span class="hljs-string">'g4plusSuperList'</span>, [<span class="hljs-string">'$filter'</span>, <span class="hljs-string">'$timeout'</span>, <span class="hljs-string">'$compile'</span>, <span class="hljs-string">'$cookieStore'</span>, <span class="hljs-function"><span class="hljs-params">($filter, $timeout, $compile, $cookieStore)</span> -&gt;</span>
+  <span class="hljs-attribute">restrict</span>: <span class="hljs-string">'A'</span>
+  <span class="hljs-attribute">templateUrl</span>: <span class="hljs-string">'g4plus-super-list.html'</span>
+  <span class="hljs-attribute">transclude</span>: <span class="hljs-literal">true</span>
+  <span class="hljs-attribute">scope</span>: {
+    <span class="hljs-attribute">service</span>: <span class="hljs-string">'=g4Service'</span>
+    <span class="hljs-attribute">actions</span>: <span class="hljs-string">'=g4Actions'</span>
+    <span class="hljs-attribute">columns</span>: <span class="hljs-string">'=g4Columns'</span>
+    <span class="hljs-attribute">filters</span>: <span class="hljs-string">'=g4Filters'</span>
+    <span class="hljs-attribute">params</span>: <span class="hljs-string">'=g4Params'</span>
+    <span class="hljs-attribute">updateUrl</span>: <span class="hljs-string">'=g4UpdateUrl'</span>
+    <span class="hljs-attribute">successCall</span>: <span class="hljs-string">'=g4Success'</span>
+    <span class="hljs-attribute">errorCall</span>: <span class="hljs-string">'=g4Error'</span>
+  }
+  <span class="hljs-attribute">link</span>: <span class="hljs-function"><span class="hljs-params">(scope, element, attrs)</span> -&gt;</span>
+    loadId = scope?.service?.loadId
+    loadType = <span class="hljs-keyword">if</span> (scope?.service?.loadType) <span class="hljs-keyword">then</span> scope.service.loadType <span class="hljs-keyword">else</span> <span class="hljs-string">'progress'</span>
+    <span class="hljs-keyword">if</span> scope?.service?.loadId
+      elm = $compile(<span class="hljs-string">'&lt;div load-component load-id="'</span>+loadId+<span class="hljs-string">'" load-type="'</span>+loadType+<span class="hljs-string">'"&gt;&lt;/div&gt;'</span>)(scope)
+      element.append elm
+
+
+
+  <span class="hljs-attribute">controller</span>: <span class="hljs-function"><span class="hljs-params">($scope)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>supported types</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _serviceTypes = [ <span class="hljs-string">'array'</span>, <span class="hljs-string">'promise'</span>, <span class="hljs-string">'resource'</span>, <span class="hljs-string">'http'</span> ]
+
+    $scope.service = { <span class="hljs-attribute">type</span>: _serviceTypes[<span class="hljs-number">0</span>] } <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> $scope.service
+    $scope.queryInProgress = <span class="hljs-literal">true</span>
+<span class="hljs-function">
+    <span class="hljs-title">_updateUrl</span> = <span class="hljs-params">()</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>check if update url is defined</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $scope.updateUrl() <span class="hljs-keyword">if</span> angular.isFunction($scope.updateUrl)
+<span class="hljs-function">
+    <span class="hljs-title">_validateParams</span> = <span class="hljs-params">()</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>validate paramters</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      _before = angular.copy($scope.params)
+      $scope.params = {} <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> $scope.params
+      $scope.params.pagination = {} <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> $scope.params.pagination
+
+      _pagination = $scope.params.pagination
+      _pagination.page = <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> isNaN parseInt(_pagination.page, <span class="hljs-number">10</span>)
+      _pagination.pageSize = <span class="hljs-number">10</span> <span class="hljs-keyword">if</span> isNaN parseInt(_pagination.pageSize, <span class="hljs-number">10</span>)
+
+      _pagination.page = Math.max <span class="hljs-number">1</span>, _pagination.page
+      _pagination.pageSize = Math.max <span class="hljs-number">10</span>, _pagination.pageSize
+
+      <span class="hljs-keyword">if</span> !angular.equals(_before, $scope.params)
+        _updateUrl()
+
+      sorting = $scope.params.sorting
+      sortColumn = <span class="hljs-string">''</span>
+      sortDirection = <span class="hljs-string">''</span>
+
+      <span class="hljs-keyword">if</span> sorting
+        <span class="hljs-keyword">if</span> sorting[<span class="hljs-number">0</span>] <span class="hljs-keyword">is</span> <span class="hljs-string">'-'</span>
+          sortColumn = sorting.substring(<span class="hljs-number">1</span>)
+          sortDirection = <span class="hljs-string">'-'</span>
+        <span class="hljs-keyword">else</span>
+          sortColumn = sorting
+          sortDirection = <span class="hljs-string">''</span>
+
+      <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> $scope.columns
+        <span class="hljs-keyword">if</span> col.sorting <span class="hljs-keyword">and</span> col.sortingField <span class="hljs-keyword">and</span> col.sortingField <span class="hljs-keyword">is</span> sortColumn
+          sortColumn = col.field
+          <span class="hljs-keyword">break</span>
+
+      $scope.tableOptions.sortColumn = sortColumn
+      $scope.tableOptions.sortDirection = sortDirection
+
+      $scope.filterState.optionList = []
+      <span class="hljs-keyword">for</span> filter <span class="hljs-keyword">in</span> $scope.filters
+        <span class="hljs-keyword">if</span> filter.visible <span class="hljs-keyword">and</span> filter.key <span class="hljs-keyword">and</span> filter.label
+          $scope.filterState.optionList.push({ <span class="hljs-attribute">key</span>: filter.key, <span class="hljs-attribute">label</span>: filter.label })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>set sorting callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function">    <span class="hljs-title">_setSorting</span> = <span class="hljs-params">(column, direction)</span> -&gt;</span>
+      sortField = column
+      <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> $scope.columns
+        <span class="hljs-keyword">if</span> col.sorting <span class="hljs-keyword">and</span> col.sortingField <span class="hljs-keyword">and</span> col.field <span class="hljs-keyword">and</span> col.field <span class="hljs-keyword">is</span> column
+          sortField = col.sortingField
+          <span class="hljs-keyword">break</span>
+
+      $scope.params.sorting = direction + sortField
+      $scope.params.pagination.page = <span class="hljs-number">1</span>
+      _updateUrl()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>filter:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.filterState =
+      <span class="hljs-attribute">optionList</span>: []
+      <span class="hljs-attribute">filterBy</span>: <span class="hljs-function"><span class="hljs-params">(value, option)</span> -&gt;</span>
+        $scope.params.filters.filter_value = value
+        $scope.params.filters.filter_option = option
+        _updateUrl()
+        _loadList()
+      <span class="hljs-attribute">resetFilter</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+        angular.forEach $scope.params.filters, <span class="hljs-function"><span class="hljs-params">(value, key)</span> -&gt;</span>
+          $scope.params.filters[key] = <span class="hljs-string">''</span>
+        $scope.params.filters.filter_option = <span class="hljs-string">'_all'</span>
+        $scope.params.pagination.page = <span class="hljs-number">1</span>
+
+        checkboxFilters = $cookieStore.get(<span class="hljs-string">'checkbox_values'</span>)
+
+        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">of</span> checkboxFilters
+          checkboxFilters[key] = {}
+
+        $cookieStore.put(<span class="hljs-string">'checkbox_values'</span>, checkboxFilters)
+        <span class="hljs-built_in">console</span>.log($cookieStore.get(<span class="hljs-string">'checkbox_values'</span>))
+
+        _updateUrl()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>table list:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.tableOptions =
+      <span class="hljs-attribute">items</span>: []
+      <span class="hljs-attribute">noItemsFoundMessage</span>: <span class="hljs-string">'There are no entries that matched the filter.'</span>
+      <span class="hljs-attribute">resetFilter</span>: $scope.filterState.resetFilter
+      <span class="hljs-attribute">tableClass</span>: <span class="hljs-string">'table-lined'</span>
+      <span class="hljs-attribute">actions</span>: $scope.actions
+      <span class="hljs-attribute">columns</span>: $scope.columns
+      <span class="hljs-attribute">onSortColumn</span>: _setSorting</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>pagination:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.pagination =
+      <span class="hljs-attribute">totalItems</span>: <span class="hljs-number">0</span>
+      <span class="hljs-attribute">totalPages</span>: <span class="hljs-number">0</span>
+      <span class="hljs-attribute">pageSizeChange</span>: <span class="hljs-function"><span class="hljs-params">(pageSize)</span> -&gt;</span>
+        $scope.params.pagination.page = <span class="hljs-number">1</span>
+        $scope.params.pagination.pageSize = pageSize
+        $scope.updateUrl()
+
+      <span class="hljs-attribute">pageChange</span>: <span class="hljs-function"><span class="hljs-params">(page)</span> -&gt;</span>
+        $scope.params.pagination.page = page
+        $scope.updateUrl()
+<span class="hljs-function">
+    <span class="hljs-title">_filterItems</span> = <span class="hljs-params">(input, value, option)</span> -&gt;</span>
+      output = input</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Only check when filtering by some input value</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> value <span class="hljs-keyword">and</span> value.length
+        <span class="hljs-keyword">if</span> option &amp;&amp; option != <span class="hljs-string">'_all'</span>
+
+          filter_column = {}
+          filter_column[option] = value
+          output = $filter(<span class="hljs-string">'filter'</span>)(input, filter_column)
+        <span class="hljs-keyword">else</span>
+          output = $filter(<span class="hljs-string">'filter'</span>)(input, value)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>get values from filter checkboxes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      checkbox_values = $cookieStore.get(<span class="hljs-string">'checkbox_values'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>new list of data after search text field</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      textfieldOutput = output
+
+
+
+      <span class="hljs-keyword">for</span> key <span class="hljs-keyword">of</span> checkbox_values
+
+        filter_checkbox = {}
+        each_value = checkbox_values[key]
+
+        newOutput = []
+        <span class="hljs-keyword">for</span> sub_key <span class="hljs-keyword">of</span> each_value
+          checkbox_values_selected = <span class="hljs-literal">false</span>
+
+          <span class="hljs-keyword">if</span> each_value[sub_key] == <span class="hljs-literal">true</span>
+            checkbox_values_match = <span class="hljs-literal">false</span>
+            checkbox_values_selected = <span class="hljs-literal">true</span>
+
+            filter_checkbox[key] = sub_key
+
+            filteredOutput = $filter(<span class="hljs-string">'filter'</span>)(textfieldOutput, filter_checkbox)
+
+            i = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> i &lt; filteredOutput.length
+              <span class="hljs-keyword">if</span> newOutput.indexOf(filteredOutput[i]) == -<span class="hljs-number">1</span>
+                newOutput.push(filteredOutput[i])
+                checkbox_values_match = <span class="hljs-literal">true</span>
+              i++
+
+
+        <span class="hljs-keyword">if</span> newOutput.length==<span class="hljs-number">0</span> &amp;&amp; checkbox_values_match!=<span class="hljs-literal">false</span>
+          newOutput = textfieldOutput</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>reset textfield output to newly sorted list to be run through the filter again</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        textfieldOutput = newOutput
+        output = newOutput
+
+
+
+      <span class="hljs-keyword">return</span> output
+<span class="hljs-function">
+    <span class="hljs-title">_success</span> = <span class="hljs-params">(data, status, header, config)</span> -&gt;</span>
+      items = []
+      visibleItems = []
+      total = <span class="hljs-number">0</span>
+
+      <span class="hljs-keyword">if</span> angular.isArray(data?.items)
+        items = data.items
+        total = data.total
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> angular.isArray(data)
+        items = data
+        total = data.length
+
+      <span class="hljs-keyword">if</span> items <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> $scope.service.hasSorting
+        sortColumn = $scope.tableOptions.sortColumn
+        sortDirection = (<span class="hljs-keyword">if</span> ($scope.tableOptions?.sortDirection <span class="hljs-keyword">is</span> <span class="hljs-string">'-'</span>) <span class="hljs-keyword">then</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">false</span>)
+        items = $filter(<span class="hljs-string">'orderBy'</span>)(items, sortColumn, sortDirection) <span class="hljs-keyword">if</span> $scope.tableOptions.sortColumn
+
+      <span class="hljs-keyword">if</span> items <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> $scope.service.hasFiltering
+        _filters = $scope.params.filters
+        angular.forEach $scope.filters, <span class="hljs-function"><span class="hljs-params">(filter)</span> -&gt;</span>
+          <span class="hljs-keyword">if</span> filter.key
+            <span class="hljs-keyword">if</span> (filter.type <span class="hljs-keyword">is</span> <span class="hljs-string">'strict'</span> <span class="hljs-keyword">or</span> filter.type <span class="hljs-keyword">is</span> <span class="hljs-string">'field'</span>) <span class="hljs-keyword">and</span> _filters?[filter.key]
+              filter_data = {}
+              filter_data[filter.key] = _filters[filter.key]
+              items = $filter(<span class="hljs-string">'filter'</span>)(items, filter_data, <span class="hljs-string">'strict'</span>)
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> filter.type <span class="hljs-keyword">is</span> <span class="hljs-string">'keyword'</span> <span class="hljs-keyword">and</span> _filters?.filter_option <span class="hljs-keyword">is</span> filter.key
+              items = _filterItems(items, _filters.filter_value, _filters.filter_option)
+        total = items.length
+
+      <span class="hljs-keyword">if</span> items <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> $scope.service.hasPagination
+        fromItem = ($scope.params.pagination.page - <span class="hljs-number">1</span>) * $scope.params.pagination.pageSize
+        toItem = $scope.params.pagination.page * $scope.params.pagination.pageSize
+        items = items.slice fromItem, toItem
+
+      $scope.tableOptions.items = items
+      $scope.pagination.totalItems = total
+      $scope.pagination.totalPages = Math.ceil total / $scope.params.pagination.pageSize
+
+      <span class="hljs-keyword">if</span> $scope.params.pagination.page &gt; <span class="hljs-number">1</span> &amp;&amp; $scope.params.pagination.page &gt; $scope.pagination.totalPages
+        $scope.params.pagination.page = $scope.pagination.totalPages
+        $scope.updateUrl()
+
+      $scope.queryInProgress = <span class="hljs-literal">false</span>
+
+      $scope.successCall(data, status, header, config) <span class="hljs-keyword">if</span> angular.isFunction($scope.successCall)
+<span class="hljs-function">
+    <span class="hljs-title">_error</span> = <span class="hljs-params">(data, status, header, config)</span> -&gt;</span>
+      $scope.queryInProgress = <span class="hljs-literal">false</span>
+      $scope.tableOptions.items = []
+      $scope.pagination.totalItems = <span class="hljs-number">0</span>
+      $scope.pagination.totalPages = <span class="hljs-number">0</span>
+      $scope.errorCall(data, status, header, config) <span class="hljs-keyword">if</span> angular.isFunction($scope.errorCall)
+<span class="hljs-function">
+    <span class="hljs-title">_loadListSimple</span> = <span class="hljs-params">(data)</span> -&gt;</span>
+      _success(data)
+<span class="hljs-function">
+    <span class="hljs-title">_loadListPromise</span> = <span class="hljs-params">(promise)</span> -&gt;</span>
+      promise.<span class="hljs-keyword">then</span> _success, _error <span class="hljs-keyword">if</span> promise
+<span class="hljs-function">
+    <span class="hljs-title">_getQueryPrams</span> = <span class="hljs-params">()</span> -&gt;</span>
+      params = {}
+      <span class="hljs-keyword">if</span> $scope.service.hasFiltering
+        params.filter = <span class="hljs-string">''</span>
+        _filters = $scope.params.filters
+        angular.forEach $scope.filters, <span class="hljs-function"><span class="hljs-params">(filter)</span> -&gt;</span>
+          <span class="hljs-keyword">if</span> filter.key
+            <span class="hljs-keyword">if</span> filter.type == <span class="hljs-string">'strict'</span> <span class="hljs-keyword">and</span> _filters?[filter.key]
+              <span class="hljs-keyword">if</span> filter.prefix
+                params.filter += filter.prefix + _filters?[filter.key]
+              <span class="hljs-keyword">else</span>
+                params.filter += <span class="hljs-string">'|'</span> + filter.key + <span class="hljs-string">'::'</span> + _filters?[filter.key]
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> filter.type == <span class="hljs-string">'field'</span> &amp;&amp; _filters?[filter.key]
+              params[filter.key] = _filters[filter.key]
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> filter.type == <span class="hljs-string">'keyword'</span> <span class="hljs-keyword">and</span> _filters.filter_option <span class="hljs-keyword">is</span> filter.key <span class="hljs-keyword">and</span> _filters.filter_value
+              <span class="hljs-keyword">if</span> filter.prefix
+                params.filter += filter.prefix + _filters.filter_value
+              <span class="hljs-keyword">else</span>
+                params.filter += <span class="hljs-string">'|'</span> + filter.key + <span class="hljs-string">'::'</span> + _filters.filter_value
+
+      <span class="hljs-keyword">if</span> $scope.service.hasSorting <span class="hljs-keyword">and</span> $scope.params.sorting
+        params.sort = $scope.params.sorting
+      <span class="hljs-keyword">if</span> $scope.service.hasPagination
+        params.page = $scope.params.pagination.page
+        params.limit = $scope.params.pagination.pageSize
+      <span class="hljs-keyword">return</span> params
+<span class="hljs-function">
+    <span class="hljs-title">_loadListResource</span> = <span class="hljs-params">(resource)</span> -&gt;</span>
+      params = _getQueryPrams()
+      _loadListPromise(resource?(params)?.$promise)
+<span class="hljs-function">
+    <span class="hljs-title">_loadListHttp</span> = <span class="hljs-params">(httpCall)</span> -&gt;</span>
+      params = _getQueryPrams()
+      httpCall params, _success, _error
+<span class="hljs-function">
+    <span class="hljs-title">_loadList</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.queryInProgress = <span class="hljs-literal">true</span>
+      _validateParams()
+
+      data = $scope.service?.data
+      <span class="hljs-keyword">switch</span> $scope.service.type
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'array'</span> <span class="hljs-keyword">then</span> _loadListSimple(data)
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'promise'</span> <span class="hljs-keyword">then</span> _loadListPromise(data?.$promise)
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'resource'</span> <span class="hljs-keyword">then</span> _loadListResource(data)
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'http'</span> <span class="hljs-keyword">then</span> _loadListHttp(data)
+        <span class="hljs-keyword">else</span> _loadListSimple(data)
+
+    $scope.$<span class="hljs-literal">on</span> <span class="hljs-string">'SuperList:reload'</span>, <span class="hljs-function"><span class="hljs-params">(event, e)</span> -&gt;</span>
+      _loadList()
+
+    _loadList()
+
+
+
+]
+
+superList.run [<span class="hljs-string">'$templateCache'</span>, <span class="hljs-function"><span class="hljs-params">($templateCache)</span> -&gt;</span>
+  <span class="hljs-keyword">return</span> $templateCache.put <span class="hljs-string">'g4plus-super-list.html'</span>, <span class="hljs-string">'''
+    &lt;form class="table-tools form-horizontal row no-left-padding no-right-padding"&gt;
+      &lt;fieldset&gt;
+        &lt;div class="pull-right margin-right"
+             g4-list-filter=""
+             g4-filter-options="filterState.optionList"
+             g4-filter-by="filterState.filterBy"
+             g4-filter-value="params.filters.filter_value"
+             g4-filter-option="params.filters.filter_option"&gt;
+        &lt;/div&gt;
+      &lt;/fieldset&gt;
+    &lt;/form&gt;
+
+    &lt;button class="btn btn-action btn-solid btn_export"&gt;
+      &lt;i class="fa fa-download"&gt;&amp;nbsp;&amp;nbsp;&lt;/i&gt;&lt;span&gt;Export Results&lt;/span&gt;
+    &lt;/button&gt;
+
+    &lt;div class="pagination row pad-left pad-right pull-right col-md-4" ng-hide="queryInProgress"&gt;
+      &lt;div class="col-md-6 pull-right"
+           g4-pagination-message=""
+           current-page="params.pagination.page"
+           page-size="params.pagination.pageSize"
+           total-items="pagination.totalItems"&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-6"
+           g4-pagination-navigation=""
+           current-page="params.pagination.page"
+           total-pages="pagination.totalPages"
+           page-change="pagination.pageChange"&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div g4plus-list-table="tableOptions" ng-hide="queryInProgress"&gt;&lt;/div&gt;
+
+    &lt;div class="pagination row pad-left pad-right pull-right col-md-4" ng-hide="queryInProgress"&gt;
+      &lt;div class="col-md-6 pull-right"
+           g4-pagination-message=""
+           current-page="params.pagination.page"
+           page-size="params.pagination.pageSize"
+           total-items="pagination.totalItems"&gt;
+      &lt;/div&gt;
+      &lt;div class="pagination col-md-6"
+           g4-pagination-navigation=""
+           current-page="params.pagination.page"
+           total-pages="pagination.totalPages"
+           page-change="pagination.pageChange"&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  '''</span>
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

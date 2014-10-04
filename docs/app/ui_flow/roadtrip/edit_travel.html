@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>edit_travel.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>edit_travel.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+roadtripedittravel = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'app.roadtrip.edittravel'</span>, []
+
+
+
+roadtripedittravel.controller <span class="hljs-string">"RoadTripEditTravelCtrl"</span>, [
+  <span class="hljs-string">'$scope'</span>
+  <span class="hljs-string">'$location'</span>
+  <span class="hljs-string">'$modal'</span>
+  <span class="hljs-string">'$stateParams'</span>
+  <span class="hljs-string">'$cookieStore'</span>
+  <span class="hljs-string">'StatesService'</span>
+  <span class="hljs-string">'RoadTripService'</span>
+  <span class="hljs-string">'FlightsService'</span>
+  <span class="hljs-string">'EventsService'</span>
+  <span class="hljs-string">'TravelArrangementsService'</span>
+
+  ($scope,
+   $location,
+   $modal,
+   $stateParams,
+   $cookieStore,
+   StatesService,
+   RoadTripService,
+   FlightsService,
+   EventsService,
+   TravelArrangementsService)<span class="hljs-function"> -&gt;</span>
+
+    $scope.g<span class="hljs-function"><span class="hljs-title">oToPath</span> = <span class="hljs-params">(e, path, query)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> e.which == <span class="hljs-number">13</span> || e.which==<span class="hljs-number">1</span>
+        $location.path(path).search({<span class="hljs-string">'filter_value'</span> : query})
+
+
+    $scope.id = $stateParams.id
+    $scope.employee_id = $stateParams.employee_id
+    $scope.editType = $stateParams.editType
+
+
+
+
+    $scope.dt = []
+    $scope.at = []
+    $scope.t<span class="hljs-function"><span class="hljs-title">oday</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.dt[<span class="hljs-number">0</span>] = <span class="hljs-keyword">new</span> Date()
+      $scope.at[<span class="hljs-number">0</span>] = <span class="hljs-keyword">new</span> Date()
+      <span class="hljs-keyword">return</span>
+
+    $scope.today()
+    $scope.c<span class="hljs-function"><span class="hljs-title">lear</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.dt = []
+      $scope.at = []
+      <span class="hljs-keyword">return</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h1 id="disable-weekend-selection">Disable weekend selection</h1>
+<p>   $scope.disabled = (date, mode) -&gt;
+     mode is “day” and (date.getDay() is 0 or date.getDay() is 6)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    $scope.t<span class="hljs-function"><span class="hljs-title">oggleMin</span> = -&gt;</span>
+      $scope.minDate = (<span class="hljs-keyword">if</span> $scope.minDate <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> <span class="hljs-keyword">new</span> Date())
+      <span class="hljs-keyword">return</span>
+
+    $scope.toggleMin()
+
+
+    $scope.dateOptions =
+      <span class="hljs-attribute">formatYear</span>: <span class="hljs-string">"yy"</span>
+      <span class="hljs-attribute">startingDay</span>: <span class="hljs-number">1</span>
+
+    $scope.initDate = <span class="hljs-keyword">new</span> Date(<span class="hljs-string">"2016-15-20"</span>)
+    $scope.formats = [
+      <span class="hljs-string">"dd-MMMM-yyyy"</span>
+      <span class="hljs-string">"yyyy/MM/dd"</span>
+      <span class="hljs-string">"dd.MM.yyyy"</span>
+      <span class="hljs-string">"shortDate"</span>
+    ]
+    $scope.format = $scope.formats[<span class="hljs-number">0</span>]
+
+
+    $scope.mytime = <span class="hljs-keyword">new</span> Date()
+    $scope.hstep = <span class="hljs-number">1</span>
+    $scope.mstep = <span class="hljs-number">15</span>
+    $scope.options =
+      <span class="hljs-attribute">hstep</span>: [
+        <span class="hljs-number">1</span>
+        <span class="hljs-number">2</span>
+        <span class="hljs-number">3</span>
+        <span class="hljs-number">4</span>
+        <span class="hljs-number">5</span>
+        <span class="hljs-number">6</span>
+        <span class="hljs-number">7</span>
+        <span class="hljs-number">8</span>
+        <span class="hljs-number">9</span>
+        <span class="hljs-number">10</span>
+        <span class="hljs-number">11</span>
+        <span class="hljs-number">12</span>
+      ]
+      <span class="hljs-attribute">mstep</span>: [
+        <span class="hljs-number">1</span>
+        <span class="hljs-number">5</span>
+        <span class="hljs-number">10</span>
+        <span class="hljs-number">15</span>
+        <span class="hljs-number">25</span>
+        <span class="hljs-number">30</span>
+      ]
+
+    $scope.ismeridian = <span class="hljs-literal">true</span>
+    $scope.t<span class="hljs-function"><span class="hljs-title">oggleMode</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.ismeridian = <span class="hljs-keyword">not</span> $scope.ismeridian
+
+    $scope.u<span class="hljs-function"><span class="hljs-title">pdate</span> = <span class="hljs-params">()</span> -&gt;</span>
+      d = <span class="hljs-keyword">new</span> Date()
+      d.setHours <span class="hljs-number">14</span>
+      d.setMinutes <span class="hljs-number">0</span>
+      $scope.mytime = d
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">lear</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.mytime = <span class="hljs-literal">null</span>
+
+    $scope.o<span class="hljs-function"><span class="hljs-title">penDatepicker</span> = <span class="hljs-params">(event)</span> -&gt;</span>
+      event.preventDefault()
+      event.stopPropagation()
+
+
+
+    $scope.a<span class="hljs-function"><span class="hljs-title">ddHotelFields</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.hotels.push({
+        <span class="hljs-string">"name"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"address"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"city"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"state"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"zip"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"phone"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>,
+      })
+
+    $scope.hotels = [
+      {
+        <span class="hljs-string">"name"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"address"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"city"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"state"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"zip"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"phone"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>,
+      }
+    ]
+
+
+
+
+    $scope.a<span class="hljs-function"><span class="hljs-title">ddAirlineFields</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.airlines.push({
+        <span class="hljs-string">"id"</span>:$scope.id_count,
+        <span class="hljs-string">"name"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"departure"</span>:{
+          <span class="hljs-string">"flightNbr"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"station"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"departUnixTimestamp"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"seat"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>
+        },
+        <span class="hljs-string">"arrival"</span>:{
+          <span class="hljs-string">"flightNbr"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"station"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"arriveUnixTimestamp"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"seat"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>
+        }
+      })
+
+      $scope.id_count++
+
+    $scope.airlines = [
+      {
+        <span class="hljs-string">"name"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"departure"</span>:{
+          <span class="hljs-string">"flightNbr"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"station"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"departUnixTimestamp"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"seat"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>
+        },
+        <span class="hljs-string">"arrival"</span>:{
+          <span class="hljs-string">"flightNbr"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"station"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"arriveUnixTimestamp"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"seat"</span>:<span class="hljs-literal">null</span>,
+          <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>
+        }
+      }
+    ]
+
+
+
+
+    $scope.a<span class="hljs-function"><span class="hljs-title">ddCarFields</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.cars.push({
+        <span class="hljs-string">"name"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"address"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"city"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"state"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"zip"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"phone"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>,
+      })
+
+    $scope.cars = [
+      {
+        <span class="hljs-string">"name"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"address"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"city"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"state"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"zip"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"phone"</span>:<span class="hljs-literal">null</span>,
+        <span class="hljs-string">"confNbr"</span>:<span class="hljs-literal">null</span>,
+      }
+    ]
+
+    $scope.d<span class="hljs-function"><span class="hljs-title">eleteItem</span> = <span class="hljs-params">(list, index)</span> -&gt;</span>
+      list.splice(index, <span class="hljs-number">1</span>)
+
+
+
+    $scope.r<span class="hljs-function"><span class="hljs-title">emoveEmpties</span> = <span class="hljs-params">(list, attr, attr2)</span> -&gt;</span>
+      i=<span class="hljs-number">0</span>
+      <span class="hljs-keyword">while</span> i &lt; list.length
+        item = list[i]
+        <span class="hljs-keyword">if</span> attr2==<span class="hljs-literal">null</span>
+          <span class="hljs-keyword">if</span> item[attr]==<span class="hljs-literal">null</span> || item[attr]==<span class="hljs-literal">undefined</span> || item[attr]==<span class="hljs-string">''</span>
+            list.splice(i, <span class="hljs-number">1</span>)
+            i--
+        <span class="hljs-keyword">else</span>
+          <span class="hljs-keyword">if</span> item[attr][attr2]==<span class="hljs-literal">null</span> || item[attr][attr2]==<span class="hljs-literal">undefined</span> || item[attr][attr2]==<span class="hljs-string">''</span>
+            list.splice(i, <span class="hljs-number">1</span>)
+            i--
+        i++
+
+
+
+
+
+    _this = <span class="hljs-keyword">this</span>
+
+
+    _this.getStatesWs = {
+      <span class="hljs-attribute">statesWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span>
+
+        service.getStates(_this.getStatesWs.success, _this.getStatesWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        $scope.states = data
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }
+
+    _this.getStatesWs.statesWs(StatesService)
+
+
+
+
+
+
+    $scope.id_count=<span class="hljs-number">0</span>
+    $scope.f<span class="hljs-function"><span class="hljs-title">ixData</span> = <span class="hljs-params">(travelers)</span> -&gt;</span>
+
+      <span class="hljs-keyword">if</span> travelers.travelInfo.hotel.length &gt; <span class="hljs-number">0</span>
+        $scope.hotels = travelers.travelInfo.hotel
+
+      <span class="hljs-keyword">if</span> travelers.travelInfo.airline.length &gt; <span class="hljs-number">0</span>
+        j=<span class="hljs-number">0</span>
+        al=[]
+        <span class="hljs-keyword">for</span> airline <span class="hljs-keyword">in</span> travelers.travelInfo.airline
+          airline.id = j
+          $scope.dt[j] = $scope.mytime_dt = moment.unix(airline.departure.departUnixTimestamp)._d
+          $scope.at[j] = $scope.mytime_at = moment.unix(airline.arrival.arriveUnixTimestamp)._d
+
+          al.push(airline)
+          j++
+
+          $scope.id_count = j
+
+        $scope.airlines = al
+
+      <span class="hljs-keyword">if</span> travelers.travelInfo.car.length &gt; <span class="hljs-number">0</span>
+        $scope.cars = travelers.travelInfo.car
+
+
+
+    $scope.editTravel = $cookieStore.get(<span class="hljs-string">'editTravel'</span>)
+    $scope.roadTripTraveler = $scope.editTravel.newTraveler[$scope.editTravel.index]
+    $scope.returnURL = $scope.editTravel.path
+
+    <span class="hljs-keyword">if</span> $scope.roadTripTraveler.travelInfo.hotel.length
+      $scope.hotels = $scope.roadTripTraveler.travelInfo.hotel
+
+    <span class="hljs-keyword">if</span> $scope.roadTripTraveler.travelInfo.airline
+      $scope.airlines = $scope.roadTripTraveler.travelInfo.airline
+
+    <span class="hljs-keyword">if</span> $scope.roadTripTraveler.travelInfo.car
+      $scope.cars = $scope.roadTripTraveler.travelInfo.car
+
+
+
+
+    _this.putRoadTripWs = {
+      <span class="hljs-attribute">roadTripWs</span>: <span class="hljs-function"><span class="hljs-params">(service, data)</span> -&gt;</span>
+
+        service.putRoadTrip(data, _this.putRoadTripWs.success, _this.putRoadTripWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        $scope.goToPath({<span class="hljs-attribute">which</span>:<span class="hljs-number">13</span>}, <span class="hljs-string">'/roadtrip/view/'</span> + $scope.id)
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }
+
+
+    $scope.t<span class="hljs-function"><span class="hljs-title">oMilliseconds</span> = <span class="hljs-params">(timestamp)</span> -&gt;</span>
+      Math.round(timestamp.getTime() / <span class="hljs-number">1000</span>)
+
+
+
+    $scope.s<span class="hljs-function"><span class="hljs-title">ubmit</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.removeEmpties($scope.hotels, <span class="hljs-string">"name"</span>, <span class="hljs-literal">null</span>)
+      $scope.removeEmpties($scope.airlines, <span class="hljs-string">"name"</span>, <span class="hljs-literal">null</span>)
+      $scope.removeEmpties($scope.cars, <span class="hljs-string">"name"</span>, <span class="hljs-literal">null</span>)
+
+      $scope.roadTripTraveler.travelInfo.hotel = $scope.hotels
+      $scope.roadTripTraveler.travelInfo.airline = $scope.airlines
+      $scope.roadTripTraveler.travelInfo.car = $scope.cars
+
+      i=<span class="hljs-number">0</span>
+      <span class="hljs-keyword">while</span> i &lt; $scope.airlines.length
+        departureTime = moment($scope.dt[i]).format(<span class="hljs-string">'ddd ll'</span>) + <span class="hljs-string">" "</span> + moment($scope.mytime_dt).format(<span class="hljs-string">'hh:mm:ss'</span>)
+        $scope.airlines[i].departure.departUnixTimestamp = $scope.toMilliseconds(<span class="hljs-keyword">new</span> Date(departureTime))
+
+        arrivalTime = moment($scope.at[i]).format(<span class="hljs-string">'ddd ll'</span>) + <span class="hljs-string">" "</span> + moment($scope.mytime_at).format(<span class="hljs-string">'hh:mm:ss'</span>)
+        $scope.airlines[i].arrival.arriveUnixTimestamp = $scope.toMilliseconds(<span class="hljs-keyword">new</span> Date(arrivalTime))
+        i++
+
+
+      $scope.editTravel.newTraveler[$scope.editTravel.index] = $scope.roadTripTraveler
+      $cookieStore.put(<span class="hljs-string">'editTravel'</span>, {
+        <span class="hljs-string">"newTraveler"</span>:$scope.editTravel.newTraveler,
+        <span class="hljs-string">"path"</span>:$location.path(),
+        <span class="hljs-string">"index"</span>:$scope.editTravel.index
+      })
+
+      $scope.goToPath({<span class="hljs-attribute">which</span>:<span class="hljs-number">13</span>}, $scope.returnURL)
+
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

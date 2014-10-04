@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>view.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>view.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>view = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'app.view'</span>, [<span class="hljs-string">'angularFileUpload'</span>]
+
+view.controller <span class="hljs-string">"ViewCtrl"</span>, [
+  <span class="hljs-string">'$scope'</span>
+  <span class="hljs-string">'$location'</span>
+  <span class="hljs-string">'$interval'</span>
+  <span class="hljs-string">'$upload'</span>
+  <span class="hljs-string">'$modal'</span>
+  <span class="hljs-string">'$stateParams'</span>
+  <span class="hljs-string">'$window'</span>
+  <span class="hljs-string">'EventsService'</span>
+  <span class="hljs-string">'FlightsService'</span>
+  <span class="hljs-string">'RoadTripService'</span>
+  <span class="hljs-string">'StationsService'</span>
+<span class="hljs-function">  <span class="hljs-params">($scope, $location, $interval, $upload, $modal, $stateParams, $<span class="hljs-built_in">window</span>, EventsService, FlightsService, RoadTripService, StationsService)</span> -&gt;</span>
+
+    $scope.imagesInMedia = <span class="hljs-literal">false</span>
+    $scope.docsInMedia = <span class="hljs-literal">false</span>
+    $scope.id = $stateParams.id
+
+    $scope.o<span class="hljs-function"><span class="hljs-title">nFileSelect</span> = <span class="hljs-params">($files)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>$files: an array of files selected, each file has name, size, and type.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      i = <span class="hljs-number">0</span>
+
+      <span class="hljs-keyword">while</span> i &lt; $files.length
+        file = $files[i]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>upload.php script, node.js route, or servlet url
+method: ‘POST’ or ‘PUT’,
+headers: {‘header-key’: ‘header-value’},
+withCredentials: true,
+or list of files ($files) for html5 only
+fileName: ‘doc.jpg’ or [‘1.jpg’, ‘2.jpg’, …] // to modify the name of the file(s)
+customize file formData name (‘Content-Disposition’), server side file variable name.
+fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is ‘file’
+customize how data is added to formData. See #40#issuecomment-28612000 for sample code
+formDataAppender: function(formData, key, val){}</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $scope.upload = $upload.upload(
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">"api/mx-filestore-web/v1/api/files"</span>
+          <span class="hljs-attribute">data</span>:
+            <span class="hljs-attribute">myObj</span>: $scope.myModelObj
+
+          <span class="hljs-attribute">file</span>: file
+        ).progress(<span class="hljs-function"><span class="hljs-params">(evt)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>console.log “percent: “ + parseInt(100.0 * evt.loaded / evt.total)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">return</span>
+        ).success(<span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+          filename = data[<span class="hljs-number">0</span>].fileName
+          pathType = filename.substr(filename.lastIndexOf(<span class="hljs-string">'.'</span>) + <span class="hljs-number">1</span>, filename.length)
+          <span class="hljs-keyword">if</span> pathType == <span class="hljs-string">"jpg"</span> || pathType == <span class="hljs-string">"jpeg"</span> || pathType == <span class="hljs-string">"png"</span> || pathType == <span class="hljs-string">"gif"</span>
+            $scope.imagesInMedia = <span class="hljs-literal">true</span>
+          <span class="hljs-keyword">else</span>
+            $scope.docsInMedia = <span class="hljs-literal">true</span>
+
+          uploadedFile =
+            <span class="hljs-attribute">ref</span>: data[<span class="hljs-number">0</span>].fileStoreKey
+            <span class="hljs-attribute">name</span>: filename
+            createdUnixTimestamp : moment().unix()
+            <span class="hljs-attribute">path</span>: <span class="hljs-string">'http://localhost:3333/'</span> + data[<span class="hljs-number">0</span>].fileName
+
+          $scope.event.documents.push(uploadedFile)
+          <span class="hljs-keyword">return</span>
+        )
+        i++
+      <span class="hljs-keyword">return</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Delete Modal</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.o<span class="hljs-function"><span class="hljs-title">penDeleteModal</span> = <span class="hljs-params">()</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> $scope.roadTrip?
+        modalInstance = $modal.open(
+          <span class="hljs-attribute">controller</span>: <span class="hljs-string">"DeleteWarningModalCtrl"</span>
+          <span class="hljs-attribute">templateUrl</span>: <span class="hljs-string">'src/app/ui_flow/delete/rt-warning-modal.jade'</span>
+        )
+      <span class="hljs-keyword">else</span>
+        modalInstance = $modal.open(
+          <span class="hljs-attribute">controller</span>: <span class="hljs-string">"DeleteModalCtrl"</span>
+          <span class="hljs-attribute">templateUrl</span>: <span class="hljs-string">'src/app/ui_flow/delete/modal.jade'</span>
+          <span class="hljs-attribute">resolve</span>: {
+            <span class="hljs-attribute">rt</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span> $scope.roadTrip
+            <span class="hljs-attribute">ev</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span> $scope.event
+          }
+        )
+
+      modalInstance.result.<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(flashMessage)</span> -&gt;</span>
+
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">ancel</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $modalInstance.close()
+
+
+    $scope.g<span class="hljs-function"><span class="hljs-title">oToPath</span> = <span class="hljs-params">(e, path, query)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> e.which == <span class="hljs-number">13</span> || e.which==<span class="hljs-number">1</span>
+        $location.path(path).search({<span class="hljs-string">'filter_value'</span> : query})
+
+    $scope.comment_limit_value = <span class="hljs-number">3</span>
+    $scope.i<span class="hljs-function"><span class="hljs-title">ncreaseCommentLimit</span> = <span class="hljs-params">(lng)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> $scope.comment_limit_value &lt; lng
+        $scope.comment_limit_value += <span class="hljs-number">3</span>
+
+      <span class="hljs-keyword">if</span> $scope.comment_limit_value &gt;= lng
+        $scope.comment_limit_value = lng
+
+    $scope.d<span class="hljs-function"><span class="hljs-title">ecreaseCommentLimit</span> = <span class="hljs-params">(lng)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> $scope.comment_limit_value &gt; <span class="hljs-number">0</span>
+        $scope.comment_limit_value -= <span class="hljs-number">3</span>
+
+      <span class="hljs-keyword">if</span> $scope.comment_limit_value &lt;= <span class="hljs-number">0</span>
+        $scope.comment_limit_value = <span class="hljs-number">0</span>
+
+
+
+
+    $scope.history_limit_value = <span class="hljs-number">3</span>
+    $scope.i<span class="hljs-function"><span class="hljs-title">ncreaseHistoryLimit</span> = <span class="hljs-params">(lng)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> $scope.history_limit_value &lt; lng
+        $scope.history_limit_value += <span class="hljs-number">3</span>
+
+      <span class="hljs-keyword">if</span> $scope.history_limit_value &gt;= lng
+        $scope.history_limit_value = lng
+
+    $scope.d<span class="hljs-function"><span class="hljs-title">ecreaseHistoryLimit</span> = <span class="hljs-params">(lng)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> $scope.history_limit_value &gt; <span class="hljs-number">0</span>
+        $scope.history_limit_value -= <span class="hljs-number">3</span>
+
+      <span class="hljs-keyword">if</span> $scope.history_limit_value &lt;= <span class="hljs-number">0</span>
+        $scope.history_limit_value = <span class="hljs-number">0</span>
+
+
+    $scope.currentTime = <span class="hljs-keyword">new</span> Date()
+    $scope.t<span class="hljs-function"><span class="hljs-title">oMilliseconds</span> = <span class="hljs-params">(timestamp)</span> -&gt;</span>
+      Math.round(timestamp.getTime() / <span class="hljs-number">1000</span>)
+
+
+
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">ollapsedIcon</span> = <span class="hljs-params">(isCollapsed)</span> -&gt;</span>
+     <span class="hljs-keyword">if</span> isCollapsed==<span class="hljs-literal">true</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-string">'fa-angle-right'</span>
+     <span class="hljs-keyword">else</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-string">'fa-angle-down'</span>
+
+
+
+    _this = <span class="hljs-keyword">this</span>
+
+
+    $scope.g<span class="hljs-function"><span class="hljs-title">etAttachmentType</span> = <span class="hljs-params">(path)</span> -&gt;</span>
+      paths = {
+        <span class="hljs-attribute">images</span>: <span class="hljs-string">''</span>,
+        <span class="hljs-attribute">docs</span>:<span class="hljs-string">''</span>
+      }
+      <span class="hljs-keyword">if</span> path != <span class="hljs-literal">undefined</span>
+        pathType = path.substr(path.lastIndexOf(<span class="hljs-string">'.'</span>) + <span class="hljs-number">1</span>, path.length)
+        <span class="hljs-keyword">if</span> pathType == <span class="hljs-string">"jpg"</span> || pathType == <span class="hljs-string">"jpeg"</span> || pathType == <span class="hljs-string">"png"</span> || pathType == <span class="hljs-string">"gif"</span>
+          paths.images = path
+          $scope.imagesInMedia = <span class="hljs-literal">true</span>
+
+        <span class="hljs-keyword">else</span>
+          paths.docs = path
+          $scope.docsInMedia = <span class="hljs-literal">true</span>
+
+
+      <span class="hljs-keyword">return</span> paths
+
+
+
+
+
+
+    _this.getFlightsWs = {
+      <span class="hljs-attribute">flightWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>WS call. Ex: mockWs.flightWs(flightWs.success, flightWs.error)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        service.getFlights(<span class="hljs-literal">null</span>, _this.getFlightsWs.success, _this.getFlightsWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>success callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+        $scope.flightList = data
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Get flight data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _this.getFlightsWs.flightWs(FlightsService)
+
+
+
+
+
+
+
+    _this.getStationsWs = {
+      <span class="hljs-attribute">stationWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span>
+        service.getStations <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+          <span class="hljs-keyword">for</span> station <span class="hljs-keyword">in</span> data
+            <span class="hljs-keyword">if</span> station.name == $scope.event.station
+              $scope.event.station = station
+        , <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+          <span class="hljs-built_in">console</span>.log <span class="hljs-string">'error'</span>
+    }
+
+
+
+
+
+
+
+    _this.getEventVersionsWs = {
+      <span class="hljs-attribute">eventVersionsWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span>
+        id = $stateParams.id
+        service.getVersions(id, _this.getEventVersionsWs.success, _this.getEventVersionsWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        versionList = data
+        openVersions = []
+
+        <span class="hljs-keyword">if</span> versionList.length &gt; <span class="hljs-number">0</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>get number of event versions for ticket</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          lng = versionList.length</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>function to sort by version created time</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function">          <span class="hljs-title">sortByCreatedTime</span> = <span class="hljs-params">(a, b)</span> -&gt;</span>
+            sortStatus = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">if</span> a.createdUnixTimestamp &lt; b.createdUnixTimestamp
+              sortStatus = -<span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span> sortStatus = <span class="hljs-number">1</span>  <span class="hljs-keyword">if</span> a.createdUnixTimestamp &gt; b.createdUnixTimestamp
+            sortStatus</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>sort</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          versionList.sort sortByCreatedTime
+
+
+          ticketCloseTime = <span class="hljs-string">''</span>
+          ticketOpenTime = versionList[<span class="hljs-number">0</span>].createdUnixTimestamp
+          <span class="hljs-keyword">if</span> $scope.event.state == <span class="hljs-string">"closed"</span>
+            ticketCloseTime = versionList[lng-<span class="hljs-number">1</span>].createdUnixTimestamp
+          <span class="hljs-keyword">else</span>
+            ticketCloseTime = moment().unix()
+
+          ticketDuration = ticketCloseTime - ticketOpenTime
+<span class="hljs-function">
+
+
+
+
+
+          <span class="hljs-title">splitVersionsByStatus</span> = <span class="hljs-params">(version)</span> -&gt;</span>
+            tmp = []
+            <span class="hljs-keyword">for</span> key <span class="hljs-keyword">of</span> versionList
+              <span class="hljs-keyword">if</span> versionList[key].status.toLowerCase() == version
+                tmp.push(versionList[key])
+
+            <span class="hljs-keyword">if</span> tmp.length
+              openVersions.push(tmp)
+
+
+          splitVersionsByStatus(<span class="hljs-string">'adv'</span>)
+
+          <span class="hljs-keyword">if</span> $scope.event.status.toUpperCase()==<span class="hljs-string">"ETR"</span>
+            splitVersionsByStatus(<span class="hljs-string">'etr'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <pre><code>     splitVersionsByStatus(<span class="hljs-string">'rdy'</span>)
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+
+
+          i = <span class="hljs-number">1</span>
+          <span class="hljs-keyword">while</span> i &lt; openVersions.length + <span class="hljs-number">1</span>
+            j = i-<span class="hljs-number">1</span>
+
+            <span class="hljs-keyword">if</span> openVersions[j].length
+              statusOpenTime = openVersions[j][<span class="hljs-number">0</span>].createdUnixTimestamp
+
+              <span class="hljs-keyword">if</span> i == openVersions.length
+                statusCloseTime = ticketCloseTime
+              <span class="hljs-keyword">else</span>
+                <span class="hljs-keyword">if</span> openVersions[i].length
+                  statusCloseTime = openVersions[i][<span class="hljs-number">0</span>].createdUnixTimestamp
+                <span class="hljs-keyword">else</span>
+                  statusCloseTime = ticketCloseTime
+
+              statusDuration = statusCloseTime - statusOpenTime
+
+            i++
+
+            k = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> k &lt; openVersions[j].length
+              openVersions[j][k].duration = Math.round(statusDuration * <span class="hljs-number">100</span>)
+              openVersions[j][k].durationPercentage = Math.round((statusDuration / ticketDuration) * <span class="hljs-number">100</span>)
+              k++
+
+          $scope.event.versionInfo = openVersions</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <pre><code>     <span class="hljs-built_in">console</span>.log(openVersions)
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }
+
+    $scope.user =
+      <span class="hljs-attribute">loginId</span>: <span class="hljs-string">"michael.freeman"</span>
+      <span class="hljs-attribute">empId</span>: <span class="hljs-string">"00015"</span>
+      <span class="hljs-attribute">fullName</span>: <span class="hljs-string">"Michael Freeman"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>directive config</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.commentConfig =
+      <span class="hljs-attribute">user</span>:
+        <span class="hljs-attribute">loginId</span>: $scope.user.loginId
+        <span class="hljs-attribute">empId</span>: $scope.user.empId
+        <span class="hljs-attribute">fullName</span>: $scope.user.fullName
+
+      <span class="hljs-attribute">context</span>: <span class="hljs-string">"AOS"</span> <span class="hljs-comment"># $stateParams.id</span>
+      <span class="hljs-attribute">namespace</span>: <span class="hljs-string">"aosuser"</span>
+      <span class="hljs-attribute">path</span>: <span class="hljs-string">"/api/mx-comment-web/v1/api/namespaces/aosuser/contexts/AOS/comments"</span>
+      <span class="hljs-attribute">show</span>:
+        <span class="hljs-attribute">close</span>: <span class="hljs-literal">false</span>
+        <span class="hljs-attribute">attachments</span>: <span class="hljs-literal">true</span>
+        <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span>
+        <span class="hljs-attribute">isVisible</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+          <span class="hljs-property">@visible</span>
+        <span class="hljs-attribute">toggle</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+          <span class="hljs-property">@visible</span> = !<span class="hljs-property">@visible</span>
+          <span class="hljs-property">@visible</span>
+
+
+
+
+
+    _this.getEventWs = {
+      <span class="hljs-attribute">eventWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span>
+        id = $stateParams.id
+        service.getEvent(id, _this.getEventWs.success, _this.getEventWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        event = data
+        $scope.getElapsedTime(event)
+
+        $scope.event = event
+
+        $scope.$watch <span class="hljs-string">"flightList"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+          flights = $scope.flightList
+          <span class="hljs-keyword">for</span> flightsKey <span class="hljs-keyword">of</span> flights
+            tailNbr = flights[flightsKey].tailNbr
+            flightInfo = flights[flightsKey]
+
+            <span class="hljs-keyword">if</span> $scope.event.tailNbr == tailNbr
+              $scope.event.flightInfo = flightInfo
+              <span class="hljs-built_in">console</span>.log flightInfo.routes[<span class="hljs-number">2</span>]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Get event version data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        _this.getEventVersionsWs.eventVersionsWs(EventsService)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Get station data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        _this.getStationsWs.stationWs(StationsService)
+
+
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>   Get all events</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _this.getEventWs.eventWs(EventsService)
+
+
+
+
+    $scope.elapsedTime = <span class="hljs-string">''</span>
+    $scope.g<span class="hljs-function"><span class="hljs-title">etElapsedTime</span> = <span class="hljs-params">(event)</span> -&gt;</span>
+      $interval(<span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+        <span class="hljs-keyword">if</span> $scope.toMilliseconds(<span class="hljs-keyword">new</span> Date()) - event.createdUnixTimestamp &gt; <span class="hljs-number">0</span>
+          $scope.elapsedTime = $scope.toMilliseconds(<span class="hljs-keyword">new</span> Date()) - event.createdUnixTimestamp
+        <span class="hljs-keyword">else</span>
+          $scope.elapsedTime = <span class="hljs-number">0</span>
+      ,<span class="hljs-number">1000</span>)
+
+
+
+
+
+
+
+
+
+    _this.getRoadTripWs = {
+      <span class="hljs-attribute">roadTripWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span>
+        id = $stateParams.id
+        service.getRoadTrip(id, _this.getRoadTripWs.success, _this.getRoadTripWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        roadTrip = data
+        <span class="hljs-keyword">if</span> roadTrip!=<span class="hljs-string">''</span>
+          <span class="hljs-built_in">console</span>.log roadTrip.state.toUpperCase()
+          <span class="hljs-keyword">if</span> (roadTrip.id.toString()==$scope.event.id.toString() &amp;&amp; roadTrip.state.toUpperCase()!=<span class="hljs-string">'CLOSED'</span>)
+            $scope.roadTrip = roadTrip
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>   Get all events</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _this.getRoadTripWs.roadTripWs(RoadTripService)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>item for ws</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.newComment = {
+        <span class="hljs-string">"text"</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-string">"createdUnixTimestamp"</span>: $scope.toMilliseconds($scope.currentTime),
+        <span class="hljs-string">"createdBy"</span>: {
+          <span class="hljs-string">"loginId"</span>: <span class="hljs-string">"caitlin.smith"</span>,
+          <span class="hljs-string">"empId"</span>: <span class="hljs-string">"10593"</span>,
+          <span class="hljs-string">"fullName"</span>: <span class="hljs-string">"Caitlin Smith"</span>
+        },
+        <span class="hljs-string">"replies"</span>: [],
+        <span class="hljs-string">"attachments"</span>: []
+      }
+
+    _this.postCommentWs = {
+
+      <span class="hljs-attribute">commentWs</span>: <span class="hljs-function"><span class="hljs-params">(service, data)</span> -&gt;</span>
+        id = $stateParams.id</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>WS call. Ex: mockWs.rootCauseWs(rootCauseWs.success, rootCauseWs.error)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        service.postComment(id, data, _this.postCommentWs.success, _this.postCommentWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>success callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }
+
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">reateComment</span> = <span class="hljs-params">()</span> -&gt;</span>
+      _this.postCommentWs.commentWs(EventsService, $scope.newComment)
+
+      id = $stateParams.id
+      $<span class="hljs-built_in">window</span>.location.reload()
+
+
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

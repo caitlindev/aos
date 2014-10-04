@@ -1,0 +1,27 @@
+{
+  "name": "g4plus-loading-directive",
+  "version": "0.0.3",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus Loading Directive",
+  "main": [
+    "./src/loading.coffee"
+  ],
+  "private": true,
+  "devDependencies": {
+    "jquery": "~1.10.0",
+    "angular-bootstrap": "~0.9.0",
+    "angular": "1.2.7",
+    "angular-mocks": "1.2.7"
+  },
+  "_release": "0.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.3",
+    "commit": "8031cc9536bfa186b18d5a14987edb90500656d1"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/BC/g4plus-loading-directive.git",
+  "_target": "*",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/BC/g4plus-loading-directive.git"
+}

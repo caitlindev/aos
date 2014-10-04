@@ -1,0 +1,23 @@
+{
+  "name": "bootstrap-g4plus",
+  "version": "0.1.13",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "Brunch/AngularJS Glus MX Styles",
+  "main": [
+    "./styles.less",
+    "./assets"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap":"3.0.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+    "author": "Taylor Kaplan",
+    "name": "g4plus-retry-call",
+    "description": "G4PLUS Retry Call",
+    "version": "0.0.4",
+    "homepage": "",
+    "repository": {
+        "type": "git",
+        "url": "ssh://git@git.allegiantair.com:7999/BC/g4plus-retry-call.git"
+    },
+    "scripts": {
+        "preinstall": "rm -rf node_modules bower_components",
+        "postinstall": "node_modules/.bin/bower install",
+        "start": "node_modules/.bin/brunch watch --server",
+        "test": "node_modules/.bin/karma start test/karma.conf.js"
+    },
+    "dependencies": {
+        "jade": "*",
+        "coffee-script": "*",
+        "karma": "*",
+        "karma-ng-scenario": "*",
+        "bower": "*",
+        "karma-cli": "*",
+        "karma-script-launcher": "*",
+        "karma-chrome-launcher": "*",
+        "karma-firefox-launcher": "*",
+        "karma-html2js-preprocessor": "*",
+        "karma-jasmine": "*",
+        "karma-requirejs": "*",
+        "karma-coffee-preprocessor": "*",
+        "karma-phantomjs-launcher": "*"
+    },
+    "devDependencies": {
+        "karma-coverage": "~0.1.5"
+    }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "g4plus-file-upload",
+  "version": "0.0.3",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus File Upload Directive",
+  "main": [
+    "./src/file-upload.coffee"
+  ],
+  "ignore": [
+    "test"
+  ],
+  "private": true,
+
+  "dependencies": {
+    "angular-bootstrap": ">=0.9.0",
+    "angular": ">=1.2.7",
+    "blueimp-file-upload": ">=9.5.7"
+  },
+
+  "devDependencies": {
+    "jquery": "~1.10.0",
+    "angular-mocks": "1.2.12"
+  },
+
+  "overrides": {
+    "blueimp-file-upload": {
+      "main": [
+        "css/jquery.fileupload.css",
+        "css/jquery.fileupload-ui.css",
+        "js/vendor/jquery.ui.widget.js",
+        "js/jquery.fileupload.js",
+        "js/jquery.fileupload-angular.js",
+        "js/jquery.fileupload-process.js",
+        "js/jquery.fileupload-validate.js",
+        "js/jquery.iframe-transport.js",
+        "js/cors/jquery.postmessage-transport.js",
+        "js/cors/jquery.xdr-transport.js"
+      ],
+      "dependencies": {
+        "jquery": "*"
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+@modal-inner-padding: @bootstrap-gutter-width;
+
+.modal-header {
+  background-color: @navy-blue;
+  border-bottom: none !important;
+  padding-top:13px !important;
+}
+
+.modal-header .close {
+  color:white;
+  opacity:1;
+  text-shadow: none;
+  margin-top:3px;
+}
+
+.modal-dialog {
+  &.modal-dialog-delete {
+    width: 450px;
+  }
+}
+
+.modal-header, .modal-body, .modal-footer {
+  padding: @modal-inner-padding;
+}
+
+.form-actions {
+  background-color:none;
+  border:0;
+  text-align:center;
+}
+
+.modal-header {
+  h1, h2 {
+    margin-bottom: 0;
+  }
+
+  h1 {
+    .alg-blue;
+
+    em {
+      .alg-orange;
+      font-style: normal;
+    }
+  }
+}
+
+
+
+
+.modal-content {
+  border:0;
+}
+
+
+
+
+.modal-footer {
+  text-align:center;
+}
+
+.ang-modal-sm .modal-dialog {
+  width: 450px;
+}
+
+.ang-modal-lg .modal-dialog {
+  width: 950px;
+}
+
+.modal-header h1, .widget header.widget-header h2{
+  color: #ffffff;
+}
+
+.white-footer{
+  background-color: #fff;
+  border-top: none !important;
+  padding-top: 0;
+}
+
+.modal-close-button {
+  color: white;
+  .font-size(25);
+}
+
+.modal-body{
+  padding:24px;
+}

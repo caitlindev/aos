@@ -1,0 +1,21 @@
+{
+  "name": "g4plus-mapbox-directive",
+  "version": "0.0.1",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus MapBox Directive",
+  "main": [
+    "./src/mapbox.coffee",
+    "./images/*",
+    "./css/*",
+    "./js/*"
+  ],
+  "private": true,
+  "devDependencies": {
+    "jquery": "~1.10.0",
+    "angular-bootstrap": "~0.9.0",
+    "angular": "1.2.7",
+    "angular-mocks": "1.2.7"
+  }
+}

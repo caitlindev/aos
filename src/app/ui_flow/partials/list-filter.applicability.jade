@@ -1,0 +1,160 @@
+div.col-sm-6
+  p Filter by:
+    strong &nbsp;Stations
+
+  div.col-sm-4
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;ALL&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;EAST&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;WEST&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;HVY&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;SFB&nbsp;
+        span.count (2)
+
+
+  div.col-sm-4
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;PIE&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;FLL&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;PGD&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;LAS&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;LAX&nbsp;
+        span.count (2)
+
+
+  div.col-sm-4
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;ENV&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;AZA&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;HNL&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;BLI&nbsp;
+        span.count (2)
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;NON&nbsp;
+        span.count (2)
+
+
+
+
+
+
+div.col-sm-2.border-right.border-left
+  p
+    strong Event Code
+
+  div.col-sm-12
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;AOS&nbsp;
+        span.count (52)
+
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;SOS&nbsp;
+        span.count (24)
+
+    div.row
+      label
+        input(type="checkbox")
+        | &nbsp;HPR&nbsp;
+        span.count (37)
+
+
+
+
+div.col-sm-2.border-right
+  p
+    strong Date
+
+  form
+    div.row.input-group.col-sm-12
+      input.form-control(type="text", placeholder="MM/DD/YYYY")
+      span.input-group-addon
+        i.fa.fa-calendar
+    div.clearfix.padding-bottom-medium
+    a(ng-click) Select a Date Range
+
+
+div.col-sm-2
+  p
+    strong Time
+
+  div.col-sm-5.text-right
+    span Within&nbsp;
+
+  div.col-sm-5
+    span.dropdown
+      button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown") Today &nbsp;
+        i.fa.fa-angle-down
+      ul.dropdown-menu
+        li
+          a test1
+        li
+          a test2
+        li
+          a test3
+
+  div.clearfix.margin-bottom
+  div.col-sm-5.text-right
+    span of&nbsp;
+
+  div.col-sm-5.time_field
+    input.form-control(type="text", placeholder="MM:HH")
+
+div.clearfix
+
+

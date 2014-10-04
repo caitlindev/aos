@@ -1,0 +1,74 @@
+/*input, select, textarea {
+  padding-top: 3px !important; padding-bottom: 3px !important;
+}*/
+
+.g4plus-icon {
+    font-size: 10px !important;
+}
+
+#menu ul.apps-list li a {
+  min-height: 0;
+  height: 95px;
+}
+
+.menu-toolbar .search input {
+  padding-top: 0 !important;
+}
+
+ul.apps-list i.g4_icon {
+  background-image: url('../img/mx_sprite@0.6x.png') !important;
+}
+
+ul.apps-list i.g4_icon.mx_aircraft_panels {
+  background-position-y: -577px;
+}
+
+ul.apps-list i.g4_icon.mx_aircraft_zones {
+  background-position-y: -667px;
+}
+
+ul.apps-list i.g4_icon.mx_failure_effect_codes {
+  background-position-y: -133px;
+}
+
+ul.apps-list i.g4_icon.mx_mi_procedure {
+  background-position-y: -844px;
+}
+
+ul.apps-list i.g4_icon.mx_mi_stage {
+  background-position-y: -755px;
+}
+
+ul.apps-list i.g4_icon.mx_task_cards {
+  background-position-y: -489px;
+}
+
+ul.apps-list i.g4_icon.mx_source_documents {
+  background-position-y: -44px;
+}
+
+ul.apps-list i.g4_icon.ac_rules {
+  background-position-y: -934px;
+}
+
+ul.apps-list i.g4_icon.ac_tails {
+  background-position-y: -888px;
+}
+
+ul.apps-list i.g4_icon.ac_types {
+  background-position-y: -979px;
+}
+
+.btn-translucent {
+    background:transparent;
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000,endColorstr=#33000000);
+    zoom: 1;
+}
+
+.btn-translucent:hover,
+.btn-translucent:focus {
+    background:transparent;
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66000000,endColorstr=#66000000);
+    zoom: 1;
+    color:white;
+}

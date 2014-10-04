@@ -1,0 +1,16 @@
+form.comment-form.comment-reply-form(name='replyForm')
+  .form-group
+    label.col-sm-1.control-label.text-right(for='reply-box') Reply
+    .col-sm-9
+      textarea.form-control(id="reply-box-{{comment.id}}", cols='150', rows='1', ng-model='comment.interact', ng-required='true', name='reply_interact')
+      div(ng-show='replyForm.reply_interact.$dirty && replyForm.reply_interact.$invalid')
+        p.small.no-bottom-margin.text-danger(ng-show='replyForm.reply_interact.$error.required') Reply is required.
+    .attachment-form.col-sm-2(ng-show="config.show.attachments")
+      div(g4-file-upload='', g4-current-file='replyForm.file', g4-current-file-info='replyForm.fileInfo')
+        | Attach
+      .attachment-form__fileinfo(ng-show='replyForm.fileInfo.fileName')
+        span.attachment-form__fileinfo__name(title='{{replyForm.fileInfo.fileName}}') {{replyForm.fileInfo.fileName}}
+  .row
+    .col-sm-10.text-right.buttons
+      button.btn.btn-cancel.cancel-reply(ng-click='cancelReply(comment, replyForm)', type='button') Cancel
+      button.btn.btn-primary(ng-click='replyComment(comment, replyForm)', ng-disabled='replyForm.$invalid') Add Reply

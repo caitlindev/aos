@@ -1,0 +1,76 @@
+{
+  "name": "mx_user_aos_event_work_control",
+  "repo": "ssh://git@stash.allegiantair.com:7999/G4PLUS/os.git",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "console-polyfill": "~0.1.0",
+    "bootstrap": ">=3.0.0",
+    "angular-bootstrap": "~0.9.0",
+    "ng-file-upload-shim": "latest",
+    "angular": "~1.2.3",
+    "ng-file-upload": "latest",
+    "angular-animate": "~1.2.3",
+    "angular-cookies": "~1.2.3",
+    "angular-loader": "~1.2.3",
+    "angular-resource": "~1.2.3",
+    "angular-route": "~1.2.3",
+    "angular-sanitize": "~1.2.3",
+    "angular-mocks": "~1.2.3",
+    "angular-ui-router": "0.2.7",
+    "angular-ui-date": "latest",
+    "bootstrap-g4plus": "ssh://git@git.allegiantair.com:7999/bc/bootstrap-g4plus.git#master",
+    "g4plus-header": "ssh://git@git.allegiantair.com:7999/bc/g4plus-header.git#master",
+    "g4plus-date-directive": "ssh://git@git.allegiantair.com:7999/BC/g4plus-date-directive.git",
+    "g4plus-retry-call": "ssh://git@git.allegiantair.com:7999/BC/g4plus-retry-call.git",
+    "g4plus-flash-messages": "ssh://git@git.allegiantair.com:7999/BC/g4plus-flash-messages.git",
+    "g4plus-sort-button": "ssh://git@git.allegiantair.com:7999/BC/g4plus-sort-button.git",
+    "g4plus-loading-directive": "ssh://git@git.allegiantair.com:7999/BC/g4plus-loading-directive.git",
+    "g4plus-actions-button-directive": "ssh://git@git.allegiantair.com:7999/BC/g4plus-actions-button-directive.git#v0.0.4",
+    "g4plus-autofocus": "ssh://git@git.allegiantair.com:7999/BC/g4plus-autofocus-directive.git",
+    "g4plus-super-list": "ssh://git@git.allegiantair.com:7999/bc/g4plus-superlist-directive.git#master",
+    "g4plus-chart": "ssh://git@git.allegiantair.com:7999/~carmelisse.sanga/g4plus-chart-directive.git",
+    "g4plus-mapbox-directive": "ssh://git@git.allegiantair.com:7999/mxuiux/g4plus-mapbox-directive.git",
+    "g4plus-ata-select-directive": "ssh://git@git.allegiantair.com:7999/bc/g4plus-ata-select-directive.git",
+    "g4plus-comments": "ssh://git@git.allegiantair.com:7999/bc/g4plus-comments-directive.git",
+    "g4plus-file-upload":"ssh://git@git.allegiantair.com:7999/bc/g4plus-file-upload.git",
+    "blueimp-file-upload": "~9.5.7",
+    "font-awesome": "~4.0.3",
+    "momentjs": "~2.4.0",
+    "jquery": "~1.10.0",
+    "lodash": "~2.4.1",
+    "angular-ui-select2": "https://github.com/angular-ui/ui-select2.git"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "fonts",
+        "./css/font-awesome.css"
+      ]
+    },
+    "blueimp-file-upload": {
+      "main": [
+        "css/jquery.fileupload.css",
+        "css/jquery.fileupload-ui.css",
+        "js/vendor/jquery.ui.widget.js",
+        "js/jquery.fileupload.js",
+        "js/jquery.fileupload-angular.js",
+        "js/jquery.fileupload-process.js",
+        "js/jquery.fileupload-validate.js",
+        "js/jquery.iframe-transport.js",
+        "js/cors/jquery.postmessage-transport.js",
+        "js/cors/jquery.xdr-transport.js"
+      ],
+      "dependencies": {
+        "jquery": "*"
+      }
+    }
+  },
+  "resolutions": {
+    "lodash": "~2.4.1"
+  }
+}

@@ -1,0 +1,7 @@
+.modal-content
+  .modal-body
+    include ../partials/messages
+      h2.text-center Are you sure you wish to close this Event?
+    .form-actions
+      button.btn.btn-translucent.margin-right(type="button", ng-click="cancel()") Cancel
+      button.btn.btn-negative.create-inspection-checkset(type="button", ng-click="deleteEvent()") Close Event

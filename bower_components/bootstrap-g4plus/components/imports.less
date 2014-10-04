@@ -1,0 +1,20 @@
+// Note: You can use this file to import individually, too, depending on how you want to bundle files.
+
+// Boostrap Relative Path inside bower_components
+@bootstrap-less-path: "../../../bower_components/bootstrap/less";
+
+// Public Assets Path, assuming that "css" and "img" are in the same directory level
+// Don't use trailing slash
+@assets-path: "..";
+
+// Reuse Bootstrap 3's variables
+@import "@{bootstrap-less-path}/variables.less";
+
+// Reuse Bootstrap 3's mixins
+@import "@{bootstrap-less-path}/mixins.less";
+
+// G4Plus Variables
+@import "variables.less";
+
+// G4Plus Mixins
+@import "mixins.less";

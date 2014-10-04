@@ -1,0 +1,149 @@
+
+div.row
+  div.action_btns.stations-dropdown.pull-right
+    span Station:
+    span.dropdown.margin-left
+      button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", ng-if="filter_station==''") ALL &nbsp;
+        i.fa.fa-angle-down
+      button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", ng-if="filter_station!=''") {{filter_station}} &nbsp;
+        i.fa.fa-angle-down
+
+      ul.dropdown-menu
+        li
+          a(ng-click="changeStationFilter('all')") ALL
+        li
+          a(ng-click="changeStationFilter('non')") NON
+        li
+          a(ng-click="changeStationFilter('east')") EAST
+        li
+          a(ng-click="changeStationFilter('west')") WEST
+        li
+          a(ng-click="changeStationFilter('hvy')") HVY
+        li
+          a(ng-click="changeStationFilter('base')") BASE
+        li(ng-repeat="station in stationList")
+          a(ng-click="changeStationFilter(station)") {{station.toUpperCase()}}
+
+
+  tabset
+    tab.tab-bar-chart(active="tab[0].active")
+      tab-heading
+        | Dashboard
+        a.pull-left.margin-right(ng-init="isCollapsed = false", ng-click="isCollapsed = !isCollapsed")
+          i.fa.fa-angle-right(class="{{collapsedIcon(isCollapsed)}}")
+
+      section#dashboard.widget.col-md-12
+        section.widget-body
+          div(collapse="isCollapsed", class="{{isCollapsed}}")
+            div#dashboard_chart.margin-top
+              dashboard-chart(chart-data='filter_station')
+                div(ng-hide='(eventList | filter:{"eventCode":"aos"} | filterStations:filter_stationList).length')
+                  h1.text-center#empty-chart No AOS Events for this station.
+
+
+    li.divider |
+
+    tab.tab-level-up(active="tab[1].active", ng-click="refreshMap=!refreshMap")
+      tab-heading
+        | Routing
+      div.g4-mapbox-wrap(g4-mapbox, ng-init="refreshMap=false", map-filters="mapFilters", refresh-map="refreshMap", station-routes="stationRoutes", flight-data="flightList", tail-numbers="tailNumbers", map-host="'http://localhost:3333'")
+
+
+div.row
+  section#aos_activity.widget.col-md-12.with-header
+    section.widget-body
+
+      div.action_btns
+        //span Station:
+        //span.dropdown.margin-left
+        //  button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", ng-if="filter_station==''") ALL &nbsp;
+        //    i.fa.fa-angle-down
+        //  button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", ng-if="filter_station!=''") {{filter_station}} &nbsp;
+        //    i.fa.fa-angle-down
+        //
+        //  ul.dropdown-menu
+        //    li(ng-repeat="station in stationList")
+        //      a(ng-click="changeStationFilter(station.name)") {{station.name.toUpperCase()}}
+
+
+
+        div.pull-right
+        div.btn-group.pull-right
+          button.btn.btn-action.btn-solid.btn-default(ng-click="goToPath($event, '/add')")
+            | + New Event
+
+        div#search_box.pull-right.margin-right
+          div.margin-left.input-group
+            a(ng-click).input-group-addon
+              i.fa.fa-search
+            input.form-control.ng-pristine(type="text", placeholder="Search Event History", ng-model="filter_value", id="g4-list-filter-input", ng-keyup="goToPath($event, '/list', filter_value)")
+
+      div.clearfix
+
+      ul.table-lined.margin-top.rounded(ng-show='(eventList | filterStations:filter_stationList).length')
+        li
+          div.eventTitle
+            div.tr
+              div.col-sm-1
+              div.col-sm-11
+                div.col-sm-1
+                  strong.dashboard-tlb-title Tail
+                div.col-sm-1
+                  strong.dashboard-tlb-title Station
+                div.col-sm-1
+                  strong.dashboard-tlb-title Status
+                div.col-sm-2
+                  strong.dashboard-tlb-title Description
+                div.col-sm-1
+                  strong.dashboard-tlb-title ATA
+                div.col-sm-1
+                  strong.dashboard-tlb-title.text-center Event Code
+                div.col-sm-1
+                  strong.dashboard-tlb-title.text-center Root Cause
+                div.col-sm-1
+                  strong.dashboard-tlb-title Adv Time
+                div.col-sm-1
+                  strong.dashboard-tlb-title ETR
+                div.col-sm-1
+                  strong.dashboard-tlb-title Flight Info
+                div.col-sm-1
+                  strong.dashboard-tlb-title Elapsed Time
+
+      div.eventSection.aos(ng-show='(eventList | filterStations:filter_stationList).length')
+        a(ng-click="isAOSCollapsed=!isAOSCollapsed")
+          span.pull-right {{collapsedSectionIcon(isAOSCollapsed).text}} AOS events &nbsp;
+            i.fa(class="{{collapsedSectionIcon(isAOSCollapsed).class}}")
+          div.clearfix
+      ul.margin-none(collapse="isAOSCollapsed", class="{{isAOSCollapsed}}")
+        li.events(ng-repeat='event in eventList | orderBy:"createdUnixTimestamp" | filter:{"eventCode":"aos", "state":"open"} | filterStations:filter_stationList')
+          include ../partials/eventList
+
+      div.eventSection.sos(ng-show='(eventList | filterStations:filter_stationList).length')
+        a(ng-click="isSOSCollapsed=!isSOSCollapsed")
+          span.pull-right {{collapsedSectionIcon(isSOSCollapsed).text}} SOS events &nbsp;
+            i.fa(class="{{collapsedSectionIcon(isSOSCollapsed).class}}")
+          div.clearfix
+      ul.margin-none(collapse="isSOSCollapsed", class="{{isSOSCollapsed}}")
+        li.events(ng-repeat='event in eventList | orderBy:"createdUnixTimestamp" | filter:{"eventCode":"sos", "state":"open"} | filterStations:filter_stationList', ng-class='{active:$first}')
+          include ../partials/eventList
+
+      div.eventSection.hpr(ng-show='(eventList | filterStations:filter_stationList).length')
+        a(ng-click="isHPRCollapsed=!isHPRCollapsed")
+          span.pull-right {{collapsedSectionIcon(isHPRCollapsed).text}} HPR events &nbsp;
+            i.fa(class="{{collapsedSectionIcon(isHPRCollapsed).class}}")
+          div.clearfix
+      ul.margin-none(collapse="isHPRCollapsed", class="{{isHPRCollapsed}}")
+        li.events(ng-repeat='event in eventList | orderBy:"createdUnixTimestamp" | filter:{"eventCode":"hpr", "state":"open"} | filterStations:filter_stationList', ng-class='{active:$first}')
+          include ../partials/eventList
+
+      div.eventSection.spr(ng-show='(eventList | filterStations:filter_stationList).length')
+        a(ng-click="isSPRCollapsed=!isSPRCollapsed")
+          span.pull-right {{collapsedSectionIcon(isSPRCollapsed).text}} SPR events &nbsp;
+            i.fa(class="{{collapsedSectionIcon(isSPRCollapsed).class}}")
+          div.clearfix
+      ul.margin-none(collapse="isSPRCollapsed", class="{{isSPRCollapsed}}")
+        li.events(ng-repeat='event in eventList | orderBy:"createdUnixTimestamp" | filter:{"eventCode":"spr"} | keepSPRinDashboard | filterStations:filter_stationList', ng-class='{active:$first}')
+          include ../partials/eventList
+
+      div.margin-top-large.margin-bottom-large(ng-hide='(eventList | filterStations:filter_stationList).length')
+        h1.text-center No events match your search.

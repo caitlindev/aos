@@ -1,0 +1,19 @@
+{
+  "name": "g4plus-actions-button-directive",
+  "version": "0.0.4",
+  "authors": [
+      "Allegiant"
+  ],
+  "description": "G4Plus Actions Button Directive",
+  "main": [
+      "./src/common.directive.g4-actions-button.coffee"
+  ],
+  "private": true,
+
+  "devDependencies": {
+      "jquery": "~1.10.0",
+      "angular-bootstrap": "~0.9.0",
+      "angular": "1.2.12",
+      "angular-mocks": "1.2.12"
+  }
+}

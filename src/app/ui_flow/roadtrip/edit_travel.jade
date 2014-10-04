@@ -1,0 +1,253 @@
+header
+  div.row.header_bar
+    div.action_btns.col-sm-4.text-left
+    div.row.col-sm-4
+      h1 Road Trip to AOS {{event.flightInfo.currentInfo.flightNbr}}
+    div.action_btns.col-sm-4.pull-right
+
+div.row#content_body
+  section#roadtrip_info.travel_info
+    form.col-sm-12.border-none(ng-submit="submit()")
+      div.collapse-section#traveler_info
+        div.col-sm-12.pull-right.margin-bottom-large
+          div.icon_container.col-sm-1
+            i.fa.fa-mail-reply
+          div.col-sm-2.text-left
+            a Egencia Website
+
+        div.clearfix
+        div.person.padding-bottom
+          div.col-sm-12
+            div.icon_container.col-sm-1
+              i.fa.fa-user
+            div.col-sm-2.text-left
+              h3 {{roadTripTraveler.employee.firstName}} {{roadTripTraveler.employee.lastName}}
+            div.col-sm-1.text-center
+              span ID:
+              span
+                strong {{roadTripTraveler.employee.id}}
+            div.col-sm-3.text-center
+              span Phone:
+              span
+                strong {{roadTripTraveler.employee.phone}}
+            div.col-sm-1.text-center
+              span Base:
+              span
+                strong {{roadTripTraveler.employee.base}}
+            div.col-sm-3.text-center
+              span D.O.B:
+              span
+                strong {{roadTripTraveler.employee.DOB}}
+            div.col-sm-1.text-center
+              span Gender:
+              span
+                strong {{roadTripTraveler.employee.gender}}
+            div.clearfix
+
+
+
+      div.border-top
+        div.col-sm-6
+          h2 Add Hotels
+
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_hotels", ng-click="isCollapsed_hotels = !isCollapsed_hotels")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_hotels", ng-click="isCollapsed_hotels = !isCollapsed_hotels")
+      div.clearfix
+      div.collapse-section(ng-init="isCollapsed_hotels = editType!='hotel' || false", collapse="isCollapsed_hotels")
+        div(ng-repeat="hotel in hotels", ng-class="{'hotel': $index > 0}")
+          i.pull-right.fa.fa-times-circle(ng-show="$index > 0", ng-click="deleteItem(hotels, $index)")
+          div.clearfix
+
+          label.col-sm-4 Hotel Name
+            input.form-control(type="text", ng-model="hotel.name")
+
+          label.col-sm-2 Conf. No.
+            input.form-control(type="text", ng-model="hotel.confNbr")
+
+          label.col-sm-2 Phone
+            input.form-control(type="text", ng-model="hotel.phone")
+
+          div.clearfix
+          label.col-sm-4 Address
+            input.form-control(type="text", ng-model="hotel.address")
+
+          label.col-sm-3 City
+            input.form-control(type="text", ng-model="hotel.city")
+
+          label.col-sm-1 State
+            select(ng-model="hotel.state")
+              option(ng-repeat="state in states", value="{{state.abbreviation}}") {{state.abbreviation}}
+
+          label.col-sm-2 Zipcode
+            input.form-control(type="text", ng-model="hotel.zip")
+            div.clearfix
+
+          div.clearfix
+          div.col-sm-12
+
+          div.clearfix
+
+        div.clearfix
+        div.col-sm-12.margin-top
+          a(ng-click="addHotelFields()")
+            | + Add Hotel
+        div.clearfix
+
+
+
+
+      div.border-top
+        div.col-sm-6
+          h2 Add Airlines
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_airlines", ng-click="isCollapsed_airlines = !isCollapsed_airlines")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_airlines", ng-click="isCollapsed_airlines = !isCollapsed_airlines")
+      div.clearfix
+      div.collapse-section(ng-init="isCollapsed_airlines = editType!='airline' || false", collapse="isCollapsed_airlines")
+        div(ng-repeat="airline in airlines", ng-class="{'airline': $index > 0}")
+          i.pull-right.fa.fa-times-circle(ng-show="$index > 0", ng-click="deleteItem(airlines, $index)")
+          div.clearfix
+
+          label.col-sm-4 Airline Name
+            input.form-control(type="text", ng-model="airline.name")
+
+          div.clearfix
+          strong.margin-top.col-sm-6 Departure
+
+          div.clearfix
+          label.col-sm-2 Conf. No.
+            input.form-control(type="text", ng-model="airline.departure.confNbr")
+
+          label.col-sm-2 Flight Number
+            input.form-control(type="text", ng-model="airline.departure.flightNbr")
+
+          label.col-sm-2 Airport
+            input.form-control(type="text", ng-model="airline.departure.station")
+
+          div.col-sm-2.datetimepicker
+            label Date
+              div.input-group
+                input.form-control(type="text", show-button-bar="false", show-weeks="false", datepicker-popup="{{format}}", ng-model="dt[airline.id]", is-open="openDate", min-date="minDate", max-date="'2015-06-22'", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", close-text="Close")
+                span.input-group-btn
+                  button.btn.btn-default(type="button", ng-click="openDatepicker($event); openDate = !openDate")
+                    i.fa.fa-calendar
+
+          div.col-sm-2.datetimepicker.timepicker
+            label Time
+              timepicker(ng-model="mytime_dt[airline.id]", ng-change="changed()", show-meridian="false")
+
+          label.col-sm-1 Seat
+            input.form-control(type="text", ng-model="airline.departure.seat")
+            div.clearfix
+
+
+
+
+          div.clearfix
+          strong.margin-top.col-sm-6 Arrival
+
+          div.clearfix
+          label.col-sm-2 Conf. No.
+            input.form-control(type="text", ng-model="airline.arrival.confNbr")
+
+          label.col-sm-2 Flight Number
+            input.form-control(type="text", ng-model="airline.arrival.flightNbr")
+
+          label.col-sm-2 Airport
+            input.form-control(type="text", ng-model="airline.arrival.station")
+
+          div.col-sm-2.datetimepicker
+            label Date
+              div.input-group
+                input.form-control(type="text", show-button-bar="false", show-weeks="false", datepicker-popup="{{format}}", ng-model="at[airline.id]", is-open="openDate2", min-date="minDate", max-date="'2015-06-22'", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", close-text="Close")
+                span.input-group-btn
+                  button.btn.btn-default(type="button", ng-click="openDatepicker($event); openDate2 = !openDate2")
+                    i.fa.fa-calendar
+
+          div.col-sm-2.datetimepicker.timepicker
+            label Time
+              timepicker(ng-model="mytime_at[airline.id]", ng-change="changed()", show-meridian="false")
+
+          label.col-sm-1 Seat
+            input.form-control(type="text", ng-model="airline.arrival.seat")
+            div.clearfix
+
+
+          div.clearfix
+          div.col-sm-12
+
+          div.clearfix
+
+
+
+        div.clearfix
+        div.col-sm-12.margin-top
+          a(ng-click="addAirlineFields()")
+            | + Add Airline
+        div.clearfix
+
+
+
+
+
+      div.border-top
+        div.col-sm-6
+          h2 Add Cars
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_cars", ng-click="isCollapsed_cars = !isCollapsed_cars")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_cars", ng-click="isCollapsed_cars = !isCollapsed_cars")
+      div.clearfix
+      div.collapse-section(ng-init="isCollapsed_cars = editType!='car' || false", collapse="isCollapsed_cars")
+        div(ng-repeat="car in cars", ng-class="{'car': $index > 0}")
+          i.pull-right.fa.fa-times-circle(ng-show="$index > 0", ng-click="deleteItem(cars, $index)")
+          div.clearfix
+
+          label.col-sm-4 Car Name
+            input.form-control(type="text", ng-model="car.name")
+
+          label.col-sm-2 Conf. No.
+            input.form-control(type="text", ng-model="car.confNbr")
+
+          label.col-sm-2 Phone
+            input.form-control(type="text", ng-model="car.phone")
+
+          div.clearfix
+          label.col-sm-4 Address
+            input.form-control(type="text", ng-model="car.address")
+
+          label.col-sm-3 City
+            input.form-control(type="text", ng-model="car.city")
+
+          label.col-sm-1 State
+            select(ng-model="car.state")
+              option(ng-repeat="state in states", value="{{state.abbreviation}}") {{state.abbreviation}}
+
+          label.col-sm-2 Zipcode
+            input.form-control(type="text", ng-model="car.zip")
+            div.clearfix
+
+          div.clearfix
+          div.col-sm-12
+
+          div.clearfix
+
+        div.clearfix
+        div.col-sm-12.margin-top
+          a(ng-click="addCarFields()")
+            | + Add Car
+        div.clearfix
+
+
+
+
+      div.border-top
+        fieldset.margin-top-large.padding-bottom-large.text-center
+          button.btn.btn-translucent.btn-larger.margin-right-large(ng-click="goToPath($event, '/roadtrip/edit/' + id)")
+            | Cancel
+          button.btn.btn-solid.btn-larger(type="submit", id="submit")
+            | Save
+
+
+
+

@@ -1,0 +1,9 @@
+.modal-header
+  div(ng-show='notice[0].level')
+    div(flash-message='', message='notice')
+  h1 Delete {{attachment.name}}
+.modal-body
+  | Are you sure you wish to delete {{attachment.name}}?
+.modal-footer
+  button.btn.btn-success.pull-right(ng-click='deleteAttach()', type='button') Confirm Delete
+  button.btn.btn-default.pull-right.margin-right(ng-click='cancelDelete()', type='button') Cancel

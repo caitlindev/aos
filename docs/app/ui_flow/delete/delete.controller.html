@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>delete.controller.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>delete.controller.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>del = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'app.delete'</span>, []
+
+del.controller <span class="hljs-string">'DeleteWarningModalCtrl'</span>, [
+  <span class="hljs-string">'$scope'</span>
+  <span class="hljs-string">'$modalInstance'</span>
+<span class="hljs-function">  <span class="hljs-params">( $scope, $modalInstance )</span> -&gt;</span>
+    $scope.c<span class="hljs-function"><span class="hljs-title">ancel</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $modalInstance.close()
+
+]
+
+del.controller <span class="hljs-string">'DeleteModalCtrl'</span>, [
+  <span class="hljs-string">'$scope'</span>
+  <span class="hljs-string">'$state'</span>
+  <span class="hljs-string">'$modalInstance'</span>
+  <span class="hljs-string">'$location'</span>
+  <span class="hljs-string">'FlashStorage'</span>
+  <span class="hljs-string">'RoadTripService'</span>
+  <span class="hljs-string">'EventsService'</span>
+  <span class="hljs-string">'ev'</span>
+  <span class="hljs-string">'rt'</span>
+<span class="hljs-function">
+  <span class="hljs-params">($scope, $state, $modalInstance, $location, FlashStorage, RoadTripService, EventsService, ev, rt)</span> -&gt;</span>
+
+    _this = <span class="hljs-keyword">this</span>
+
+    _this.updateRoadTripWs = {
+      <span class="hljs-attribute">roadTripWs</span>: <span class="hljs-function"><span class="hljs-params">(service, data)</span> -&gt;</span>
+
+        service.putRoadTrip(data, _this.updateRoadTripWs.success, _this.updateRoadTripWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        $scope.flashMessage = FlashStorage.set(
+          <span class="hljs-attribute">level</span>: <span class="hljs-string">'success'</span>
+          <span class="hljs-attribute">status</span>: <span class="hljs-number">200</span>
+          <span class="hljs-attribute">message</span>: <span class="hljs-string">'Road trip has been closed'</span>
+          <span class="hljs-attribute">critical</span>: <span class="hljs-literal">true</span>
+
+          <span class="hljs-attribute">view</span>: <span class="hljs-string">'list'</span>
+        )
+
+        $modalInstance.close(<span class="hljs-literal">true</span>)
+        $scope.deleteInProgress = <span class="hljs-literal">false</span>
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        $scope.flashMessage = FlashStorage.set(
+          <span class="hljs-attribute">level</span>: <span class="hljs-string">'danger'</span>
+          <span class="hljs-attribute">status</span>: response?.status <span class="hljs-keyword">or</span> <span class="hljs-number">500</span>
+          <span class="hljs-attribute">message</span>: response?.data?.message <span class="hljs-keyword">or</span> <span class="hljs-string">"Could not close road trip"</span>
+          <span class="hljs-attribute">critical</span>: <span class="hljs-literal">true</span>
+
+          <span class="hljs-attribute">view</span>: <span class="hljs-string">'view'</span>
+        )
+
+        $scope.deleteInProgress = <span class="hljs-literal">false</span>
+    }
+
+    _this.putEventWs = {
+      <span class="hljs-attribute">eventWs</span>: <span class="hljs-function"><span class="hljs-params">(service, data)</span> -&gt;</span>
+        id = ev.id
+        service.putEvent(id, data, _this.putEventWs.success, _this.putEventWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        $modalInstance.close(<span class="hljs-literal">true</span>)
+        $scope.deleteInProgress = <span class="hljs-literal">false</span>
+
+        $state.go <span class="hljs-string">'view'</span>, { <span class="hljs-attribute">id</span>: ev.id}
+
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        $scope.deleteInProgress = <span class="hljs-literal">false</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>error message to be implemented</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    }
+
+    $scope.d<span class="hljs-function"><span class="hljs-title">eleteRT</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.message = {}
+      $scope.deleteInProgress = <span class="hljs-literal">true</span>
+
+      $scope.rt = rt
+      $scope.rt.state = <span class="hljs-string">'closed'</span>
+      _this.updateRoadTripWs.roadTripWs(RoadTripService, rt)
+
+    $scope.d<span class="hljs-function"><span class="hljs-title">eleteEvent</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.message = {}
+      $scope.deleteInProgress = <span class="hljs-literal">true</span>
+
+      $scope.event = ev
+      <span class="hljs-built_in">console</span>.log $scope.event
+      $scope.event.state = <span class="hljs-string">'closed'</span>
+      $scope.event.eventCode = <span class="hljs-string">'spr'</span>
+      $scope.event.status = <span class="hljs-string">'rdy'</span>
+      $scope.event.station = $scope.event.station.name
+
+      _this.putEventWs.eventWs(EventsService, $scope.event)
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">ancel</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $modalInstance.close()
+
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

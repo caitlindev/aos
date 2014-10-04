@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>employeeLookup.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>employeeLookup.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>employeeLookup = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'g4plus.employee-lookup'</span>, [
+  <span class="hljs-string">'services.employeeDirectory'</span>
+]
+
+
+employeeLookup.factory(<span class="hljs-string">"EmployeeLookupService"</span>,<span class="hljs-function"> -&gt;</span>
+  _subscribers = []
+  selectedEmployees = []
+
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attribute">subscribe</span>: <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span>
+      _subscribers.push(cb)
+
+    <span class="hljs-attribute">setCode</span>: <span class="hljs-function"><span class="hljs-params">(code)</span> -&gt;</span>
+      selectedEmployees = code
+      angular.forEach _subscribers, <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span>
+        cb(selectedEmployees)
+  }
+)
+
+
+
+
+employeeLookup.directive <span class="hljs-string">"g4employeeLookup"</span>, [
+  <span class="hljs-string">'$modal'</span>
+  <span class="hljs-string">'EmployeeDirectoryService'</span>
+  <span class="hljs-string">'EmployeeLookupService'</span>
+<span class="hljs-function">  <span class="hljs-params">($modal, EmployeeDirectoryService, EmployeeLookupService)</span> -&gt;</span>
+    <span class="hljs-attribute">restrict</span>: <span class="hljs-string">"A"</span>
+    <span class="hljs-attribute">scope</span>: {
+      <span class="hljs-attribute">model</span>:<span class="hljs-string">"="</span>
+      <span class="hljs-attribute">linkText</span>:<span class="hljs-string">"@"</span>
+    }
+    <span class="hljs-attribute">transclude</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-attribute">template</span>:  <span class="hljs-string">"""
+    &lt;a ng-click="openEmployeesLookup()"&gt;{{linkText}}&lt;/a&gt;
+    """</span>
+    <span class="hljs-attribute">link</span>: <span class="hljs-function"><span class="hljs-params">(scope, element, attrs)</span> -&gt;</span>
+      scope.$watch <span class="hljs-string">'model'</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+        model = scope.model
+        <span class="hljs-keyword">if</span> model?.length &gt; <span class="hljs-number">0</span> &amp;&amp; model?.length != <span class="hljs-literal">undefined</span> &amp;&amp; model[<span class="hljs-number">0</span>].employee.id!=<span class="hljs-literal">null</span>
+          <span class="hljs-keyword">for</span> code <span class="hljs-keyword">in</span> model
+            scope.selectedEmployees = model
+        <span class="hljs-keyword">else</span>
+          <span class="hljs-built_in">console</span>.log <span class="hljs-string">'no'</span>
+          scope.selectedEmployees = []
+
+      EmployeeLookupService.subscribe <span class="hljs-function"><span class="hljs-params">(code)</span> -&gt;</span>
+        inArray = <span class="hljs-literal">false</span>
+        i=<span class="hljs-number">0</span>
+
+        <span class="hljs-keyword">if</span> scope.selectedEmployees
+          <span class="hljs-keyword">while</span> i &lt; scope.selectedEmployees.length
+            <span class="hljs-keyword">if</span> scope.selectedEmployees[i].employee.id == code.employee.id
+              inArray = <span class="hljs-literal">true</span>
+              <span class="hljs-keyword">break</span>
+            i++
+
+        <span class="hljs-keyword">if</span> inArray != <span class="hljs-literal">true</span>
+          scope.selectedEmployees.push(code)
+          scope.model = scope.selectedEmployees</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Employee Lookup Modal</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      scope.o<span class="hljs-function"><span class="hljs-title">penEmployeesLookup</span> = <span class="hljs-params">()</span> -&gt;</span>
+        modalInstance = $modal.open(
+          <span class="hljs-attribute">controller</span>: <span class="hljs-string">"EmployeeLookupModalCtrl"</span>
+          <span class="hljs-attribute">template</span>: <span class="hljs-string">"""
+            &lt;div class="employee-lookup-modal"&gt;
+              &lt;div class="modal-content"&gt;
+                &lt;div class="modal-body"&gt;
+                  &lt;button type="button" data-dismiss="modal" aria-hidden="true" ng-click="cancel()" class="close profile-close-button"&gt;
+                    ×
+                  &lt;/button&gt;
+                  &lt;h1&gt;Employees&lt;/h1&gt;
+                &lt;div ng-if="parentCodes.length == 1"&gt;
+                  &lt;table class="table-lined table-condensed"&gt;
+                    &lt;thead&gt;
+                      &lt;tr class="header_bar"&gt;
+                        &lt;th class="narrow"&gt;ID&lt;/th&gt;
+                        &lt;th class="medium"&gt;Name&lt;/th&gt;
+                      &lt;/tr&gt;
+                    &lt;/thead&gt;
+                    &lt;tbody
+ ng-repeat="employee in employees | orderBy:lastName | startFrom:(pagination.page-1)*10 | limitTo:pagination.pageSize"
+ ng-animate="{move: 'move-animation'}"&gt;
+                      &lt;tr&gt;
+                        &lt;td class="medium"&gt;{{employee.id}}&lt;/td&gt;
+                        &lt;td class="medium"&gt;&lt;a ng-click="getChildCodes(employee)"&gt;{{employee.lastName}}, {{employee.firstName}}&lt;/a&gt;&lt;/td&gt;
+                      &lt;/tr&gt;
+                    &lt;/tbody&gt;
+                  &lt;/table&gt;
+                &lt;/div&gt;
+
+                &lt;div g4-pagination-message="" current-page="pagination.page" page-size="pagination.totalPage"
+ total-items="parentEmployees.length" class="col-md-4"&gt;&lt;/div&gt;
+                &lt;div g4-pagination-navigation="" current-page="pagination.page" total-pages="pagination.totalPage"
+ page-change="pagination.pageChange" class="col-md-8 no-right-padding"&gt;&lt;/div&gt;
+                &lt;div class="clearfix"&gt;&lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          """</span>
+        )
+
+      scope.c<span class="hljs-function"><span class="hljs-title">ancel</span> = <span class="hljs-params">()</span> -&gt;</span>
+        $modalInstance.close()
+
+
+
+  ]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>EmployeeLookupModalCtrl - Controller for the Employee Lookup Modal</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>employeeLookup.controller <span class="hljs-string">"EmployeeLookupModalCtrl"</span>, [
+  <span class="hljs-string">'$scope'</span>
+  <span class="hljs-string">'$modalInstance'</span>
+  <span class="hljs-string">'EmployeeDirectoryService'</span>
+  <span class="hljs-string">'EmployeeLookupService'</span>
+<span class="hljs-function">  <span class="hljs-params">($scope, $modalInstance, EmployeeDirectoryService, EmployeeLookupService)</span> -&gt;</span>
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">ancel</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $modalInstance.close()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>pagination:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.pagination =
+      <span class="hljs-attribute">totalItems</span>: <span class="hljs-number">0</span>
+      <span class="hljs-attribute">totalPages</span>: <span class="hljs-number">0</span>
+      <span class="hljs-attribute">pageSize</span>: <span class="hljs-number">10</span>
+      <span class="hljs-attribute">page</span>: <span class="hljs-number">1</span>
+
+      <span class="hljs-attribute">pageSizeChange</span>: <span class="hljs-function"><span class="hljs-params">(pageSize)</span> -&gt;</span>
+        $scope.pagination.page = <span class="hljs-number">1</span>
+        $scope.pagination.pageSize = pageSize
+
+      <span class="hljs-attribute">pageChange</span>: <span class="hljs-function"><span class="hljs-params">(page)</span> -&gt;</span>
+        $scope.pagination.page = page
+
+    $scope.u<span class="hljs-function"><span class="hljs-title">pdatePagination</span> = <span class="hljs-params">(total)</span> -&gt;</span>
+      $scope.pagination.totalItems = total
+      $scope.pagination.totalPages = Math.ceil total / $scope.pagination.pageSize
+
+
+    $scope.selectedEmployees = []
+    EmployeeLookupService.subscribe <span class="hljs-function"><span class="hljs-params">(code)</span> -&gt;</span>
+      $scope.selectedEmployees.push(code)
+
+
+    _this = <span class="hljs-keyword">this</span>
+
+    _this.getEmployeeDirectoryWS = {
+      <span class="hljs-attribute">employeeWS</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>WS call. Ex: mockWs.rootCauseWs(rootCauseWs.success, rootCauseWs.error)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        service.getEmployees(_this.getEmployeeDirectoryWS.success, _this.getEmployeeDirectoryWS.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>success callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $scope.employees = data
+        $scope.parentCodes.push({<span class="hljs-attribute">children</span>: data})
+        $scope.updatePagination(data.length)
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Get employee data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _this.getEmployeeDirectoryWS.employeeWS(EmployeeDirectoryService)
+
+
+
+
+
+    $scope.parentCodes = []
+    $scope.currentParentCode = {}
+
+    $scope.g<span class="hljs-function"><span class="hljs-title">etChildCodes</span> = <span class="hljs-params">(code)</span> -&gt;</span>
+      $scope.parentCodes.push(code)
+      $scope.currentParentCode = code</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <pre><code> <span class="hljs-literal">no</span> children so passing param only to get <span class="hljs-number">0</span> length
+ $scope.changeATAcodesList(code.children)
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $scope.changeEmployeeLookupList(code)
+
+    $scope.l<span class="hljs-function"><span class="hljs-title">oadParentCodes</span> = <span class="hljs-params">()</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> $scope.parentCodes.length &gt; <span class="hljs-number">0</span>
+
+        <span class="hljs-keyword">if</span> $scope.parentCodes.length &gt; <span class="hljs-number">1</span>
+          $scope.parentCodes.pop()
+
+        parent = $scope.parentCodes[$scope.parentCodes.length-<span class="hljs-number">1</span>]
+        $scope.currentParentCode = parent
+        $scope.changeEmployeeLookupList(parent.children)
+
+      <span class="hljs-keyword">else</span>
+        $scope.changeEmployeeLookupList(parent)
+
+
+
+
+
+    $scope.a<span class="hljs-function"><span class="hljs-title">ddToSelectedEmployees</span> = <span class="hljs-params">(code)</span> -&gt;</span>
+      EmployeeLookupService.setCode(code)
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">hangeEmployeeLookupList</span> = <span class="hljs-params">(data)</span> -&gt;</span>
+      $scope.addToSelectedEmployees({
+        <span class="hljs-string">"employee"</span>: {
+          <span class="hljs-string">"firstName"</span>:data.firstName,
+          <span class="hljs-string">"lastName"</span>:data.lastName,
+          <span class="hljs-string">"id"</span>:data.id,
+          <span class="hljs-string">"contact"</span>:data.email,
+          <span class="hljs-string">"base"</span>:data.base,
+          <span class="hljs-string">"DOB"</span>:data.dob,
+          <span class="hljs-string">"gender"</span>:data.gender
+        },
+        <span class="hljs-string">"travelInfo"</span>: {}
+      })
+
+      $scope.cancel()
+
+
+]
+
+
+
+employeeLookup.filter <span class="hljs-string">"startFrom"</span>,<span class="hljs-function"> -&gt;</span>
+<span class="hljs-function">  <span class="hljs-params">(input, start)</span> -&gt;</span>
+    <span class="hljs-keyword">if</span> input!=<span class="hljs-literal">undefined</span>
+      start = +start <span class="hljs-comment">#parse to int</span>
+      input.slice start</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

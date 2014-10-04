@@ -1,0 +1,80 @@
+header
+  div.row.header_bar
+    div.action_btns.col-sm-3.text-left
+      a.active(ng-click="goToPath('/dashboard')")
+        i.fa.fa-angle-left &nbsp;&nbsp;
+        span Dashboard
+
+
+    div.row.col-sm-6
+      h1 Search Results
+
+    div.action_btns.col-sm-3.pull-right
+      div.btn-group.pull-right
+        button.btn.btn-action.btn-translucent.btn-default(ng-click="goToPath('/add')")
+          | + New Event
+
+      //div#search_box.pull-right.margin-right
+      //  div.margin-left.input-group
+      //    a(ng-click).input-group-addon
+      //      i.fa.fa-search
+      //    input.form-control.ng-pristine(type="text", placeholder="Search Event History", ng-model="filter_value", value="", id="g4-list-filter-input", ng-keyup="goToSearch(filter_value)", g4-autofocus)
+
+div.row#content_body
+  //section.row.padding-top-large
+  //include ../partials/search.jade
+  //
+  //div.col-md-12.margin-top
+  //  section.border-top.border-bottom.padding-top-large.filter_box
+  //    include ../partials/list-filter.applicability.jade
+
+
+
+
+
+
+
+  div.col-md-12.padding-top-large#search_list
+    div(
+    g4plus-super-list,
+    g4-service="superList.service"
+    g4-actions="superList.actions"
+    g4-columns="superList.columns"
+    g4-filters="superList.filters"
+    g4-params="superList.params"
+    g4-update-url="superList.updateUrl"
+    g4-success="superList.success"
+    g4-error="superList.error"
+    )
+
+  //  table
+  //    tr.header_bar.border
+  //      th.col-sm-1 Tail
+  //      th.col-sm-1 Station
+  //      th.col-sm-1 Status
+  //      th.col-sm-3 Event
+  //      th.col-sm-1 Event Code
+  //      th.col-sm-1 ATA
+  //      th.col-sm-1 Root Cause
+  //      th.col-sm-1 Adv Time
+  //      //th.col-sm-1 Flight Info
+  //      th.col-sm-1 Elapsed Time
+  //      th.col-sm-1 Reporter
+  //    tr.bottom-border.border(ng-repeat='event in eventList.events | filter:filter_value')
+  //      td.col-sm-1 {{event.tailNbr}}
+  //      td.col-sm-1 {{event.station.toUpperCase()}} <br/> {{event.location}}
+  //      td.col-sm-1 {{event.status.toUpperCase()}}
+  //      td.col-sm-3 {{event.description}}
+  //      td.col-sm-1 {{event.eventCode}}
+  //      td.col-sm-1 {{event.ataCode}}
+  //      td.col-sm-1 {{event.rootCause}}
+  //      td.col-sm-1 {{event.advisoryUnixTimestamp}}
+  //      //td.col-sm-1 {{event.flightInfo}}
+  //      td.col-sm-1 {{event.createdBy.elapsedTime}}
+  //      td.col-sm-1 {{event.createdBy.fullName}}
+  //
+  //section.col-md-9.pull-right.margin-top-large
+  //  span.pull-right(g4-pagination-navigation, current-page="currentPage", total-pages="pageCount", page-change="total")
+  //  span.pull-right.margin-right.pagination-message(g4-pagination-message="", current-page="currentPage", page-size="pageCount", total-items="total")
+  //
+  //

@@ -1,0 +1,26 @@
+{
+  "name": "g4plus-sort-button",
+  "authors": [
+    "mel cruz <mel.cruz@allegiantair.com>"
+  ],
+  "description": "G4Plus Sort Button module that contains two directives that add a sort button beside table column headers.",
+  "main": "sortButton.coffee",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "60cab0961b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "60cab0961b8ab838ac02a0dd8e31baa8ad802aad"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/BC/g4plus-sort-button.git",
+  "_target": "*",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/BC/g4plus-sort-button.git"
+}

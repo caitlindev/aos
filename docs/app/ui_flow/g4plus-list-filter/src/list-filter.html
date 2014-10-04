@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>List Filter Module</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="list-filter-module">List Filter Module</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Make sure you include this module if you want to use the directive</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>listFilter = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'g4plus.list-filter'</span>, [
+  <span class="hljs-string">'g4plus.autofocus'</span>
+  <span class="hljs-string">'ngCookies'</span>
+]
+
+listFilter.directive <span class="hljs-string">"g4ListFilter"</span>, [
+  <span class="hljs-string">"$filter"</span>
+  <span class="hljs-string">"$cookieStore"</span>
+<span class="hljs-function">
+  <span class="hljs-params">($filter, $cookieStore)</span> -&gt;</span>
+    <span class="hljs-attribute">restrict</span>: <span class="hljs-string">"A"</span>
+    <span class="hljs-attribute">replace</span>: <span class="hljs-literal">false</span>
+    <span class="hljs-attribute">scope</span>:
+      <span class="hljs-attribute">options</span>:  <span class="hljs-string">"=g4FilterOptions"</span>
+      <span class="hljs-attribute">filterBy</span>: <span class="hljs-string">"=g4FilterBy"</span>
+      <span class="hljs-attribute">filter_value</span>: <span class="hljs-string">"=g4FilterValue"</span>
+      <span class="hljs-attribute">filter_option</span>: <span class="hljs-string">"=g4FilterOption"</span>
+    <span class="hljs-attribute">template</span>:  <span class="hljs-string">"""
+
+      &lt;section class="row padding-bottom-large input-group search-input"&gt;
+        &lt;input type="text"
+        placeholder="Search query"
+        class="pull-left"
+        ng-model="filter_value"
+        id="g4-list-filter-input"
+        ng-keyup="filterByValue($event)"
+        g4-autofocus
+        /&gt;
+        &lt;btn class="btn btn-primary btn-rght-rounded btn-search pull-left"&gt;
+          &lt;i class="icon-search" ng-click="filterByValue($event)"&gt; &lt;/i&gt;
+        &lt;/btn&gt;
+      &lt;/section&gt;
+
+      &lt;div class="col-md-12 margin-top"&gt;
+        &lt;section class="border-top border-bottom padding-top-large filter_box"&gt;
+          &lt;div class="col-sm-8"&gt;
+            &lt;p&gt;Filter by:&lt;strong&gt;&amp;nbsp;Stations&lt;/strong&gt;&lt;/p&gt;
+
+            &lt;div class="col-sm-4"&gt;
+              &lt;div class="row"&gt;
+                &lt;div ng-repeat="value in inputs.station | limitTo:5"&gt;
+                  &lt;div&gt;
+                    &lt;label&gt;
+                      {{value}}
+                      &lt;input type="checkbox" ng-model="outputs['station'][value]" ng-checked="outputs['station'][value]"
+ value="value" ng-click="checkboxFilterByValue()"/&gt;
+                      &lt;span&gt;&lt;/span&gt;
+                    &lt;/label&gt;
+                    &lt;div style="clear:both;"&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class="col-sm-4"&gt;
+              &lt;div class="row"&gt;
+                &lt;div ng-repeat="value in inputs.station"&gt;
+                  &lt;div ng-show="$index &gt;= 5 &amp;&amp; $index &lt; 10"&gt;
+                    &lt;label&gt;
+                      {{value}}
+                      &lt;input type="checkbox" ng-model="outputs['station'][value]" ng-checked="outputs['station'][value]"
+ value="value" ng-click="checkboxFilterByValue()"/&gt;
+                      &lt;span&gt;&lt;/span&gt;
+                    &lt;/label&gt;
+                    &lt;div style="clear:both;"&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class="col-sm-4"&gt;
+              &lt;div class="row"&gt;
+                &lt;div ng-repeat="value in inputs.station"&gt;
+                  &lt;div ng-show="$index &gt;= 10 &amp;&amp; $index &lt; 15"&gt;
+                    &lt;label&gt;
+                      {{value}}
+                      &lt;input type="checkbox" ng-model="outputs['station'][value]" ng-checked="outputs['station'][value]"
+ value="value" ng-click="checkboxFilterByValue()"/&gt;
+                      &lt;span&gt;&lt;/span&gt;
+                    &lt;/label&gt;
+                    &lt;div style="clear:both;"&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class="col-sm-2 border-right border-left"&gt;
+            &lt;p&gt;&lt;strong&gt;Event Code&lt;/strong&gt;&lt;/p&gt;
+            &lt;div class="col-sm-12"&gt;
+              &lt;div class="row"&gt;
+                &lt;div ng-repeat="value in inputs.eventCode | limitTo:5"&gt;
+                  &lt;div&gt;
+                    &lt;label&gt;
+                      {{value}}
+                      &lt;input type="checkbox" ng-model="outputs['station'][value]" ng-checked="outputs['station'][value]"
+ value="value" ng-click="checkboxFilterByValue()"/&gt;
+                      &lt;span&gt;&lt;/span&gt;
+                    &lt;/label&gt;
+                    &lt;div style="clear:both;"&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class="col-sm-2"&gt;
+            &lt;p&gt;&lt;strong&gt;Date&lt;/strong&gt;&lt;/p&gt;
+            &lt;form&gt;
+              &lt;div class="row input-group col-sm-12 datetimepicker"&gt;
+                &lt;input type="text"
+                show-button-bar="false"
+                show-weeks="false"
+                datepicker-popup="{{format}}"
+                ng-model="dt"
+                is-open="openDate"
+                min-date="minDate"
+                max-date="'2015-06-22'"
+                datepicker-options="dateOptions"
+                date-disabled="disabled(date, mode)"
+                close-text="Close"
+                placeholder="MM/DD/YYYY"
+                class="form-control"
+                /&gt;
+                &lt;span class="input-group-addon", ng-click="openDatepicker($event)"&gt;&lt;i class="fa fa-calendar"&gt;&lt;/i&gt;&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class="clearfix padding-bottom-medium margin-top col-sm-12"&gt;
+                &lt;a ng-click="selectDatRange=true"&gt;Select a Date Range&lt;/a&gt;
+              &lt;/div&gt;
+              &lt;div class="row input-group col-sm-12 datetimepicker" ng-show="selectDatRange"&gt;
+                &lt;input type="text"
+                show-button-bar="false"
+                show-weeks="false"
+                datepicker-popup="{{format}}"
+                ng-model="dt2"
+                is-open="openDate2"
+                min-date="minDate"
+                max-date="'2015-06-22'"
+                datepicker-options="dateOptions"
+                date-disabled="disabled(date, mode)"
+                close-text="Close"
+                placeholder="MM/DD/YYYY"
+                class="form-control"
+                /&gt;
+                &lt;span class="input-group-addon", ng-click="openDatepicker2($event)"&gt;&lt;i class="fa fa-calendar"&gt;&lt;/i&gt;&lt;/span&gt;
+              &lt;/div&gt;
+            &lt;/form&gt;
+          &lt;/div&gt;
+          &lt;div class="clearfix"&gt;&lt;/div&gt;
+        &lt;/section&gt;
+      &lt;/div&gt;
+
+
+      &lt;div class="clearfix"&gt;
+        &lt;section class="col-md-9"&gt;
+          &lt;!-- span.pull-right(g4-pagination-navigation, current-page="currentPage", total-pages="pageCount", page-change="total")--&gt;
+          &lt;!-- span.pull-right.margin-right.pagination-message(g4-pagination-message,
+               current-page="currentPage",
+               page-size="pageCount",
+               total-items="total")--&gt;
+          &lt;div class="clearfix"&gt;&lt;/div&gt;
+        &lt;/section&gt;
+      &lt;/div&gt;
+    """</span>
+    <span class="hljs-attribute">link</span>: <span class="hljs-function"><span class="hljs-params">(scope, element, attrs)</span> -&gt;</span>
+
+      scope.filter_timeframe = <span class="hljs-string">''</span>
+      scope.c<span class="hljs-function"><span class="hljs-title">hangeTimeFilter</span> = <span class="hljs-params">(val)</span> -&gt;</span>
+        <span class="hljs-keyword">if</span> val.toLowerCase()==<span class="hljs-string">'all'</span>
+          scope.filter_timeframe = <span class="hljs-string">''</span>
+        <span class="hljs-keyword">else</span>
+          scope.filter_timeframe = val
+
+      scope.mytime = <span class="hljs-keyword">new</span> Date()
+      scope.hstep = <span class="hljs-number">1</span>
+      scope.mstep = <span class="hljs-number">15</span>
+      scope.options =
+        <span class="hljs-attribute">hstep</span>: [
+          <span class="hljs-number">1</span>
+          <span class="hljs-number">2</span>
+          <span class="hljs-number">3</span>
+          <span class="hljs-number">4</span>
+          <span class="hljs-number">5</span>
+          <span class="hljs-number">6</span>
+          <span class="hljs-number">7</span>
+          <span class="hljs-number">8</span>
+          <span class="hljs-number">9</span>
+          <span class="hljs-number">10</span>
+          <span class="hljs-number">11</span>
+          <span class="hljs-number">12</span>
+        ]
+        <span class="hljs-attribute">mstep</span>: [
+          <span class="hljs-number">1</span>
+          <span class="hljs-number">5</span>
+          <span class="hljs-number">10</span>
+          <span class="hljs-number">15</span>
+          <span class="hljs-number">25</span>
+          <span class="hljs-number">30</span>
+        ]
+
+      scope.ismeridian = <span class="hljs-literal">true</span>
+      scope.t<span class="hljs-function"><span class="hljs-title">oggleMode</span> = <span class="hljs-params">()</span> -&gt;</span>
+        scope.ismeridian = <span class="hljs-keyword">not</span> scope.ismeridian
+
+      scope.u<span class="hljs-function"><span class="hljs-title">pdate</span> = <span class="hljs-params">()</span> -&gt;</span>
+        d = <span class="hljs-keyword">new</span> Date()
+        d.setHours <span class="hljs-number">14</span>
+        d.setMinutes <span class="hljs-number">0</span>
+        scope.mytime = d
+
+      scope.c<span class="hljs-function"><span class="hljs-title">lear</span> = <span class="hljs-params">()</span> -&gt;</span>
+        scope.mytime = <span class="hljs-literal">null</span>
+
+
+
+
+
+
+      scope.o<span class="hljs-function"><span class="hljs-title">ptionToLabel</span> = <span class="hljs-params">(searched_key)</span> -&gt;</span>
+        <span class="hljs-keyword">for</span> option <span class="hljs-keyword">in</span> scope.options
+          <span class="hljs-keyword">if</span> option.key == searched_key
+            <span class="hljs-keyword">return</span> option.label.toUpperCase()
+        <span class="hljs-keyword">return</span> <span class="hljs-string">''</span>
+
+      scope.f<span class="hljs-function"><span class="hljs-title">ilterByOption</span> = <span class="hljs-params">(new_option)</span> -&gt;</span>
+        scope.filterBy?(scope.filter_value, new_option)
+
+      scope.f<span class="hljs-function"><span class="hljs-title">ilterByValue</span> = <span class="hljs-params">(ev)</span> -&gt;</span>
+        <span class="hljs-built_in">console</span>.log(ev)
+        <span class="hljs-keyword">if</span> ev.which == <span class="hljs-number">13</span> || ev.which == <span class="hljs-number">1</span>
+          scope.filterBy?(scope.filter_value, scope.filter_option)
+
+
+
+      scope.outputs = {
+        <span class="hljs-attribute">station</span>:{}
+        <span class="hljs-attribute">eventCode</span>:{}
+      }
+
+      <span class="hljs-keyword">if</span> $cookieStore.get(<span class="hljs-string">'checkbox_values'</span>) != <span class="hljs-literal">undefined</span>
+        scope.outputs = $cookieStore.get(<span class="hljs-string">'checkbox_values'</span>)
+
+
+      scope.inputs =
+        <span class="hljs-attribute">station</span>: [
+          <span class="hljs-string">'NON'</span>
+          <span class="hljs-string">'EAST'</span>
+          <span class="hljs-string">'WEST'</span>
+          <span class="hljs-string">'HVY'</span>
+          <span class="hljs-string">'SFB'</span>
+          <span class="hljs-string">'PIE'</span>
+          <span class="hljs-string">'FLL'</span>
+          <span class="hljs-string">'PGD'</span>
+          <span class="hljs-string">'LAS'</span>
+          <span class="hljs-string">'LAX'</span>
+          <span class="hljs-string">'ENV'</span>
+          <span class="hljs-string">'AZA'</span>
+          <span class="hljs-string">'HNL'</span>
+          <span class="hljs-string">'BLI'</span>
+        ]
+        <span class="hljs-attribute">eventCode</span>: [
+          <span class="hljs-string">"AOS"</span>
+          <span class="hljs-string">"SOS"</span>
+          <span class="hljs-string">"HPR"</span>
+        ]
+
+
+      scope.c<span class="hljs-function"><span class="hljs-title">heckboxFilterByValue</span> = <span class="hljs-params">()</span> -&gt;</span>
+        scope.filterBy(scope.filter_value, scope.filter_option)
+
+      scope.o<span class="hljs-function"><span class="hljs-title">penDatepicker</span> = <span class="hljs-params">(event)</span> -&gt;</span>
+        event.preventDefault()
+        event.stopPropagation()
+        scope.openDate = <span class="hljs-literal">true</span>
+
+      scope.o<span class="hljs-function"><span class="hljs-title">penDatepicker2</span> = <span class="hljs-params">(event)</span> -&gt;</span>
+        event.preventDefault()
+        event.stopPropagation()
+        scope.openDate2 = <span class="hljs-literal">true</span>
+
+
+
+      scope.$watch <span class="hljs-string">"outputs"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+        $cookieStore.put(<span class="hljs-string">'checkbox_values'</span>, scope.outputs)
+      ,<span class="hljs-literal">true</span>
+
+]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>   scope.getCheckboxValues = (value, option) -&gt;
+     scope.$watch “chkbxs”, ((n, o) -&gt;
+       trues = $filter(“filter”)(n,
+         val: true
+       )
+       scope.flag = trues.length
+       return
+     ), true</p>
+<pre><code> checkboxes = $(<span class="hljs-string">'.filter_box input[type="checkbox"]'</span>).<span class="hljs-keyword">is</span>(<span class="hljs-string">"checked"</span>)
+ i = <span class="hljs-number">0</span>
+
+ <span class="hljs-keyword">while</span> i &lt; checkboxes.length
+   checkbox = $(checkboxes).eq(i)
+   checkboxVal = checkbox.val()
+   <span class="hljs-built_in">console</span>.log(checkboxVal)
+   i++
+
+ scope.filterBy?([<span class="hljs-string">'bli'</span>, <span class="hljs-string">'sos'</span>], <span class="hljs-string">'station'</span>)
+</code></pre><p>   scope.getCheckboxValues(null, null)</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>This will reset filter in case the length becomes 0
+     else if scope.filter_value.length == 0
+       scope.executeFilterBy(‘’, scope.filter_option)</p>
+
+            </div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+div.eventList
+  div.tr(ng-class="event.eventCode.toLowerCase()")
+    div.col-sm-1.padding-none
+      div.indicators(g4-aos-indicators, list-data="event", class="indicator-container")
+    div.col-sm-11
+      a(ng-click="goToPath($event, '/view/' + event.id)")
+        p.col-sm-1 {{ event.tailNbr }}
+      p.col-sm-1 {{ event.station.toUpperCase() }} <br/>
+        span.gate {{ event.location }}
+      p.col-sm-1 {{ event.status.toUpperCase() }}
+      p.col-sm-2 {{ event.description }}
+      p.col-sm-1
+        span(ng-repeat="code in event.ataCode") {{code.chapter}}{{code.section}}
+      p.col-sm-1.text-center {{ event.eventCode.toUpperCase() }}
+      p.col-sm-1.text-center {{ event.rootCause.toUpperCase() }}
+
+      p.col-sm-1.dashboard_adv_time(ng-if="event.advisoryUnixTimestamp", g4-unix-timestamp-converter="", formatting="MM/DD HH:mm", duration-or-conversion="conversion", timestamp="event.advisoryUnixTimestamp")
+      p.col-sm-1(ng-if="!event.advisoryUnixTimestamp") &nbsp;
+
+      p.col-sm-1(ng-if="event.etrUnixTimestamp", g4-unix-timestamp-converter="", formatting="MM/DD HH:mm", duration-or-conversion="conversion", timestamp="event.etrUnixTimestamp")
+      p.col-sm-1(ng-if="!event.etrUnixTimestamp") &nbsp;
+
+      p.col-sm-1.dashboard_flight_info
+        span {{ event.flightInfo.routes[0].currentInfo.flightNbr }} <br/>
+        span.timestamp(g4-unix-timestamp-converter="", formatting="MM/DD HH:mm", duration-or-conversion="conversion", timestamp="event.flightInfo.routes[0].departureInfo.scheduledDepartureUnixTimestamp")
+      p.col-sm-1.dashboard_elapsed_time(g4-unix-timestamp-converter="", formatting="MM/DD/YY HH:mm", duration-or-conversion="duration", timestamp="event.elapsedTime", ng-init="setElapsedTime(event)")
+      a(ng-init="isCollapsed=true", ng-click="changeRouting(isCollapsed=!isCollapsed, event.tailNbr)")
+        i.fa(class="{{collapsedIcon(isCollapsed)}}")
+
+    div.clearfix
+  div.tr(collapse="isCollapsed", class="{{isCollapsed}}")
+    div(g4-routing, list-data="event")

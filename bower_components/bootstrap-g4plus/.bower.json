@@ -1,0 +1,31 @@
+{
+  "name": "bootstrap-g4plus",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "Brunch/AngularJS Glus MX Styles",
+  "main": [
+    "./styles.less",
+    "./assets"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.0.0"
+  },
+  "_release": "b75f5275b1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "b75f5275b1a97e9782f37d7a4ec4ffab1f674117"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/bc/bootstrap-g4plus.git",
+  "_target": "master",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/bc/bootstrap-g4plus.git"
+}

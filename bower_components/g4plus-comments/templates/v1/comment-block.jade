@@ -1,0 +1,31 @@
+a(ng-transclude='ng-transclude', href='javascript:void(0)', ng-click='config.show.toggle()', ng-if='!config.show.visible')
+div.comments-container(ng-show='config.show.isVisible()')
+  div.main
+    div
+      button.close(type="button",aria-hiddent="true",ng-click="config.show.toggle()", ng-show='config.show.close') &times;
+      h1.comment-title Comments
+    div
+      div(ng-show='!notice[0].reply')
+        div(flash-message='', message='notice')
+      .commentable
+        form.comment-form(novalidate='', name='commentForm')
+          .form-group
+            label.col-sm-1.control-label.text-right(for='comment-box') Comments
+            .col-sm-9
+              textarea#comment-box.form-control(name='comment_body', cols='150', rows='1', ng-model='body', ng-click='showButtons()', ng-required='true')
+              div(ng-show='commentForm.comment_body.$dirty && commentForm.comment_body.$invalid ')
+                p.small.no-bottom-margin.text-danger(ng-show='commentForm.comment_body.$error.required')  Comment is required.
+            .attachment-form.col-sm-2(ng-show='config.show.attachments && showButton')
+              div(g4-file-upload='', g4-current-file='commentForm.file', g4-current-file-info='commentForm.fileInfo')
+                | Attach
+              .attachment-form__fileinfo(ng-show='commentForm.fileInfo.fileName')
+                span.attachment-form__fileinfo__name(title='{{commentForm.fileInfo.fileName}}') {{commentForm.fileInfo.fileName}}
+          .row
+            .col-sm-10.text-right.buttons(ng-show='showButton')
+              button.btn.btn-cancel.cancel-comment(ng-click='cancelComment()', type='button') Cancel
+              button.btn.btn-primary.submit-comment(ng-click='createComment()', ng-disabled='commentForm.$invalid') Add Comment
+        .comments-count {{ total }} comments
+        ul.comment-list.list-unstyled
+          li.comment-item.clearfix(id="comment-{{ $index+1 }}", ng-repeat='comment in comments | orderBy: "-dateCreatedTimestamp"', ng-include=' "src/app/g4plus-comments/templates/v1/comment-item.jade" ')
+        button.btn.btn-link.more-comments(ng-show='hasMoreItemsToShow()', ng-click='showMoreItems()')
+          | More Comments &hellip;

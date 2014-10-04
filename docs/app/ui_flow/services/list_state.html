@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>list_state.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>list_state.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <ul>
+<li>@fileoverview Ths file contains the list_state service</li>
+<li>@author       Eric Storch (eric.storch@allegiantair.com)</li>
+<li>@module       services.list_state</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">module</span> = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'services.list_state'</span>, []</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h1 id="liststate-factory">ListState Factory</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Handles the setting and getting of the list view’s state parameters</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">module</span>.factory <span class="hljs-string">'ListState'</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Parameters object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  params =
+    <span class="hljs-attribute">pagination</span>:
+      <span class="hljs-attribute">page</span>: <span class="hljs-number">1</span>
+      <span class="hljs-attribute">pageSize</span>: <span class="hljs-number">10</span>
+    <span class="hljs-attribute">filters</span>:
+      <span class="hljs-attribute">programGroupId</span>: <span class="hljs-string">''</span>
+      <span class="hljs-attribute">filter_value</span>: <span class="hljs-string">''</span>
+      <span class="hljs-attribute">filter_option</span>: <span class="hljs-string">'_all'</span>
+
+    <span class="hljs-attribute">sorting</span>: <span class="hljs-string">'code'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h2 id="parameter-getter">Parameter getter</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Returns stored parameters object</p>
+<ul>
+<li>@return {object}</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-attribute">getParams</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+    params</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <h2 id="parameter-setter">Parameter setter</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Recieves a parameters object and stores it</p>
+<ul>
+<li>@param {object} prms</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-attribute">setParams</span>: <span class="hljs-function"><span class="hljs-params">(prms)</span> -&gt;</span>
+    params.filters.filter_value = <span class="hljs-keyword">if</span> (prms.filter_value) <span class="hljs-keyword">then</span> prms.filter_value <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>
+    params.filters.filter_option = <span class="hljs-keyword">if</span> (prms.filter_option) <span class="hljs-keyword">then</span> prms.filter_option <span class="hljs-keyword">else</span> <span class="hljs-string">'_all'</span>
+    params.filters.programGroupId = <span class="hljs-keyword">if</span> (prms.programGroupId) <span class="hljs-keyword">then</span> prms.programGroupId <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>
+    params.pagination.pageSize = <span class="hljs-keyword">if</span> (prms.pageSize) <span class="hljs-keyword">then</span> prms.pageSize <span class="hljs-keyword">else</span> <span class="hljs-number">10</span>
+    params.pagination.page = <span class="hljs-keyword">if</span> (prms.page) <span class="hljs-keyword">then</span> prms.page <span class="hljs-keyword">else</span> <span class="hljs-number">1</span>
+    params.sorting  = <span class="hljs-keyword">if</span> (prms.sort) <span class="hljs-keyword">then</span> prms.sort <span class="hljs-keyword">else</span> <span class="hljs-string">'code'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <h2 id="url-generator">URL generator</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Generates a url based off of the current parameters object</p>
+<ul>
+<li>@return {string}    A URL string desribing the current view</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-attribute">getListStateUrl</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> params.filters.programGroupId
+      params.filters.programGroupId = <span class="hljs-string">''</span>
+
+    <span class="hljs-string">"/list?programGroupId="</span> + params.filters.programGroupId +
+    <span class="hljs-string">"&amp;filter_option="</span> + params.filters.filter_option +
+    <span class="hljs-string">"&amp;filter_value="</span> + params.filters.filter_value +
+    <span class="hljs-string">"&amp;pageSize="</span> + params.pagination.pageSize +
+    <span class="hljs-string">"&amp;page="</span> + params.pagination.page +
+    <span class="hljs-string">"&amp;sort="</span> + params.sorting</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "g4plus-actions-button-directive",
+  "version": "0.0.4",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus Actions Button Directive",
+  "main": [
+    "./src/common.directive.g4-actions-button.coffee"
+  ],
+  "private": true,
+  "devDependencies": {
+    "jquery": "~1.10.0",
+    "angular-bootstrap": "~0.9.0",
+    "angular": "1.2.12",
+    "angular-mocks": "1.2.12"
+  },
+  "_release": "0.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.4",
+    "commit": "0cb7d2534d75e2e64791a4920cbe7718eb8de3bf"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/BC/g4plus-actions-button-directive.git",
+  "_target": "v0.0.4",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/BC/g4plus-actions-button-directive.git"
+}

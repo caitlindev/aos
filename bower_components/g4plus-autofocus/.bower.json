@@ -1,0 +1,26 @@
+{
+  "name": "g4plus-autofocus",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus Autofocus Directive",
+  "main": [
+    "./src/autofocus.coffee"
+  ],
+  "private": true,
+  "devDependencies": {
+    "jquery": "~1.10.0",
+    "angular-bootstrap": "~0.9.0",
+    "angular": "~1.2",
+    "angular-mocks": "~1.2"
+  },
+  "_release": "c4aa0672fc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c4aa0672fcece671750abbfb0e633119674b1b94"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/BC/g4plus-autofocus-directive.git",
+  "_target": "*",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/BC/g4plus-autofocus-directive.git"
+}

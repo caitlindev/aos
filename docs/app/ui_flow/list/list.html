@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>list.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>list.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>list = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'app.list'</span>, [
+  <span class="hljs-string">'services.events'</span>
+  <span class="hljs-string">'g4plus.directives'</span>
+]
+
+list.controller <span class="hljs-string">"ListCtrl"</span>, [
+  <span class="hljs-string">'$scope'</span>
+  <span class="hljs-string">'$location'</span>
+  <span class="hljs-string">'$state'</span>
+  <span class="hljs-string">'EventsService'</span>
+  <span class="hljs-string">'FlightsService'</span>
+  <span class="hljs-string">'ListState'</span>
+<span class="hljs-function">
+  <span class="hljs-params">($scope, $location, $state, EventsService, FlightsService, ListState)</span> -&gt;</span>
+    $scope.g<span class="hljs-function"><span class="hljs-title">oToPath</span> = <span class="hljs-params">(path)</span> -&gt;</span>
+      $location.path(path)
+
+    getEvents = {
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Upon any change to $scope.superList.params, updates the URL with new query parameters</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.u<span class="hljs-function"><span class="hljs-title">pdateUrl</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $location.url(ListState.getListStateUrl())</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Extract url params and update $scope.superList params with the new values</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.g<span class="hljs-function"><span class="hljs-title">etParams</span> = <span class="hljs-params">()</span> -&gt;</span>
+      ListState.setParams($location.search())</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Send event to load list based on parameter changes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.u<span class="hljs-function"><span class="hljs-title">pdateList</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $scope.$broadcast <span class="hljs-string">'SuperList:reload'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h2 id="scope-variables">Scope variables</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>eventCodeList: current set of Event codes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.list = [ ]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>list_length: current length of list after filter is applied</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.list_length = <span class="hljs-number">0</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>super list configuration options</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.superList =
+      <span class="hljs-attribute">service</span>:
+        <span class="hljs-attribute">data</span>: EventsService.getEvents
+        <span class="hljs-attribute">type</span>: <span class="hljs-string">'http'</span> <span class="hljs-comment"># array, promise, resource</span>
+        <span class="hljs-attribute">loadId</span>: <span class="hljs-string">'tableOptions'</span>
+        <span class="hljs-attribute">hasSorting</span>: <span class="hljs-literal">false</span>
+        <span class="hljs-attribute">hasPagination</span>: <span class="hljs-literal">false</span>
+        <span class="hljs-attribute">hasFiltering</span>: <span class="hljs-literal">false</span>
+
+
+
+      <span class="hljs-attribute">columns</span>: [
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'Tail'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'tailNbr'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+        }
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'Station'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'station'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+          <span class="hljs-attribute">cellClass</span>: <span class="hljs-string">'station'</span>
+        }
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'Status'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'status'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+          <span class="hljs-attribute">cellClass</span>: <span class="hljs-string">'status'</span>
+        }
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'Event'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'description'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+          <span class="hljs-attribute">columnClass</span>: <span class="hljs-string">'medium'</span>
+        }
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'Event Code'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'eventCode'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+        }
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'ATA'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'ataCode'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+        }
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'Root Cause'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'rootCause'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+        }
+        {
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">'Reporter'</span>
+          <span class="hljs-attribute">field</span>: <span class="hljs-string">'createdBy.fullName'</span>
+          <span class="hljs-attribute">sorting</span>: <span class="hljs-literal">false</span>
+        }
+      ]
+
+      <span class="hljs-attribute">filters</span>: [
+        {
+          <span class="hljs-attribute">key</span>: <span class="hljs-string">'_all'</span>
+          <span class="hljs-attribute">label</span>: <span class="hljs-string">'All'</span>
+          <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'keyword'</span>
+        }
+        {
+          <span class="hljs-attribute">key</span>: <span class="hljs-string">'station'</span>
+          <span class="hljs-attribute">label</span>: <span class="hljs-string">'Station'</span>
+          <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'keyword'</span>
+        }
+        {
+          <span class="hljs-attribute">key</span>: <span class="hljs-string">'event'</span>
+          <span class="hljs-attribute">label</span>: <span class="hljs-string">'Event'</span>
+          <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'keyword'</span>
+        }
+        {
+          <span class="hljs-attribute">key</span>: <span class="hljs-string">'eventCode'</span>
+          <span class="hljs-attribute">label</span>: <span class="hljs-string">'Event Code'</span>
+          <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'keyword'</span>
+        }
+        {
+          <span class="hljs-attribute">key</span>: <span class="hljs-string">'createdUnixTimestamp'</span>
+          <span class="hljs-attribute">label</span>: <span class="hljs-string">'Date Created'</span>
+          <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'keyword'</span>
+        }
+      ]
+
+      <span class="hljs-attribute">params</span>: ListState.getParams()
+
+      <span class="hljs-attribute">success</span>: getEvents.success
+      <span class="hljs-attribute">error</span>: getEvents.error
+
+      <span class="hljs-attribute">updateUrl</span>: $scope.updateUrl
+
+    $scope.getParams()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>register events when route is updated and trigger list update</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.$<span class="hljs-literal">on</span> <span class="hljs-string">'$routeUpdate'</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+      $scope.getParams()
+      $scope.updateList()
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

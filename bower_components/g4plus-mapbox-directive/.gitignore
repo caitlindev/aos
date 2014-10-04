@@ -1,0 +1,14 @@
+.idea
+bin
+_public
+node_modules
+bower_components
+/atlassian-ide-plugin.xml
+release
+archive
+build
+rpm
+module.spec
+make_partials/overrides.mk
+*.swp
+npm-debug.log

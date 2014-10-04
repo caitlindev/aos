@@ -1,0 +1,30 @@
+a(ng-transclude, href='javascript:void(0)', ng-click="config.show.toggle()", ng-if="!config.show.isVisible()")
+div.comments-container(ng-show='config.show.isVisible()', ng-class="{\'comments-container--sidebar\': config.show.close}")
+  div.main
+    div
+      button.close(type="button",aria-hiddent="true",ng-click="config.show.toggle()", ng-show='config.show.close') &times;
+      h1.comment-title
+        i.g4c-icon.g4c-title
+        | Comments
+    div
+      div(ng-show='!notice[0].reply')
+        div(flash-message='', message='notice')
+      .commentable
+        form.comment-form(novalidate='', name='commentForm')
+          .form-group
+            textarea#comment-box.form-control(name='comment_body', cols='150', rows='1', ng-model='body', ng-click='showButtons()', ng-required='true', placeholder='Add a comment')
+            div(ng-show='commentForm.comment_body.$dirty && commentForm.comment_body.$invalid ')
+              p.small.no-bottom-margin.text-danger(ng-show='commentForm.comment_body.$error.required')  Comment is required.
+          .form-actions.text-right(ng-show='showButton')
+            .attachment-form(ng-show='config.show.attachments && showButton')
+              div(g4-file-upload='', g4-current-file='commentForm.file', g4-current-file-info='commentForm.fileInfo')
+                | Attach
+              .attachment-form__fileinfo(ng-show='commentForm.fileInfo.fileName')
+                span.attachment-form__fileinfo__name(title='{{commentForm.fileInfo.fileName}}') {{commentForm.fileInfo.fileName}}
+            button.btn.btn-cancel.cancel-comment(ng-click='cancelComment()', type='button') Cancel
+            button.btn.btn-primary.submit-comment(ng-click='createComment()', ng-disabled='commentForm.$invalid') Add Comment
+        //- .comments-count {{ total }} comments
+        ul.comment-list.list-unstyled
+          li.comment-item.clearfix(id="comment-{{ $index+1 }}", ng-class='{"comment-replying": comment.replying}', ng-repeat='comment in comments | orderBy: "-dateCreatedTimestamp"', ng-include=' "src/app/g4plus-comments/templates/v2/comment-item.jade" ')
+        button.btn.btn-link.more-comments(ng-show='hasMoreItemsToShow()', ng-click='showMoreItems()')
+          | More Comments

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>view.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>view.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+roadtripview = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'app.roadtrip.view'</span>, []
+
+
+
+roadtripview.controller <span class="hljs-string">"RoadTripViewCtrl"</span>, [
+  <span class="hljs-string">'$scope'</span>
+  <span class="hljs-string">'$location'</span>
+  <span class="hljs-string">'$stateParams'</span>
+  <span class="hljs-string">'$modal'</span>
+  <span class="hljs-string">'RoadTripService'</span>
+  <span class="hljs-string">'FlightsService'</span>
+  <span class="hljs-string">'EventsService'</span>
+<span class="hljs-function">  <span class="hljs-params">($scope, $location, $stateParams, $modal, RoadTripService, FlightsService, EventsService)</span> -&gt;</span>
+
+    $scope.g<span class="hljs-function"><span class="hljs-title">oToPath</span> = <span class="hljs-params">(e, path, query)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> e.which == <span class="hljs-number">13</span> || e.which==<span class="hljs-number">1</span>
+        $location.path(path).search({<span class="hljs-string">'filter_value'</span> : query})
+
+    _this = <span class="hljs-keyword">this</span>
+
+    _this.getRoadTripWs = {
+      <span class="hljs-attribute">roadTripWs</span>: <span class="hljs-function"><span class="hljs-params">(service, id)</span> -&gt;</span>
+
+        service.getRoadTrip(id, _this.getRoadTripWs.success, _this.getRoadTripWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        $scope.roadTrip = data
+        <span class="hljs-built_in">console</span>.log($scope.roadTrip)
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }
+
+    $scope.id = $stateParams.id
+    _this.getRoadTripWs.roadTripWs(RoadTripService, $scope.id)
+
+
+
+
+
+
+    _this.getFlightsWs = {
+      <span class="hljs-attribute">flightWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>WS call. Ex: mockWs.flightWs(flightWs.success, flightWs.error)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        service.getFlights(<span class="hljs-literal">null</span>, _this.getFlightsWs.success, _this.getFlightsWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>success callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+        $scope.flightList = data
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Get flight data</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _this.getFlightsWs.flightWs(FlightsService)
+
+
+
+    _this.getEventWs = {
+      <span class="hljs-attribute">eventWs</span>: <span class="hljs-function"><span class="hljs-params">(service)</span> -&gt;</span>
+        id = $stateParams.id
+        service.getEvent(id, _this.getEventWs.success, _this.getEventWs.error)
+
+      <span class="hljs-attribute">success</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span>
+        event = data
+
+        $scope.event = event
+
+        $scope.$watch <span class="hljs-string">"flightList"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+          flights = $scope.flightList
+          <span class="hljs-keyword">for</span> flightsKey <span class="hljs-keyword">of</span> flights
+            tailNbr = flights[flightsKey].tailNbr
+            flightInfo = flights[flightsKey]
+
+            <span class="hljs-keyword">if</span> $scope.event.tailNbr == tailNbr
+              $scope.event.flightInfo = flightInfo
+
+
+
+      <span class="hljs-attribute">error</span>: <span class="hljs-function"><span class="hljs-params">(data, status, headers, config)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>error callback</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>   Get all events</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _this.getEventWs.eventWs(EventsService)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Delete Modal</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.o<span class="hljs-function"><span class="hljs-title">penRTDeleteModal</span> = <span class="hljs-params">()</span> -&gt;</span>
+      modalInstance = $modal.open(
+        <span class="hljs-attribute">controller</span>: <span class="hljs-string">"DeleteModalCtrl"</span>
+        <span class="hljs-attribute">templateUrl</span>: <span class="hljs-string">'src/app/ui_flow/delete/rt-modal.jade'</span>
+        <span class="hljs-attribute">resolve</span>: {
+          <span class="hljs-attribute">rt</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span> $scope.roadTrip
+          <span class="hljs-attribute">ev</span>: <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span> $scope.event
+        }
+      )
+
+      modalInstance.result.<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(flashMessage)</span> -&gt;</span>
+        $scope.goToPath({<span class="hljs-attribute">which</span>:<span class="hljs-number">1</span>}, <span class="hljs-string">'/view/'</span> + $scope.roadTrip.id)
+
+    $scope.c<span class="hljs-function"><span class="hljs-title">ancel</span> = <span class="hljs-params">()</span> -&gt;</span>
+      $modalInstance.close()
+
+
+
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

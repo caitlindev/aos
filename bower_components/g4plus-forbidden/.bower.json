@@ -1,0 +1,34 @@
+{
+  "name": "g4plus-forbidden",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus Forbidden Directive",
+  "main": [
+    "./src/forbidden.coffee",
+    "./src/forbidden.css"
+  ],
+  "private": true,
+  "dependencies": {
+    "angular": "1.2",
+    "angular-bootstrap": "~0.9.0",
+    "angular-ui-router": "0.2",
+    "angular-route": "1.2",
+    "lodash": "~2.2.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.7"
+  },
+  "resolutions": {
+    "angular": "1.2.7"
+  },
+  "_release": "ccc3b836d9",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ccc3b836d9fdf5653467375e043bf17b03496cc0"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/bc/g4plus-forbidden.git",
+  "_target": "*",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/bc/g4plus-forbidden.git"
+}

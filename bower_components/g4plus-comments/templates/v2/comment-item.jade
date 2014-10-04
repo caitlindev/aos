@@ -1,0 +1,19 @@
+.comment-container.clearfix
+  div.comment.media(ng-hide='comment.editing', ng-click='commentReply(comment)')
+    div.comment-attachment.pull-left(id="attach_{{comment.id}}", ng-if='comment.attachments.length')
+      img.comment-attachment__image.media-object(src='//placehold.it/80')
+      div(g4-file-info-custom='comment.attachments[0]') {{ comment.attachments[0].name }}
+      a.comment-attachment__delete(href='javascript:void(0)', ng-click='deleteAttachment(comment, "v2", null); $event.stopPropagation()', ng-show='canDeleteAttachment(comment)', title='Delete attachment') ×
+    .media-body
+      .comment-header.clearfix
+        small.pull-left
+          span.comment-number Comment {{$index + 1}} of {{total}}:&nbsp;
+          span.comment-author-date
+            span.comment-author {{comment.creatingUser.fullName}}
+            time.comment-date
+              | {{ formatDate(comment.dateCreatedTimestamp) }}
+      p.comment-body {{comment.text}}
+  div(ng-show='replyNotice[\'comment\'+comment.id][0].reply')
+    div(flash-message, message='replyNotice[\'comment\'+comment.id]')
+  div(ng-include=' "src/app/g4plus-comments/templates/v2/comment-reply-form.jade" ', ng-show='comment.replying')
+  div(ng-include=' "src/app/g4plus-comments/templates/v2/comment-replies-list.jade" ', ng-if='comment.replies.length')

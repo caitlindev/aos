@@ -1,0 +1,20 @@
+{
+  "name": "g4plus-app-code",
+  "version": "0.0.1",
+  "authors": [
+    "emanuel.arambula"
+  ],
+  "description": "Adds appcode inside every request.",
+  "main": "app.coffee",
+  "dependencies": {
+    "angular": "1.2"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

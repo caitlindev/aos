@@ -1,0 +1,20 @@
+{
+  "name": "g4plus-ata-select-directive",
+  "version": "0.1.0",
+  "authors": [
+      "Allegiant"
+  ],
+  "description": "G4Plus ATA Code Selection Directive",
+  "main": [
+      "./src/employeeLookup.coffee",
+      "./src/employeeLookup.less",
+      "./services/employeeDirectoryService.coffee"
+  ],
+  "private": true,
+  "devDependencies": {
+      "jquery": "~1.10.0",
+      "angular-bootstrap": "~0.9.0",
+      "angular": "1.2.7",
+      "angular-mocks": "1.2.7"
+  }
+}

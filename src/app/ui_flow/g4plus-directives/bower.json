@@ -1,0 +1,19 @@
+{
+  "name": "g4plus-routing-directive",
+  "version": "0.2.0",
+  "authors": [
+      "Allegiant"
+  ],
+  "description": "G4Plus Routing Directive",
+  "main": [
+      "./src/directives.coffee",
+      "./src/routing.less"
+  ],
+  "private": true,
+  "devDependencies": {
+      "jquery": "~1.10.0",
+      "angular-bootstrap": "~0.9.0",
+      "angular": "1.2.7",
+      "angular-mocks": "1.2.7"
+  }
+}

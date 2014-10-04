@@ -1,0 +1,87 @@
+// Dashboard Chart
+
+@yellow-bar-color: #ffd200;
+
+.y.axisLeft text {
+  fill: #fff;
+}
+
+.x.axis text {
+  fill: #fff;
+}
+
+.axis path {
+  display: none;
+}
+
+.y.axis path {
+  display: none;
+}
+
+.bar {
+  fill: #fff;
+  opacity: 0.4;
+  width: 10px !important;
+}
+
+.little-rect {
+  fill: @yellow-bar-color;
+  width: 10px !important;
+}
+
+.bar:hover {
+  fill: @yellow-bar-color;
+  opacity: .9;
+}
+
+.bar-text {
+  fill: @yellow-bar-color;
+  text-anchor: middle;
+  font: 12px;
+}
+
+.horizontal-grid {
+  stroke: white;
+  opacity: 0.3;
+  shape-rendering: crispEdges !important;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(238, 238, 238, 0.9);
+  color: #223f6b;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.9);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+  margin: -1.5px 0 0 0;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1.5px 0 0 0;
+  opacity: .9;
+  top: 100%;
+  left: 0;
+}
+
+#empty-chart {
+  color: #ffffff;
+  margin: 0;
+  position: absolute;
+  top: 100px;
+  width: 100%;
+}
+

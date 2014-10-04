@@ -1,0 +1,31 @@
+.modal-header
+  button.close(type="button", data-dismiss="modal", aria-hidden="true", ng-click="cancel()") &times;
+  h1.alg-blue Select Parts
+.modal-body
+
+
+
+  div
+    table.table-lined
+      thead
+        tr.header_bar
+          th.narrow Part
+          th.medium Description
+          th.narrow
+
+      tbody(ng-repeat="part in parts | startFrom:(pagination.page-1)*10 | limitTo:pagination.pageSize")
+        tr
+          td.narrow {{part.part}}
+          td.medium {{part.description}}
+          td.narrow.text-right
+            a(ng-click="addToPartsList(part)") Select
+
+
+
+
+
+  div.col-md-4(g4-pagination-message="", current-page="pagination.page", page-size="10", total-items="parts.length")
+  div.col-md-8(g4-pagination-navigation="", current-page="pagination.page", total-pages="pagination.totalPages", page-change="pagination.pageChange")
+
+.modal-footer.no-top-margin
+  button.btn.btn-default.pull-right(ng-click="cancel()") Cancel

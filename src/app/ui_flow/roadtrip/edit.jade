@@ -1,0 +1,432 @@
+header
+  div.row.header_bar
+    div.action_btns.col-sm-4.text-left
+      a.active(ng-click="goToPath($event, '/view/' + event.id)")
+        i.fa.fa-angle-left &nbsp;&nbsp;
+        span AOS Event
+    div.row.col-sm-4
+      h1 Road Trip to AOS {{event.flightInfo.currentInfo.flightNbr}}
+    div.action_btns.col-sm-4.pull-right
+div.row#content_body
+  section#roadtrip_info
+    form.col-sm-12.border-none(name="roadTripForm", ng-submit="submit()")
+      div.border-top
+        div.col-sm-6
+          h2 AOS Tracking Details
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_tracking_details", ng-click="isCollapsed_tracking_details = !isCollapsed_tracking_details")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_tracking_details", ng-click="isCollapsed_tracking_details = !isCollapsed_tracking_details")
+      div.clearfix
+      div.collapse-section(collapse="isCollapsed_tracking_details")
+        div.col-sm-3
+          span Tail No.:
+          h3 {{event.tailNbr}}
+        div.col-sm-4
+          span AOS Date:
+          h3(g4-unix-timestamp-converter="", formatting="MM/DD/YYYY HH:mm", duration-or-conversion="conversion", timestamp="event.createdUnixTimestamp",event="event")
+        div.col-sm-3
+          span Flight No.:
+          h3 {{event.flightInfo.routes[2].currentInfo.flightNbr}}
+        div.col-sm-2
+          span Station:
+          h3 {{event.station.toUpperCase()}}
+        div.clearfix
+        div.col-sm-12.margin-top-large.margin-bottom-large
+          span Reason:
+          p(ng-show="event.description!=''") {{event.description}}
+          p(ng-show="event.description==''") No description has been added to this event.
+        div.clearfix.margin-top-large.margin-bottom
+        div.col-sm-3
+          span ATA Code:
+          span
+            strong(ng-repeat="code in event.ataCode") {{code.chapter}}{{code.section}}
+        div.col-sm-5
+          span Description:
+          span
+            strong Air Conditioning and Pressurization
+        div.col-sm-4
+          span.required.text-danger *
+          = ' Inspector Required:'
+          label Yes
+            input(type="radio", ng-model="roadTrip.inspectionRequired", value="Y", name="inspectionReq", required)
+            span
+          label No
+            input(type="radio", ng-model="roadTrip.inspectionRequired", value="N", name="inspectionReq", required)
+            span
+          div(ng-show="roadTripForm.inspectionReq.$dirty")
+            p.small.no-bottom-margin.text-danger.inspectionReq-required(ng-show="roadTripForm.inspectionReq.$error.required") Inspector Required is required.
+        div.clearfix.margin-top-large
+        div.col-sm-12.margin-top
+          span.required.text-danger *
+          = ' Special Equipment Requirements:'
+          textarea.form-control(name="specialEquipReq", ng-required="true", rows=5, ng-model="roadTrip.specialEquipmentReqs", maxlength=250)
+          div(ng-show="roadTripForm.specialEquipReq.$dirty")
+            p.small.no-bottom-margin.text-danger.specialEquipReq-required(ng-show="roadTripForm.specialEquipReq.$error.required") Special Equipment Requirements is required.
+        div.clearfix
+      div.border-top
+        div.col-sm-6
+          h2 Parts
+            strong &nbsp;({{parts.length}})
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_parts", ng-click="isCollapsed_parts = !isCollapsed_parts")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_parts", ng-click="isCollapsed_parts = !isCollapsed_parts")
+      div.clearfix
+      div.collapse-section(collapse="isCollapsed_parts")
+        div(ng-show="parts.length > 0")
+          section.col-sm-3
+            label Part #
+          section.col-sm-1
+            label Qty
+          section.col-sm-6
+            label Description
+          div.row(ng-repeat="part in parts").margin-top
+            section.col-sm-3
+              input.form-control(type="text", ng-model="part.partNbr")
+            section.col-sm-1
+              input.form-control(type="text", ng-model="part.qty")
+            section.col-sm-8(ng-show="part.partNbr==null")
+              input.form-control(type="text", ng-model="part.description")
+            section.col-sm-8(ng-show="part.partNbr!=null")
+              div.col-sm-11
+                input.form-control(type="text", ng-model="part.description")
+              div.col-sm-1
+                i.pull-left.fa.fa-times-circle(ng-click="deleteItem(parts, $index)")
+          div.col-sm-12.margin-top
+            a(ng-click="addPartFields()")
+              | + Add Part
+        div.col-sm-6.margin-top-large
+          h2 Tooling
+            strong &nbsp;({{tooling.length}})
+        div.clearfix
+        div(ng-show="tooling.length > 0")
+          section.col-sm-3
+            label Tooling #
+          section.col-sm-1
+            label Qty
+          section.col-sm-6
+            label Description
+          div.row(ng-repeat="tool in tooling").margin-top
+            section.col-sm-3
+              input.form-control(type="text", ng-model="tool.toolNbr")
+            section.col-sm-1
+              input.form-control(type="text", ng-model="tool.qty")
+            section.col-sm-8(ng-show="tool.toolNbr==null")
+              input.form-control(type="text", ng-model="tool.description")
+            section.col-sm-8(ng-show="tool.toolNbr!=null")
+              div.col-sm-11
+                input.form-control(type="text", ng-model="tool.description")
+              div.col-sm-1
+                i.pull-left.fa.fa-times-circle(ng-click="deleteItem(tooling, $index)")
+          div.col-sm-12.margin-top
+            a(ng-click="addToolingFields()")
+              | + Add Tool
+          div.clearfix
+      div.border-top
+        div.col-sm-6
+          h2
+            span.required.text-danger *
+            = ' Prescribed Repair Scheme'
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_repair_scheme", ng-click="isCollapsed_repair_scheme = !isCollapsed_repair_scheme")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_repair_scheme", ng-click="isCollapsed_repair_scheme = !isCollapsed_repair_scheme")
+      div.clearfix
+      div.collapse-section(collapse="isCollapsed_repair_scheme")
+        div.col-sm-12
+          textarea.form-control(name="prescribedRepairScheme", ng-required="true", rows=5, ng-model="roadTrip.repairScheme", maxlength=250) {{roadTrip.repairScheme}}
+          div(ng-show="roadTripForm.prescribedRepairScheme.$dirty")
+            p.small.no-bottom-margin.text-danger.prescribedRepairScheme-required(ng-show="roadTripForm.prescribedRepairScheme.$error.required") Prescribed Repair Scheme is required.
+        div.clearfix
+      div.border-top
+        div.col-sm-6
+          h2 Traveler Information
+            strong &nbsp;({{travelers.length}})
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_traveler_info", ng-click="isCollapsed_traveler_info = !isCollapsed_traveler_info")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_traveler_info", ng-click="isCollapsed_traveler_info = !isCollapsed_traveler_info")
+      div.clearfix
+      div.collapse-section#traveler_info(collapse="isCollapsed_traveler_info")
+        div.col-sm-12.pull-right.margin-bottom
+          div.text-left
+            i.fa.fa-mail-reply &nbsp;&nbsp;
+            //a Employee Lookup
+            span(g4employee-lookup, model="employeeDirectory", link-text="Employee Directory")
+        div.person(ng-repeat="person in travelers")
+          label.col-sm-2 First Name
+            input.form-control(type="text", ng-model="person.employee.firstName", disabled)
+          label.col-sm-2 Last Name
+            input.form-control(type="text", ng-model="person.employee.lastName", disabled)
+          label.col-sm-2 ID
+            input.form-control(type="number", ng-model="person.employee.id", disabled)
+          label.col-sm-2 D.O.B.
+            input.form-control(type="text", ng-model="person.employee.DOB", disabled)
+          label.col-sm-1 Base
+            input.form-control(type="text", ng-model="person.employee.base", disabled)
+          label.col-sm-2 Phone
+            input.form-control(type="text", ng-model="person.employee.phone", disabled)
+          label.col-sm-1 Gender
+            select(ng-model="person.employee.gender", ng-options="gender as gender for gender in genders", disabled)
+          div.clearfix
+          div.col-sm-12(ng-hide="person.travelInfo.hotels.length || person.travelInfo.airlines.length || person.travelInfo.cars.length || !person.employee.id")
+            i.pull-left.fa.fa-times-circle(ng-click="deleteItem(travelers, $index)")
+            small &nbsp;&nbsp;|&nbsp;&nbsp;
+            a(ng-click="add(event.id, $index)") Add Travel Arrangements
+          div.clearfix(ng-init="isCollapsed_travel_arrangements=true")
+          div.col-sm-12.margin-bottom(ng-show="person.travelInfo.hotels.length || person.travelInfo.airlines.length || person.travelInfo.cars.length")
+            i.pull-left.fa.fa-times-circle(ng-click="deleteItem(travelers, $index)")
+            small &nbsp;&nbsp;|&nbsp;&nbsp;
+            a(ng-show="!isCollapsed_travel_arrangements", ng-click="isCollapsed_travel_arrangements = !isCollapsed_travel_arrangements") Travel Arrangements -
+            a(ng-show="isCollapsed_travel_arrangements", ng-click="isCollapsed_travel_arrangements = !isCollapsed_travel_arrangements") Travel Arrangements >
+          di.clearfix
+          div(collapse="isCollapsed_travel_arrangements")
+            div.travel_arrangement
+              div(ng-show="person.travelInfo.hotels.length")
+                div(ng-repeat="hotel in person.travelInfo.hotels")
+                  div.col-sm-3.text-left
+                    span Hotel:
+                    span {{hotel.name}}
+                  div.col-sm-3.text-left
+                    span
+                    span {{hotel.address}} {{hotel.city}}, {{hotel.state}} {{hotel.zip}}
+                  div.col-sm-3.text-left
+                    span Phone:
+                    span {{hotel.phone}}
+                  div.col-sm-2.text-right
+                    span Conf. No.:
+                    span {{hotel.confNbr}}
+                  div.clearfix
+                div.clearfix
+                  a(ng-click="edit(event.id, 'hotel', $index)").col-sm-2 Edit
+              div(ng-hide="person.travelInfo.hotels.length")
+                div.col-sm-3.text-left
+                  span Hotel:
+                  a(ng-click="edit(event.id, 'hotel', $index)") Add
+                div.clearfix
+            div.travel_arrangement
+              div(ng-show="person.travelInfo.airlines.length")
+                div(ng-repeat="airline in person.travelInfo.airlines")
+                  div.col-sm-3.text-left
+                    span
+                      strong Airline:
+                    span {{airline.name}}
+                  div.col-sm-1.text-left
+                    span
+                    span {{airline.departure.flightNbr}}
+                  div.col-sm-2.text-left
+                    span
+                      strong {{airline.departure.station}}
+                    span(g4-unix-timestamp-converter="", formatting="MM/DD/YYYY HH:mm", duration-or-conversion="conversion", timestamp="airline.departure.departUnixTimestamp",event="event")
+                  div.col-sm-2.text-left
+                    span Seat:
+                    span {{airline.departure.seat}}
+                  div.col-sm-2.text-right
+                    span Conf. No.:
+                    span {{airline.departure.confNbr}}
+                  div.clearfix
+                  div.col-sm-3
+                  div.col-sm-1.text-left
+                    span
+                    span {{airline.arrival.flightNbr}}
+                  div.col-sm-2.text-left
+                    span
+                      strong {{airline.arrival.station}}
+                    span(g4-unix-timestamp-converter="", formatting="MM/DD/YYYY HH:mm", duration-or-conversion="conversion", timestamp="airline.arrival.arriveUnixTimestamp",event="event")
+                  div.col-sm-2.text-left
+                    span Seat:
+                    span {{airline.arrival.seat}}
+                  div.col-sm-2.text-right
+                    span Conf. No.:
+                    span {{airline.arrival.confNbr}}
+                  div.clearfix
+                div.clearfix
+                  a(ng-click="edit(event.id, 'airline', $index)").col-sm-2 Edit
+              div(ng-hide="person.travelInfo.airlines.length")
+                div.col-sm-3.text-left
+                  span Airline:
+                  a(ng-click="edit(event.id, 'airline', $index)") Add
+                div.clearfix
+            div.travel_arrangement
+              div(ng-show="person.travelInfo.cars.length")
+                div(ng-repeat="car in person.travelInfo.cars")
+                  div.col-sm-3.text-left
+                    span Car:
+                    span {{car.name}}
+                  div.col-sm-3.text-left
+                    span
+                    span {{car.address}} {{car.city}}, {{car.state}} {{car.zip}}
+                  div.col-sm-3.text-left
+                    span Phone:
+                    span {{car.phone}}
+                  div.col-sm-2.text-right
+                    span Conf. No.:
+                    span {{car.confNbr}}
+                  div.clearfix
+                div.clearfix
+                  a(ng-click="edit(event.id, 'car', $index)").col-sm-2 Edit
+              div(ng-hide="person.travelInfo.cars.length")
+                div.col-sm-3.text-left
+                  span Car:
+                  a(ng-click="edit(event.id, 'car', $index)") Add
+                div.clearfix
+        div.col-sm-12.margin-top-large
+          span(g4employee-lookup, model="employeeDirectory", link-text="+ Add Traveler")
+          div.clearfix
+        div.clearfix
+      div.border-top
+        div.col-sm-6
+          h2 Station Information
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_station_info", ng-click="isCollapsed_station_info = !isCollapsed_station_info")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_station_info", ng-click="isCollapsed_station_info = !isCollapsed_station_info")
+      div.clearfix
+      div.collapse-section#station_info(collapse="isCollapsed_station_info")
+        label.col-sm-3
+          span.required.text-danger *
+          = ' Manager First Name'
+          input.form-control(name="managerFirstName", ng-required="true", type="text", ng-model="roadTrip.stationManager.firstName", maxlength=25)
+          div(ng-show="roadTripForm.managerFirstName.$dirty")
+            p.small.no-bottom-margin.text-danger.managerFirstName-required(ng-show="roadTripForm.managerFirstName.$error.required") Manager First Name is required.
+        label.col-sm-3
+          span.required.text-danger *
+          = ' Manager Last Name'
+          input.form-control(name="managerLastName", ng-required="true", type="text", ng-model="roadTrip.stationManager.lastName", maxlength=25)
+          div(ng-show="roadTripForm.managerLastName.$dirty")
+            p.small.no-bottom-margin.text-danger.managerLastName-required(ng-show="roadTripForm.managerLastName.$error.required") Manager Last Name is required.
+        label.col-sm-2
+          span.required.text-danger *
+          = ' Phone'
+          input.form-control(name="managerPhone", ng-required="true", type="text", ng-model="roadTrip.stationManager.phone", maxlength=25)
+          div(ng-show="roadTripForm.managerPhone.$dirty")
+            p.small.no-bottom-margin.text-danger.managerPhone-required(ng-show="roadTripForm.managerPhone.$error.required") Phone is required.
+        div.clearfix
+        label.col-sm-3
+          span.required.text-danger *
+          = ' On-Call First Name'
+          input.form-control(name="onCallFirstName", ng-required="true", type="text", ng-model="roadTrip.stationOnCall.firstName", maxlength=25)
+          div(ng-show="roadTripForm.onCallFirstName.$dirty")
+            p.small.no-bottom-margin.text-danger.onCallFirstName-required(ng-show="roadTripForm.onCallFirstName.$error.required") On-Call First Name is required.
+        label.col-sm-3
+          span.required.text-danger *
+          = ' On-Call Last Name'
+          input.form-control(name="onCallLastName", ng-required="true", type="text", ng-model="roadTrip.stationOnCall.lastName", maxlength=25)
+          div(ng-show="roadTripForm.onCallLastName.$dirty")
+            p.small.no-bottom-margin.text-danger.onCallLastName-required(ng-show="roadTripForm.onCallLastName.$error.required") On-Call Last Name is required.
+        label.col-sm-2
+          span.required.text-danger *
+          = ' Phone'
+          input.form-control(name="onCallPhone", ng-required="true", type="text", ng-model="roadTrip.stationOnCall.phone", maxlength=25)
+          div(ng-show="roadTripForm.onCallPhone.$dirty")
+            p.small.no-bottom-margin.text-danger.onCallPhone-required(ng-show="roadTripForm.onCallPhone.$error.required") Phone is required.
+        div.clearfix
+        label.col-sm-4
+          span.required.text-danger *
+          = ' Address'
+          input.form-control(name="stationAddress", ng-required="true", type="text", ng-model="roadTrip.stationManager.address", maxlength=25)
+          div(ng-show="roadTripForm.stationAddress.$dirty")
+            p.small.no-bottom-margin.text-danger.stationAddress-required(ng-show="roadTripForm.stationAddress.$error.required")  Address is required.
+        label.col-sm-3
+          span.required.text-danger *
+          = ' City'
+          input.form-control(name="stationCity", ng-required="true", type="text", ng-model="roadTrip.stationManager.city", maxlength=25)
+          div(ng-show="roadTripForm.stationCity.$dirty")
+            p.small.no-bottom-margin.text-danger.stationCity-required(ng-show="roadTripForm.stationCity.$error.required")  City is required.
+        label.col-sm-1
+          span.required.text-danger *
+          = ' State'
+          select(name="stationState", ng-required="true", ng-model="roadTrip.stationManager.state")
+            option(ng-repeat="state in states", value="{{state.abbreviation}}") {{state.abbreviation}}
+            div(ng-show="roadTripForm.stationState.$dirty")
+              p.small.no-bottom-margin.text-danger.stationState-required(ng-show="roadTripForm.stationState.$error.required")  State is required.
+        label.col-sm-2
+          span.required.text-danger *
+          = ' Zipcode'
+          input.form-control(name="stationZipcode", ng-required="true", type="text", ng-model="roadTrip.stationManager.zip", maxlength=5)
+          div(ng-show="roadTripForm.stationZipcode.$dirty")
+            p.small.no-bottom-margin.text-danger.stationZipcode-required(ng-show="roadTripForm.stationZipcode.$error.required")  Zipcode is required.
+        div.clearfix
+      div.border-top
+        div.col-sm-6
+          h2 On-Call Maintenance Vendor Information
+            strong &nbsp;({{vendors.length}})
+        div.col-sm-6
+          i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_vendor_info", ng-click="isCollapsed_vendor_info = !isCollapsed_vendor_info")
+          i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_vendor_info", ng-click="isCollapsed_vendor_info = !isCollapsed_vendor_info")
+      div.clearfix
+      div.collapse-section#vendor_info(collapse="isCollapsed_vendor_info")
+        div(ng-repeat="vendor in vendors", ng-class="{'vendor': $index > 0}")
+          i.pull-right.fa.fa-times-circle(ng-show="$index > 0", ng-click="deleteItem(vendors, $index)")
+          div.clearfix
+          label.col-sm-4
+            span.required.text-danger *
+            = ' Vendor Name'
+            input.form-control(name="vendorName", ng-required="true", type="text", ng-model="vendor.name", maxlength=25)
+            div(ng-show="roadTripForm.vendorName.$dirty")
+              p.small.no-bottom-margin.text-danger.vendorName-required(ng-show="roadTripForm.vendorName.$error.required") Vendor Name is required.
+          label.col-sm-2
+            span.required.text-danger *
+            = ' Contract No.'
+            input.form-control(name="contractNo", ng-required="true", type="text", ng-model="vendor.contract", maxlength=25)
+            div(ng-show="roadTripForm.contractNo.$dirty")
+              p.small.no-bottom-margin.text-danger.contractNo-required(ng-show="roadTripForm.contractNo.$error.required") Contract No. is required.
+          div.clearfix
+          label.col-sm-3
+            span.required.text-danger *
+            = ' Contact First Name'
+            input.form-control(name="contactFirstName", ng-required="true", type="text", ng-model="vendor.contactFirstName", maxlength=25)
+            div(ng-show="roadTripForm.contactFirstName.$dirty")
+              p.small.no-bottom-margin.text-danger.contactFirstName-required(ng-show="roadTripForm.contactFirstName.$error.required") Contact First Name is required.
+          label.col-sm-3
+            span.required.text-danger *
+            = ' Contact Last Name'
+            input.form-control(name="contactLastName", ng-required="true", type="text", ng-model="vendor.contactLastName", maxlength=25)
+            div(ng-show="roadTripForm.contactLastName.$dirty")
+              p.small.no-bottom-margin.text-danger.contactLastName-required(ng-show="roadTripForm.contactLastName.$error.required") Contact Last Name is required.
+          label.col-sm-2
+            span.required.text-danger *
+            = ' Phone'
+            input.form-control(name="contactPhone", ng-required="true", type="text", ng-model="vendor.phone", maxlength=25)
+            div(ng-show="roadTripForm.contactPhone.$dirty")
+              p.small.no-bottom-margin.text-danger.contactPhone-required(ng-show="roadTripForm.contactPhone.$error.required") Phone is required.
+          label.col-sm-2
+            span.required.text-danger *
+            = ' Fax'
+            input.form-control(name="contactFax", ng-required="true", type="text", ng-model="vendor.fax", maxlength=25)
+            div(ng-show="roadTripForm.contactFax.$dirty")
+              p.small.no-bottom-margin.text-danger.contactFax-required(ng-show="roadTripForm.contactFax.$error.required") Fax is required.
+          div.clearfix
+          label.col-sm-4
+            span.required.text-danger *
+            = ' Address'
+            input.form-control(name="contactAddress", ng-required="true", type="text", ng-model="vendor.address", maxlength=25)
+            div(ng-show="roadTripForm.contactAddress.$dirty")
+              p.small.no-bottom-margin.text-danger.contactAddress-required(ng-show="roadTripForm.contactAddress.$error.required") Address is required.
+          label.col-sm-3
+            span.required.text-danger *
+            = ' City'
+            input.form-control(name="contactCity", ng-required="true", type="text", ng-model="vendor.city", maxlength=25)
+            div(ng-show="roadTripForm.contactCity.$dirty")
+              p.small.no-bottom-margin.text-danger.contactCity-required(ng-show="roadTripForm.contactCity.$error.required") City is required.
+          label.col-sm-1
+            span.required.text-danger *
+            = ' State'
+            select(ng-model="vendor.state")
+              option(name="contactState", ng-repeat="state in states", value="{{state.abbreviation}}") {{state.abbreviation}}
+              div(ng-show="roadTripForm.contactState.$dirty")
+                p.small.no-bottom-margin.text-danger.contactState-required(ng-show="roadTripForm.contactState.$error.required") State is required.
+          label.col-sm-2
+            span.required.text-danger *
+            = ' Zipcode'
+            input.form-control(name="contactZipcode", ng-required="true", type="text", ng-model="vendor.zip", maxlength=5)
+            div(ng-show="roadTripForm.contactZipcode.$dirty")
+              p.small.no-bottom-margin.text-danger.contactZipcode-required(ng-show="roadTripForm.contactZipcode.$error.required") Zipcode is required.
+          div.clearfix
+        div.col-sm-12.margin-top
+          a(ng-click="addVendorFields()")
+            | + Add Vendor
+          div.clearfix
+        div.clearfix
+      div.border-top
+        fieldset.margin-top-large.padding-bottom-large.text-center
+          button.btn.btn-translucent.btn-larger.margin-right-large(ng-click="cancelRTcreation()")
+            | Cancel
+          button.btn.btn-solid.btn-larger(type="submit", id="submit")
+            | Save

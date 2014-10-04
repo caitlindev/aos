@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>directives.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>directives.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>directives = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'g4plus.directives'</span>, []
+
+directives.directive <span class="hljs-string">"g4Routing"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+  <span class="hljs-attribute">restrict</span>: <span class="hljs-string">"A"</span>
+  <span class="hljs-attribute">scope</span>:
+    <span class="hljs-attribute">listData</span>:<span class="hljs-string">"=listData"</span>
+  <span class="hljs-attribute">templateUrl</span>: <span class="hljs-string">'src/app/ui_flow/g4plus-directives/src/routing.jade'</span>
+  <span class="hljs-attribute">link</span>: <span class="hljs-function"><span class="hljs-params">(scope, element, attrs)</span> -&gt;</span>
+    scope.$watch <span class="hljs-string">"listData"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> scope.listData
+        <span class="hljs-keyword">if</span> scope.listData.flightInfo
+          event = scope.listData.flightInfo.routes[<span class="hljs-number">2</span>].currentInfo
+
+          scope.popoverHtml = <span class="hljs-string">"""
+          &lt;strong class='col-sm-6 text-left'&gt;Code:&lt;/strong&gt;
+          &lt;div class='col-sm-6 text-left'&gt;"""</span> + event.code + <span class="hljs-string">"""&lt;/div&gt;
+          &lt;strong class='col-sm-6 text-left'&gt;Flight:&lt;/strong&gt;
+          &lt;div class='col-sm-6 text-left'&gt;"""</span> + event.flightNbr + <span class="hljs-string">"""&lt;/div&gt;
+          &lt;strong class='col-sm-6 text-left'&gt;Altitude:&lt;/strong&gt;
+          &lt;div class='col-sm-6 text-left'&gt;"""</span> + event.altitude + <span class="hljs-string">""" ft&lt;/div&gt;
+          &lt;strong class='col-sm-6 text-left'&gt;Airspeed:&lt;/strong&gt;
+          &lt;div class='col-sm-6 text-left'&gt;"""</span> + event.airspeed + <span class="hljs-string">""" mph&lt;/div&gt;
+          &lt;strong class='col-sm-6 text-left'&gt;ETA:&lt;/strong&gt;
+          &lt;div class='col-sm-6 text-left'&gt;"""</span> + moment.unix(event.ETA).format(<span class="hljs-string">"HH:MM"</span>) + <span class="hljs-string">""" GMT&lt;/div&gt;
+          &lt;div class="clearfix"&gt;&lt;/div&gt;
+          """</span>
+
+          scope.live_flight_data = scope.popoverHtml</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Fligh days (14 days before, 14 days after) - for now 1 day before, 1 day after</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          scope.flightDays = [
+            [
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'HNL'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'LAS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'MFE'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'LAS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+            ]
+            [
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'GFK'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'08:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'LAS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'11:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'MFE'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'16:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'LAS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'18:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'AUS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'20:00'</span>
+              }
+            ]
+            [
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'LAS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'MFE'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'LAS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'IND'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+              {
+                <span class="hljs-attribute">station</span>: <span class="hljs-string">'LAS'</span>
+                <span class="hljs-attribute">time</span>: <span class="hljs-string">'12:00'</span>
+              }
+            ]
+          ]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>set current day active</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          scope.currentFlightIndex = <span class="hljs-number">1</span> <span class="hljs-comment"># to be determined dynamically</span>
+          scope.flightDays[scope.currentFlightIndex].active = <span class="hljs-literal">true</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>determine how many green bullets are</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          greenBullets = <span class="hljs-number">2</span> <span class="hljs-comment"># to be determined dynamically</span>
+          bulletsColor = {}
+          i = <span class="hljs-number">0</span>
+          <span class="hljs-keyword">while</span> (i &lt; greenBullets)
+            bulletsColor[i] = <span class="hljs-string">'green'</span>
+            i++</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>after green bullets there is the red one</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          bulletsColor[i] = <span class="hljs-string">'red'</span>
+<span class="hljs-function">
+          <span class="hljs-title">_getPercentage</span> = <span class="hljs-params">(index, total)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> index * (<span class="hljs-number">100</span> / (total-<span class="hljs-number">1</span>)).toFixed(<span class="hljs-number">2</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>set bullet classes only for current day</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          scope.b<span class="hljs-function"><span class="hljs-title">ulletClass</span> = <span class="hljs-params">(parentIndex, index)</span> -&gt;</span>
+            <span class="hljs-keyword">if</span> parentIndex == scope.currentFlightIndex
+              <span class="hljs-keyword">if</span> bulletsColor[index]
+                <span class="hljs-keyword">return</span> bulletsColor[index]
+            <span class="hljs-keyword">return</span> <span class="hljs-string">""</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>set bullet positions</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          scope.b<span class="hljs-function"><span class="hljs-title">ulletPosition</span> = <span class="hljs-params">(index, total)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> { <span class="hljs-attribute">left</span>: _getPercentage(index, total) + <span class="hljs-string">"%"</span>}
+
+          scope.g<span class="hljs-function"><span class="hljs-title">reenTrackWidth</span> = <span class="hljs-params">(total)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> { <span class="hljs-attribute">width</span>: _getPercentage(greenBullets, total) + <span class="hljs-string">"%"</span>}
+
+          scope.r<span class="hljs-function"><span class="hljs-title">edTrackPosition</span> = <span class="hljs-params">(total)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> { <span class="hljs-attribute">left</span>: _getPercentage(greenBullets, total) + <span class="hljs-string">"%"</span>, <span class="hljs-attribute">width</span>: <span class="hljs-string">"56px"</span>}
+
+          scope.a<span class="hljs-function"><span class="hljs-title">ircraftPosition</span> = <span class="hljs-params">(total)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> { <span class="hljs-attribute">left</span>: (_getPercentage(greenBullets, total) + <span class="hljs-number">5</span>) + <span class="hljs-string">"%"</span>}
+
+          scope.t<span class="hljs-function"><span class="hljs-title">oday</span> = <span class="hljs-params">()</span> -&gt;</span>
+            scope.dt = <span class="hljs-keyword">new</span> Date()
+            scope.dt2 = <span class="hljs-keyword">new</span> Date()
+
+          scope.today()
+          scope.c<span class="hljs-function"><span class="hljs-title">lear</span> = <span class="hljs-params">()</span> -&gt;</span>
+            scope.dt = <span class="hljs-literal">null</span>
+            scope.dt2 = <span class="hljs-literal">null</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h1 id="disable-weekend-selection">Disable weekend selection</h1>
+<p>   scope.disabled = (date, mode) -&gt;
+     mode is “day” and (date.getDay() is 0 or date.getDay() is 6)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+          scope.t<span class="hljs-function"><span class="hljs-title">oggleMin</span> = -&gt;</span>
+            scope.minDate = (<span class="hljs-keyword">if</span> scope.minDate <span class="hljs-keyword">then</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">else</span> <span class="hljs-keyword">new</span> Date())
+            <span class="hljs-keyword">return</span>
+
+          scope.toggleMin()
+          scope.o<span class="hljs-function"><span class="hljs-title">pen</span> = <span class="hljs-params">($event)</span> -&gt;</span>
+            $event.preventDefault()
+            $event.stopPropagation()
+            scope.opened = <span class="hljs-literal">true</span>
+            <span class="hljs-keyword">return</span>
+
+          scope.dateOptions =
+            <span class="hljs-attribute">formatYear</span>: <span class="hljs-string">"yy"</span>
+            <span class="hljs-attribute">startingDay</span>: <span class="hljs-number">1</span>
+
+          scope.initDate = <span class="hljs-keyword">new</span> Date(<span class="hljs-string">"2016-15-20"</span>)
+          scope.formats = [
+            <span class="hljs-string">"dd-MMMM-yyyy"</span>
+            <span class="hljs-string">"yyyy/MM/dd"</span>
+            <span class="hljs-string">"dd.MM.yyyy"</span>
+            <span class="hljs-string">"shortDate"</span>
+          ]
+          scope.format = scope.formats[<span class="hljs-number">0</span>]
+
+
+
+
+
+
+directives.filter <span class="hljs-string">"g4DateFormat"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+<span class="hljs-function">
+  <span class="hljs-title">format</span> = <span class="hljs-params">(timestamp, type, formatting)</span> -&gt;</span>
+    <span class="hljs-keyword">if</span> type == <span class="hljs-string">"duration"</span>
+
+      duration = moment.duration(timestamp, <span class="hljs-string">"seconds"</span>)._data
+
+      newMinutes = duration.minutes
+      newSeconds = duration.seconds
+      <span class="hljs-keyword">if</span> duration.minutes.toString().length == <span class="hljs-number">1</span>
+        newMinutes = <span class="hljs-string">"0"</span> + duration.minutes.toString()
+
+      <span class="hljs-keyword">if</span> duration.seconds.toString().length == <span class="hljs-number">1</span>
+        newSeconds = <span class="hljs-string">"0"</span> + duration.seconds.toString()
+
+
+      formattedTime = <span class="hljs-string">"<span class="hljs-subst">#{duration.hours}</span>:<span class="hljs-subst">#{newMinutes}</span>:<span class="hljs-subst">#{newSeconds}</span>"</span>
+      <span class="hljs-keyword">if</span> duration.days &gt; <span class="hljs-number">0</span>
+        formattedTime = <span class="hljs-string">"<span class="hljs-subst">#{duration.days}</span>d "</span> + formattedTime
+
+      <span class="hljs-keyword">if</span> duration.months &gt; <span class="hljs-number">0</span>
+        formattedTime = <span class="hljs-string">"<span class="hljs-subst">#{duration.months}</span>m "</span> + formattedTime
+
+      <span class="hljs-keyword">if</span> duration.years &gt; <span class="hljs-number">0</span>
+        formattedTime = <span class="hljs-string">"<span class="hljs-subst">#{duration.years}</span>y "</span> + formattedTime</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <pre><code> spinTime(timestamp, type, formatting)
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+      <span class="hljs-keyword">return</span> formattedTime
+
+    <span class="hljs-keyword">return</span> moment.unix(timestamp).format(formatting)
+
+  <span class="hljs-keyword">return</span> format
+
+directives.directive <span class="hljs-string">"g4UnixTimestampConverter"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+  <span class="hljs-attribute">restrict</span>: <span class="hljs-string">"A"</span>
+  <span class="hljs-attribute">scope</span>: {
+    <span class="hljs-attribute">formatting</span>: <span class="hljs-string">"@formatting"</span>
+    <span class="hljs-attribute">durationOrConversion</span>: <span class="hljs-string">"@durationOrConversion"</span>
+    <span class="hljs-attribute">timestamp</span>: <span class="hljs-string">"=timestamp"</span>
+  }
+  <span class="hljs-attribute">template</span>:  <span class="hljs-string">"&lt;span&gt;{{ timestamp | g4DateFormat:durationOrConversion:formatting }}&lt;/span&gt;"</span>
+  <span class="hljs-attribute">link</span>: <span class="hljs-function"><span class="hljs-params">(scope, element, attrs)</span> -&gt;</span>
+
+
+
+
+
+
+
+directives.directive <span class="hljs-string">"g4AosIndicators"</span>, <span class="hljs-function"><span class="hljs-params">()</span> -&gt;</span>
+  <span class="hljs-attribute">restrict</span>: <span class="hljs-string">"A"</span>
+  <span class="hljs-attribute">scope</span>: {
+    <span class="hljs-attribute">listData</span>: <span class="hljs-string">"=listData"</span>
+  }
+  <span class="hljs-attribute">link</span>: <span class="hljs-function"><span class="hljs-params">(scope, element, attrs)</span> -&gt;</span>
+
+    scope.p<span class="hljs-function"><span class="hljs-title">ulse</span> = <span class="hljs-params">(el)</span> -&gt;</span>
+      $<span class="hljs-function"><span class="hljs-params">(el)</span>.<span class="hljs-title">delay</span><span class="hljs-params">(<span class="hljs-number">1200</span>)</span>.<span class="hljs-title">animate</span><span class="hljs-params">({opacity:<span class="hljs-number">0</span>})</span>.<span class="hljs-title">delay</span><span class="hljs-params">(<span class="hljs-number">50</span>)</span>.<span class="hljs-title">animate</span><span class="hljs-params">({opacity:<span class="hljs-number">1</span>}, () -&gt;
+        scope.pulse($(el))
+      )</span>
+
+    <span class="hljs-title">scope</span>.<span class="hljs-title">$watch</span> "<span class="hljs-title">listData</span>", <span class="hljs-params">()</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> scope.listData
+        <span class="hljs-keyword">if</span> scope.listData.flightInfo.routes[<span class="hljs-number">2</span>]
+
+          reasons = scope.listData.flightInfo.routes[<span class="hljs-number">2</span>].departureInfo.status
+          scope.eventType = scope.listData.type
+
+          currentTimeUnix = currentTime = moment().unix()
+          advisoryTimeUnix = parseInt scope.listData.advisoryUnixTimestamp
+
+          durationInMilSec = moment.duration(advisoryTimeUnix - currentTimeUnix, <span class="hljs-string">'seconds'</span>)._milliseconds
+          tenMin2mSec = <span class="hljs-number">600</span>
+
+          <span class="hljs-keyword">if</span> durationInMilSec &lt;= tenMin2mSec
+            element.append(<span class="hljs-string">"&lt;i class='indicators time10'&gt;&lt;/i&gt;"</span>)
+
+          createdTimeUnix = scope.listData.createdUnixTimestamp
+          durationInMilSec = moment.duration(currentTimeUnix - createdTimeUnix, <span class="hljs-string">'seconds'</span>)._milliseconds
+          eighteenHours2mSec = <span class="hljs-number">64800000</span>
+          eigthHours2mSec = <span class="hljs-number">28800000</span>
+
+          <span class="hljs-keyword">if</span> durationInMilSec &gt;= eighteenHours2mSec
+            element.append(<span class="hljs-string">"&lt;i class='indicators time18'&gt;&lt;/i&gt;"</span>)
+
+          <span class="hljs-keyword">if</span> durationInMilSec &gt;= eigthHours2mSec &amp;&amp; durationInMilSec &lt; eighteenHours2mSec
+            element.append(<span class="hljs-string">"&lt;i class='indicators time8'&gt;&lt;/i&gt;"</span>)
+
+          <span class="hljs-keyword">if</span> scope.eventType.toUpperCase()==<span class="hljs-string">"MCO"</span>
+
+            element.append(<span class="hljs-string">"&lt;i class='indicators mco'&gt;&lt;/i&gt;"</span>)
+
+            scope.pulse($(<span class="hljs-string">'.mco'</span>))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>check advisory time is within 1 hour of next flight departure</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          departureTimestamp = parseInt scope.listData.flightInfo.routes[<span class="hljs-number">2</span>].departureInfo.scheduledDepartureUnixTimestamp
+          oneHr2mSec = <span class="hljs-number">3600</span>
+
+          <span class="hljs-keyword">if</span> (departureTimestamp - currentTimeUnix) &lt; oneHr2mSec &amp;&amp; departureTimestamp &gt; currentTimeUnix
+            $(element).parents(<span class="hljs-string">'.eventList'</span>).find(<span class="hljs-string">'.dashboard_flight_info'</span>).prepend(<span class="hljs-string">'&lt;span&gt;TIME&lt;/span&gt;&lt;br&gt;'</span>)
+
+          <span class="hljs-keyword">if</span> advisoryTimeUnix &gt;= (departureTimestamp - oneHr2mSec) &amp;&amp; advisoryTimeUnix &lt; departureTimestamp
+            $(element).parents(<span class="hljs-string">'.eventList'</span>).find(<span class="hljs-string">'.dashboard_flight_info'</span>).addClass(<span class="hljs-string">'alert flashing_flight_info'</span>)
+            $(<span class="hljs-string">'.view_flight_info'</span>).addClass(<span class="hljs-string">'alert flashing_flight_info'</span>)
+
+            scope.pulse($(<span class="hljs-string">'.eventList .alert, #view_info .alert.flashing_flight_info'</span>))
+
+          <span class="hljs-keyword">if</span> advisoryTimeUnix &gt; departureTimestamp
+            $(element).parents(<span class="hljs-string">'.eventList'</span>).find(<span class="hljs-string">'.dashboard_adv_time'</span>).addClass(<span class="hljs-string">'alert flashing_adv_time text-center'</span>)
+
+            scope.pulse($(<span class="hljs-string">'.eventList .alert, #view_info .alert.flashing_adv_time'</span>))
+
+
+          <span class="hljs-keyword">if</span> scope.listData.flightInfo != <span class="hljs-literal">undefined</span>
+            reasons = scope.listData.flightInfo.routes[<span class="hljs-number">2</span>].currentInfo.status
+
+            <span class="hljs-keyword">if</span> scope.listData.roadTrip != <span class="hljs-literal">undefined</span>
+              element.append(<span class="hljs-string">"&lt;i class='indicators roadTrip'&gt;&lt;/i&gt;"</span>)
+
+            <span class="hljs-keyword">if</span> reasons.cancellation==<span class="hljs-literal">true</span>
+              element.append(<span class="hljs-string">"&lt;i class='indicators cancellation'&gt;&lt;/i&gt;"</span>)
+
+            <span class="hljs-keyword">if</span> reasons.rejectedTakeOff==<span class="hljs-literal">true</span>
+              element.append(<span class="hljs-string">"&lt;i class='indicators rejectedTakeOff'&gt;&lt;/i&gt;"</span>)
+
+            <span class="hljs-keyword">if</span> reasons.gateReturn==<span class="hljs-literal">true</span>
+              element.append(<span class="hljs-string">"&lt;i class='indicators gateReturn'&gt;&lt;/i&gt;"</span>)
+
+            <span class="hljs-keyword">if</span> reasons.diversion==<span class="hljs-literal">true</span>
+              element.append(<span class="hljs-string">"&lt;i class='indicators diversion'&gt;&lt;/i&gt;"</span>)
+
+            <span class="hljs-keyword">if</span> reasons.safetySignificantEvent==<span class="hljs-literal">true</span>
+              element.append(<span class="hljs-string">"&lt;i class='indicators safetySignificantEvent'&gt;&lt;/i&gt;"</span>)
+
+
+
+angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">"template/carousel/carousel.html"</span>, []).run [
+  <span class="hljs-string">"$templateCache"</span>
+<span class="hljs-function">  <span class="hljs-params">($templateCache)</span> -&gt;</span>
+    $templateCache.put <span class="hljs-string">"template/carousel/carousel.html"</span>,
+      <span class="hljs-string">"&lt;div ng-mouseenter=\"pause()\" ng-mouseleave=\"play()\" class=\"carousel\"&gt;\n"</span> +
+      <span class="hljs-string">"    &lt;ol class=\"carousel-indicators\" ng-show=\"slides().length &gt; 1\"&gt;\n"</span> +
+      <span class="hljs-string">"        &lt;li ng-repeat=\"slide in slides()\" ng-class=\"{active: isActive(slide)}\" ng-click=\"select(slide)\"&gt;&lt;/li&gt;\n"</span> +
+      <span class="hljs-string">"    &lt;/ol&gt;\n"</span> +
+      <span class="hljs-string">"    &lt;div class=\"carousel-inner\" ng-transclude&gt;&lt;/div&gt;\n"</span> +
+      <span class="hljs-string">"    &lt;a class=\"left carousel-control\" ng-click=\"prev()\" ng-show=\"slides().length &gt; 1\"&gt;"</span> +
+      <span class="hljs-string">"        &lt;span class=\"fa fa-angle-left\"&gt;&lt;/span&gt;&lt;/a&gt;\n"</span> +
+      <span class="hljs-string">"    &lt;a class=\"right carousel-control\" ng-click=\"next()\" ng-show=\"slides().length &gt; 1\"&gt;"</span> +
+      <span class="hljs-string">"        &lt;span class=\"fa fa-angle-right\"&gt;&lt;/span&gt;&lt;/a&gt;\n"</span> +
+      <span class="hljs-string">"&lt;/div&gt;\n"</span> +
+      <span class="hljs-string">""</span>
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

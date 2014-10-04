@@ -1,0 +1,165 @@
+@input-height: 30px;
+@input-padding-vert: 5px;
+@input-padding-horz: 5px;
+@g4-input-border-color: #c6c6c6;
+
+/* look up */
+
+label {
+  font-weight:normal;
+  text-align: left !important;
+  // - 2 on the vertical padding to account for the border on the input counterpart (visual alignment)
+  // * 2 on the horizontal padding to account for the col-* spacing
+  .input-size(@input-height; @input-padding-vert - 2; @input-padding-horz * 2; @body-font-size; 1.5; 3px);
+
+  &.text-right {
+    text-align: right !important;
+  }
+}
+
+.form-group {
+  margin-bottom: @default-block-element-bottom-margin;
+  .make-row(@grid-gutter-width) !important;
+}
+
+.form-control, .form-control-static {
+  .input-size(@input-height; @input-padding-vert; @input-padding-horz; @body-font-size; @body-line-height; 3px);
+}
+
+.form-control {
+  .box-shadow(inset 0 3px 4px rgba(0,0,0,.085));
+  border-color: @g4-input-border-color;
+}
+
+form .btn-group .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-horizontal .form-control-static {
+  padding-top: (@input-padding-vert - 2);
+}
+
+.form-actions {
+  padding-top: @bootstrap-gutter-width;
+  text-align: center;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 2px 0 0; // bs override
+}
+
+
+input.ng-dirty, select.ng-dirty, textarea.ng-dirty {
+  border-color: @g4-input-border-color;
+  background-color: #fff;
+}
+
+input.ng-valid, select.ng-valid, textarea.ng-valid {
+  border-color: #393;
+  background-color: #efe;
+}
+
+input.ng-invalid, select.ng-invalid, textarea.ng-invalid {
+  border-color: #f66;
+  background-color: #ffeeee;
+}
+
+.default-input() {
+  border-color: @g4-input-border-color;
+  background-color: #fff;
+}
+
+input.ng-pristine, select.ng-pristine, textarea.ng-pristine {
+  .default-input();
+}
+
+input.ng-override, select.ng-override, textarea.ng-override {
+  .default-input() !important;
+}
+
+/* overwriting valid and dirty styles for list filter input */
+#g4-list-filter-input {
+  &.ng-valid,
+  &.ng-dirty {
+    background-color: #fff;
+    border-color: #C6C6C6;
+  }
+}
+#g4-list-filter-input {
+  &.ng-valid:focus,
+  &.ng-dirty:focus {
+    border-color: #66AFE9;
+  }
+}
+
+
+
+
+
+
+/* list filter box styles */
+.filter-box ul:first-child {
+  padding:0;
+  width:475px;
+  margin:0 auto;
+}
+
+.filter-box ul:last-child {
+  border-radius:0;
+}
+
+.filter-box label {
+  display:none;
+}
+
+.filter-box input {
+  height: 40px;
+  width: 380px !important;
+  line-height: 20px;
+  .font-size(18);
+  padding: 5px;
+  border-left: 1px solid #cccccc;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  margin:0 auto;
+  text-indent: 15px;
+}
+
+.filter-box button {
+  height:40px !important;
+  border:0;
+  border-top-right-radius:2px !important;
+  border-bottom-right-radius:2px !important;
+}
+
+.filter-box .filter-button {
+  position:absolute;
+  right:85px;
+  top:7px;
+  z-index:1;
+  color:#909090;
+  width:100%;
+  cursor:pointer;
+}
+
+.filter-box .filter-button + button {
+  max-width:75px;
+}
+
+.filter-box span.fa-search {
+  .font-size(8);
+}
+
+.filter-box .filter-button .fa-angle-down {
+  .font-size(4);
+  float:right;
+}
+
+.filter-box .filter-button p {
+  line-height:24px;
+  .font-size(4);
+  float:right;
+  margin-right:5px;
+}

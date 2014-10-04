@@ -1,0 +1,15 @@
+.idea
+bin
+_public
+node_modules
+bower_components
+/atlassian-ide-plugin.xml
+archive
+build
+release
+make_partials/overrides.mk
+test/coverage
+rpm
+module.spec
+make_partials/overrides.mk
+.DS_Store

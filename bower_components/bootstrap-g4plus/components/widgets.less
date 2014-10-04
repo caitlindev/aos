@@ -1,0 +1,46 @@
+.widget {
+  margin-bottom: @default-block-element-bottom-margin;
+
+  .widget-wrapper {
+    // wrap for the annoying .col-* bootstrap gutter padding
+    border-radius: 5px;
+  }
+
+  header.widget-header {
+    height: 35px;
+    padding: 5px 0;
+    border-bottom: 0;
+    .border-top-radius(5px);
+    overflow: hidden;
+
+    h2 {
+      height: 25px;
+      .font-size(16);
+      line-height: 23px;
+      color: lighten(@alg-blue, 10%);
+    }
+  }
+
+  section.widget-body {
+    min-height: 100px;
+  }
+
+  &.with-header {
+
+    // add padding to table-tools
+    .table-tools, header.widget-header {
+      padding-right: @bootstrap-gutter-width;
+      padding-left: @bootstrap-gutter-width;
+    }
+
+    header.widget-header {
+      background-color: darken(@light-blue, 5%);
+      border-bottom: 1px solid @td-cell-border-color;
+    }
+
+    table {
+      border-left: 0;
+      border-right: 0;
+    }
+  }
+}

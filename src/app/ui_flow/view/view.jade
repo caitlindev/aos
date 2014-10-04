@@ -1,0 +1,326 @@
+header
+  div.row.header_bar(ng-class="event.eventCode")
+    div.action_btns.col-sm-3.text-left
+      a.active(ng-click="goToPath($event, '/dashboard')")
+        i.fa.fa-angle-left &nbsp;&nbsp;
+        span Dashboard
+
+    div.row.col-sm-6
+      h1 {{event.eventCode.toUpperCase()}}
+
+    div.action_btns.col-sm-3.pull-right
+      div.btn-group.pull-right
+        button.btn.btn-action.btn-translucent.btn-default(ng-click="openDeleteModal()")
+          | Return to Service
+
+
+div.row#content_body
+  include ../partials/messages
+  section#view_info.padding-bottom-large
+    div.col-sm-3
+      div.img_container.view_thumb.pull-right
+        img(src="http://kmph.images.worldnow.com/images/23491452_BG1.jpg")
+    div.col-sm-6.font-16
+      div.col-sm-5.view_tail
+        h1 {{event.tailNbr}}
+      div.col-sm-7
+        h1 {{event.station.name.toUpperCase()}}  /&nbsp;
+          span.gate {{event.location}}
+
+      div.clearfix
+      p
+        | {{event.description}}
+
+    div.col-sm-2.pull-right
+      div.col-sm-4
+        a.active(ng-click="goToPath($event, '/edit/' + event.id)")
+          i.fa.fa-edit &nbsp;&nbsp;Edit
+      div.col-sm-4
+        a.active.margin-left(ng-click="")
+          i.fa.fa-print &nbsp;&nbsp;Print
+
+
+
+    div.clearfix.padding-bottom-large
+    section.padding-top-large
+      div.col-sm-3
+        div.view_icon_set.pull-right.text-center
+          div(g4-aos-indicators, list-data="event", class="indicator-container")
+          div.clearfix
+          button.margin-top.btn.btn-action.btn-solid.btn-default(ng-show="roadTrip==undefined", ng-click="goToPath($event, '/roadtrip/add/'+ event.id)")
+              | + Road Trip
+          button.margin-top.btn.btn-action.btn-solid.btn-default(ng-show="roadTrip!=undefined", ng-click="goToPath($event, '/roadtrip/view/' + event.id)")
+            | View Road Trip
+
+      div.col-sm-3.view_codes
+        p.col-sm-5 Event Code:
+        h2
+          strong.col-sm-6 {{event.eventCode.toUpperCase()}}
+        div.clearfix
+        p.col-sm-5 ATA Code:
+        h2
+          strong.col-sm-6(ng-repeat="code in event.ataCode") {{code.chapter}}{{code.section}}
+        div.clearfix
+        p.col-sm-5 Root Cause:
+        h2
+          strong.col-sm-6 {{event.rootCause.toUpperCase()}}
+        div.clearfix
+        p.col-sm-5 Start Time:
+        h2
+          strong.col-sm-6
+            span(g4-unix-timestamp-converter="", formatting="HH:mm", duration-or-conversion="conversion", timestamp="event.createdUnixTimestamp", event="event")
+            span Z
+
+      div.col-sm-3
+        div.view_flight_info
+          div.col-sm-3
+            i.fa.fa-plane.muted
+          div.col-sm-9
+            p {{event.flightInfo.routes[2].currentInfo.flightNbr}}
+            h2
+              strong(g4-unix-timestamp-converter="", formatting="MM/DD[•]HH:mm", duration-or-conversion="conversion", timestamp="event.flightInfo.routes[0].departureInfo.scheduledDepartureUnixTimestamp",event="event")
+            p {{event.status.toUpperCase()}}
+            h2
+              strong(ng-if="event.status.toUpperCase()=='ADV'", g4-unix-timestamp-converter="", formatting="MM/DD[•]HH:mm", duration-or-conversion="conversion", timestamp="event.advisoryUnixTimestamp",event="event")
+              strong(ng-if="event.status.toUpperCase()=='ETR'", g4-unix-timestamp-converter="", formatting="MM/DD[•]HH:mm", duration-or-conversion="conversion", timestamp="event.etrUnixTimestamp",event="event")
+          div.clearfix
+
+
+      div.col-sm-3
+        div.view_etr.margin-top-large
+          div.col-sm-12
+            i.fa.fa-clock-o.muted.pull-left.margin-bottom-large
+            p.time(g4-unix-timestamp-converter="", formatting="", duration-or-conversion="duration", timestamp="elapsedTime", event="event")
+          div.clearfix
+
+
+
+  div.clearfix.padding-bottom-large
+  div.border-top.border-bottomdiv(g4-routing, list-data="event")
+
+  div.clearfix.padding-bottom-large
+  div.padding-top-large#comments.normal
+    section.widget
+      section.widget-body.col-sm-12
+
+        div(g4-comments, config="commentConfig", template-dir="v2")
+
+  div.margin-top
+
+
+
+
+
+  div.clearfix.padding-bottom-large
+    div.margin-top
+
+  div.padding-top-large#view_station_info
+    section.widget
+      section.widget-body.col-sm-12
+
+        h2
+          i.fa.fa-wrench
+          strong &nbsp;Station Information
+        hr
+
+        div.pull-left
+          ul
+            li
+              strong Station Name
+            li
+              span {{event.station.name.toUpperCase()}}
+            li.clearfix
+              strong Manager Contact Name
+            li
+              span {{event.station.stationManager.firstName}} {{event.station.stationManager.lastName}}
+            li.clearfix
+              strong Manager Phone #
+            li
+              span {{event.station.stationManager.phone}}
+            li.clearfix
+              strong Address
+            li
+              span {{event.station.stationManager.address}} {{event.station.stationManager.city}}, {{event.station.stationManager.state}} {{event.station.stationManager.zip}}
+            li
+
+
+          div.margin-top-large
+          ul
+            li.clearfix
+              strong On-call Contact Name
+            li
+              span {{event.station.stationManager.firstName}} {{event.station.stationManager.lastName}}
+            li.clearfix
+              strong On-call Phone #
+            li
+              span {{event.station.stationManager.phone}}
+            li.clearfix
+              strong Address
+            li
+              span {{event.station.stationManager.address}} {{event.station.stationManager.city}}, {{event.station.stationManager.state}} {{event.station.stationManager.zip}}
+            li.clearfix
+
+
+        div.pull-right
+          ul(ng-repeat="vendor in event.station.mxVendor")
+            li
+              strong Vendor Name
+            li
+              span {{vendor.name}}
+            li.clearfix
+              strong Vendor Contact Name
+            li
+              span {{vendor.contactFirstName}} {{vendor.contactLastName}}
+            li.clearfix
+              strong Phone #
+            li
+              span {{vendor.phone}}
+            li.clearfix
+              strong Fax #
+            li
+              span {{vendor.phone}}
+            li.clearfix
+              strong Contract
+            li
+              span {{vendor.contract}}
+            li.clearfix
+              strong Address
+            li
+              span {{vendor.address}} {{vendor.city}}, {{vendor.state}} {{vendor.zip}}
+            li.clearfix
+
+
+
+
+
+  div.clearfix.padding-bottom-large
+    div.margin-top
+
+  div.padding-top-large#parts(ng-show="event.parts.length && event.parts[0].id!=null")
+    section.widget
+      section.widget-body.col-sm-12
+
+        h2
+          i.fa.fa-wrench
+          strong &nbsp;Parts
+
+        table.table-lined.border
+          thead
+            tr.header_bar
+              th.normal Part Number
+              th.normal.border-left QTY
+              th.normal.border-left Description
+              th.normal.border-left Status
+          tbody
+            tr(ng-repeat="part in event.parts")
+              td {{part.part}}
+              td.border-left {{part.qty}}
+              td.border-left {{part.description}}
+              td.border-left {{part.status}}
+
+
+
+
+  div.clearfix.padding-bottom-large
+    div.margin-top
+
+  div.padding-top-large#tail_history(ng-show="event.versionInfo.length")
+    section.widget
+      section.widget-body.col-sm-12
+
+        h2
+          i.fa.fa-plane
+          strong &nbsp;Event History
+
+
+        ul.clearfix.border
+          li.header_bar
+            div.td.narrow
+              h3.bold Status
+            div.td.medium
+              h3.bold Hours
+            div.td.medium
+              h3.bold Start Time
+            div.td.wide
+              h3.bold Time in Status
+            div.td.medium
+              h3.bold Reporter
+            div.td.wide
+              h3.bold Description
+            span.clearfix
+
+          li.tr(ng-repeat="version in event.versionInfo")
+            div.td.narrow.bold {{version[0].status.toUpperCase()}}
+              a.pull-right(ng-init="isCollapsed = true", ng-click="isCollapsed = !isCollapsed")
+                i.fa.fa-angle-right(class="{{collapsedIcon(isCollapsed)}}")
+            div.td.medium(g4-unix-timestamp-converter="", formatting="HH:mm", duration-or-conversion="duration", timestamp="version[0].duration",event="event")
+            div.td.medium(g4-unix-timestamp-converter="", formatting="MM/DD/YY HH:mm", duration-or-conversion="conversion", timestamp="version[0].createdUnixTimestamp",event="event")
+            div.td.wide
+              progressbar.progress-striped.active(value='version[0].durationPercentage', type='warn')
+              h3.margin-none.padding-none {{version[0].durationPercentage}} %
+            div.td.medium {{version[0].createdBy.fullName}}
+            div.td.wide {{version[0].description}}
+            span.clearfix
+
+            ol.border-top(collapse="isCollapsed", class="{{isCollapsed}}")
+              li.tr(ng-repeat="item in version", ng-show="version.length > 1")
+                div(ng-show="$index > 0")
+                  div.td.wide John Smith
+                  div.td.wider {{item.description}}
+                  div.td.wide(g4-unix-timestamp-converter="", formatting="MM/DD/YY HH:mm", duration-or-conversion="conversion", timestamp="item.createdUnixTimestamp",event="event")
+                  span.clearfix
+
+          li.clearfix
+
+
+  div.clearfix.padding-bottom-large
+  div#uploads
+    div.padding-top-large.col-sm-12#documents_upload
+      section.widget
+        section.widget-body.col-sm-12
+
+          h2
+            i.fa.fa-file-o
+            strong &nbsp;Documents
+            .margin-top.btn.btn-action.btn-solid.btn-default.pull-right.btn-upload(ng-file-select='onFileSelect($files)', onclick='this.value=null')
+              | + Document
+
+          table.table-lined.border-none
+            tbody
+              tr(ng-repeat="doc in event.documents")
+                td.border-bottom
+                  a(ng-click, href="{{doc.path}}", target="_blank") {{doc.name}}
+                  span.small &nbsp;&nbsp;|&nbsp;&nbsp;
+                  span.small(g4-unix-timestamp-converter="", formatting="MM/DD/YY HH:mm", duration-or-conversion="conversion", timestamp="doc.createdUnixTimestamp",event="event")
+                td.border-bottom
+                  a.pull-right(ng-click, href="{{doc.path}}", target="_blank")
+                    i.fa.fa-upload
+              tr(ng-hide="event.documents")
+                td.border-bottom
+                  | No documents added yet.
+
+
+
+
+    //div.padding-top-large.col-sm-5.pull-right#media_upload
+    //  section.widget
+    //    section.widget-body.col-sm-12
+    //
+    //      h2
+    //        i.fa.fa-file
+    //        strong &nbsp;Media
+    //        .margin-top.btn.btn-action.btn-solid.btn-default.pull-right.btn-upload(ng-file-select='onFileSelect($files)', onclick='this.value=null')
+    //          | + Media
+    //
+    //      table.table-lined.border-none
+    //        tbody
+    //          tr(ng-repeat="doc in event.documents", ng-show="getAttachmentType(doc.path).images")
+    //            td.border-bottom
+    //              a(ng-click, href="{{doc.path}}", target="_blank") {{doc.name}}
+    //            td.border-bottom {{doc.createdUnixTimestamp}}
+    //            td.border-bottom
+    //              a(ng-click, href="{{doc.path}}", target="_blank")
+    //                i.fa.fa-upload
+    //          tr(ng-show="!imagesInMedia")
+    //            td.border-bottom
+    //              | No images added yet.

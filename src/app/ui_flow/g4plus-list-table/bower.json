@@ -1,0 +1,19 @@
+{
+    "name": "g4plus-list-table",
+    "version": "1.0.4",
+    "authors": [
+        "Allegiant"
+    ],
+    "description": "G4Plus List Table Directive",
+    "main": [
+        "./src/list-table.coffee"
+    ],
+    "private": true,
+
+    "devDependencies": {
+        "jquery": "~1.10.0",
+        "angular-bootstrap": "~0.9.0",
+        "angular": "1.2.7",
+        "angular-mocks": "1.2.7"
+    }
+}

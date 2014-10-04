@@ -1,0 +1,36 @@
+{
+  "author": "Nathan Anthony Sculli",
+  "name": "g4plus-list-filter-directive",
+  "description": "G4PLUS List Filter Directive",
+  "version": "0.0.5",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git.allegiantair.com:7999/BC/g4plus-list-filter-directive.git"
+  },
+  "scripts": {
+    "preinstall": "rm -rf node_modules bower_components",
+    "postinstall": "node_modules/.bin/bower install",
+    "start": "node_modules/.bin/brunch watch --server",
+    "test": "node_modules/.bin/karma start test/karma.conf.js"
+  },
+  "dependencies": {
+    "jade": "~0.35",
+    "coffee-script": "~1.6",
+    "karma": ">=0.11",
+    "karma-ng-scenario": "~0.1",
+    "bower": "~1.2",
+    "karma-cli": "0.0.3",
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.1.3",
+    "karma-requirejs": "~0.1.0",
+    "karma-coffee-preprocessor": "~0.1.0",
+    "karma-phantomjs-launcher": "~0.1.0"
+  },
+  "devDependencies": {
+    "karma-coverage": "~0.1.5"
+  }
+}

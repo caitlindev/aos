@@ -1,0 +1,31 @@
+#forbidden_container {display:block; position:relative; width:600px; height:250px; background:#fff; margin-bottom:100px; border-bottom: 0px; text-decoration: none; }
+#forbidden_container span { border-bottom: 0px; }
+#pencil {display:block; position:absolute; width:32px; background:#fff; left:0; top:0;
+    -webkit-transition: 0.6s;
+    -moz-transition: 0.6s;
+    -o-transition: 0.6s;
+    transition: 0.6s;
+}
+#cap {display:block; width:32px; height:5px; background:#963;  border-bottom:2px solid #000; overflow:hidden;}
+.penl {display:block; position:relative; width:8px; height:170px; background:#5A79AB; overflow:hidden; float:left;}
+#penm {display:block; position:relative; width:16px; height:170px; background:#244d90; overflow:hidden; float:left;}
+.penlbot {display:block; width:0; height:0; border-top:4px solid #5A79AB; border-left:4px solid #fc3; border-right:4px solid #fc3; position:absolute; bottom:0; left:0; overflow:auto;}
+.penmbot {display:block; width:0; height:0; border-top:4px solid #244d90; border-left:8px solid #fc3; border-right:8px solid #fc3; position:absolute; bottom:0; left:0; overflow:auto;}
+#pencut {display:block; clear:both; width:32px; height:0; border-top:15px solid #fc3; border-left:8px solid #fff; border-right:8px solid #fff; overflow:hidden;}
+.pennib {display:block; width:8px; height:15px; background:#fff; float:left; overflow:hidden;}
+#lead {display:block; width:0; height:0; border-top:15px solid #000; border-left:8px solid #fff; border-right:8px solid #fff; overflow:hidden; float:left;}
+#line {display:block; width:0; height:20px; background:#fff; border-top:2px solid #fff; position:absolute; top:206px; left:17px; text-decoration: none; overflow: hidden;
+    -webkit-transition: width 0.6s;
+    -moz-transition: width 0.6s;
+    -o-transition: width 0.6s;
+    transition: width 0.6s;
+}
+
+a#drawing, a#drawing:visited {color:#244d90; background:#fff; display:block; width:600px; margin:80px auto 0 auto;}
+
+a#drawing:hover {color:#000; background:#fffffe; cursor:pointer;}
+a#drawing:hover #forbidden_container #pencil {position:absolute; left:568px; top:0;}
+a#drawing:hover #forbidden_container #line {border-top:2px solid #000; width:568px;}
+
+#drawing { display: none !important; }
+.msgWrap { min-height: 25px; }

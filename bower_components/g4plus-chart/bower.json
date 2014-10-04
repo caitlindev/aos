@@ -1,0 +1,21 @@
+{
+  "name": "g4plus-chart",
+  "version": "1.0.0",
+  "authors": [
+    "Allegiant"
+],
+  "description": "Chart directive",
+  "main": [
+    "assets",
+    "./d3/**/*.*",
+    "./d3-tip/**/*.*",
+    "./src/chart-directive.coffee",
+    "./chart.less",
+    "./services/chart-service.coffee"
+
+  ],
+  "private": true,
+  "authors": [
+    "Allegiant"
+]
+}

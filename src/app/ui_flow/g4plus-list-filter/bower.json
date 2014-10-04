@@ -1,0 +1,20 @@
+{
+    "name": "g4plus-list-filter",
+    "version": "0.0.5",
+    "authors": [
+        "Allegiant"
+    ],
+    "description": "G4Plus List Filter Directive",
+    "main": [
+        "./src/list-filter.coffee"
+    ],
+    "private": true,
+
+    "devDependencies": {
+        "jquery": "~1.10.0",
+        "angular-bootstrap": "~0.9.0",
+        "angular": "~1.2.13",
+        "angular-mocks": "~1.2.13",
+        "g4plus-autofocus-directive": "ssh://git@git.allegiantair.com:7999/BC/g4plus-autofocus-directive.git"
+    }
+}

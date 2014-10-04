@@ -1,0 +1,15 @@
+.activity_routing.margin-top.carousel
+
+  // Wrapper for slides
+  carousel
+    slide.aircraft-track-slide(ng-repeat="flight in flightDays track by $index", active="flight.active")
+      .aircraft-track-item
+        .aircraft_track
+          ul.flight-events.kpi_icons
+            li.flight-event.icons_kpi(ng-repeat="flightEvent in flight track by $index" ng-class="bulletClass($parent.$index, $index)" ng-style="bulletPosition($index, flight.length)")
+              .flight-event__time {{flightEvent.time}}
+              .flight-event__station {{flightEvent.station}}
+          div(ng-if="$index==currentFlightIndex")
+            i.icons_aircraft(tooltip-trigger='mouseenter' tooltip-append-to-body='true' tooltip-placement='bottom' tooltip-html-unsafe='{{live_flight_data}}' ng-style="aircraftPosition(flight.length)")
+            .aircraft_track.green-aircraft-track(ng-style="greenTrackWidth(flight.length)")
+            .aircraft_track.red-aircraft-track(ng-style="redTrackPosition(flight.length)")

@@ -1,0 +1,26 @@
+{
+  "name": "g4plus-forbidden",
+  "version": "0.0.1",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus Forbidden Directive",
+  "main": [
+    "./src/forbidden.coffee",
+    "./src/forbidden.css"
+  ],
+  "private": true,
+  "dependencies": {
+    "angular": "1.2",
+    "angular-bootstrap": "~0.9.0",
+    "angular-ui-router": "0.2",
+    "angular-route": "1.2",
+    "lodash": "~2.2.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.7"
+  },
+  "resolutions": {
+    "angular": "1.2.7"
+  }
+}

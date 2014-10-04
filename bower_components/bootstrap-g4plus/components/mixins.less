@@ -1,0 +1,52 @@
+// G4Plus Mixins
+
+.font-size(@font-size) {
+  font-size : (@font-size) * 1px; // For IE8 support
+  font-size : (@font-size/@html-base-font-size) * 1rem;
+}
+
+.font-size-important(@font-size) {
+  font-size : (@font-size) * 1px !important; // For IE8 support
+  font-size : (@font-size/@html-base-font-size) * 1rem !important;
+}
+
+
+.sans-serif() {
+  font-family: "Helvetica-Light", Arial, sans-serif;
+}
+
+.line-height-calc(@font-size){
+  line-height: @font-size + ceil(@font-size * 0.25);
+}
+
+.light-gray-bottom-border(@border-thickness) {
+  border: @border-thickness solid @light-gray-border;
+}
+
+.font-multi-declaration(@font-size: @body-font-size, @font-weight: normal){
+  font-size: @font-size;
+  font-weight: @font-weight;
+  .line-height-calc(@font-size);
+}
+
+.tablecell-border-top-radius(@border-radius) {
+  // top left
+  thead tr:first-child th:first-child {
+    border-radius: @border-radius 0 0 0;
+  }
+  // top right
+  thead tr:first-child th:last-child {
+    border-radius: 0 @border-radius 0 0;
+  }
+}
+
+.tablecell-border-bottom-radius(@border-radius) {
+  // bottom left
+  tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 @border-radius;
+  }
+  // bottom right
+  tbody tr:last-child td:last-child {
+    border-radius: 0 0 @border-radius 0;
+  }
+}

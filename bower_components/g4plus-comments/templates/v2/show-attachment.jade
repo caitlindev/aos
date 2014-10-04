@@ -1,0 +1,5 @@
+div
+  span(ng-hide='currentFile.ref', ng-transclude='')
+  span.comment-attachment__filename(ng-show='currentFile.ref')
+    a.fa-textlink(x-ng-href='{{ getDownloadUrl() }}', target='_blank', ng-click='$event.stopPropagation()')
+      span.fa-textlink__text {{ currentFile.name }}

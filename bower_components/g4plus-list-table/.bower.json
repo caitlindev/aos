@@ -1,0 +1,26 @@
+{
+  "name": "g4plus-list-table",
+  "authors": [
+    "Allegiant"
+  ],
+  "description": "G4Plus List Table Directive",
+  "main": [
+    "./src/list-table.coffee"
+  ],
+  "private": true,
+  "devDependencies": {
+    "jquery": "~1.10.0",
+    "angular-bootstrap": "~0.9.0",
+    "angular": "1.2.7",
+    "angular-mocks": "1.2.7"
+  },
+  "_release": "9ad3ee5cbc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9ad3ee5cbcda516d3c18357bf223fe66a7d3ee26"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/BC/g4plus-list-table-directive.git",
+  "_target": "master",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/BC/g4plus-list-table-directive.git"
+}

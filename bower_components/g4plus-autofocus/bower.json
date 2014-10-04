@@ -1,0 +1,19 @@
+{
+    "name": "g4plus-autofocus",
+    "version": "0.0.1",
+    "authors": [
+        "Allegiant"
+    ],
+    "description": "G4Plus Autofocus Directive",
+    "main": [
+        "./src/autofocus.coffee"
+    ],
+    "private": true,
+
+    "devDependencies": {
+        "jquery": "~1.10.0",
+        "angular-bootstrap": "~0.9.0",
+        "angular": "~1.2",
+        "angular-mocks": "~1.2"
+    }
+}

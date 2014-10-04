@@ -1,0 +1,34 @@
+@default-nav-border-color: #ccc;
+
+.nav {
+  > li {
+    > a {
+      padding: @bootstrap-gutter-width/2 @bootstrap-gutter-width;
+      cursor: pointer;
+    }
+  }
+}
+
+.tab-content-contained {
+
+  .nav-tabs li {
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        border: 1px solid @default-nav-border-color;
+        border-bottom-color: transparent;
+      }
+    }
+  }
+
+  .tab-content {
+    border: 1px solid @default-nav-border-color;
+    border-top-color: transparent;
+  }
+
+  .tab-wrapper {
+    padding: @bootstrap-gutter-width/2;
+  }
+
+}

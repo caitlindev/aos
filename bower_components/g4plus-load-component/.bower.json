@@ -1,0 +1,32 @@
+{
+  "name": "g4plus-load-component",
+  "authors": [
+    "Taylor Kaplan <taylor.kaplan@allegiantair.com>"
+  ],
+  "description": "Contains directive for loading components",
+  "main": "./src/loadComponent.coffee",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test/*spec.js",
+    "src/*.js"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "angular-mocks": "1.2.12",
+    "g4plus-retry-call": "ssh://git@git.allegiantair.com:7999/BC/g4plus-retry-call.git",
+    "angular": "1.2.12",
+    "angular-bootstrap": "~0.9.0"
+  },
+  "_release": "2236110d75",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2236110d7516484cdbfdcccb2eb9739e9d657fb9"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/BC/g4plus-load-component.git",
+  "_target": "*",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/BC/g4plus-load-component.git"
+}

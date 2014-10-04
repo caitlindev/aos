@@ -1,0 +1,49 @@
+.modal-header
+  button.close(type="button", data-dismiss="modal", aria-hidden="true", ng-click="cancel()")
+    i.fa.fa-times-circle
+  h1.alg-blue Select ATA Code
+.modal-body
+
+
+  div(ng-if="parentCodes.length == 0")
+    table.table-lined.table-condensed
+      thead
+        tr.header_bar
+          th.narrow Chapter
+          th.medium Title
+          th.narrow
+
+      tbody(ng-repeat="code in ataCodes | startFrom:(pagination.page-1)*10 | limitTo:pagination.pageSize", ng-animate="{move: 'move-animation'}")
+        tr
+          td.narrow {{code.id}}
+          td.medium {{code.title}}
+          td.narrow.text-right
+            a(ng-click="getChildCodes(code)") Select
+
+
+  div(ng-if="parentCodes.length > 0")
+    div.btn-group.pull-right
+      button.btn.btn-action.btn-solid.btn-default(ng-click="getParentCodes()")
+        | < Back
+
+    table.table-lined
+      thead
+        tr.header_bar
+          th.narrow Chapter
+          th.narrow Title
+          th.medium
+
+      tbody(ng-repeat="code in ataCodes | startFrom:(pagination.page-1)*10 | limitTo:pagination.pageSize", ng-animate="{move: 'move-animation'}")
+        tr
+          td.narrow {{code.id}}
+          td.narrow {{code.aircraftTypeText}}
+          td.medium.text-left
+            a(ng-click="getChildCodes(code)") {{code.title}}
+
+
+
+  div.col-md-4(g4-pagination-message="", current-page="pagination.page", page-size="10", total-items="parentATAcodes.length")
+  div.col-md-8.no-right-padding(g4-pagination-navigation="", current-page="pagination.page", total-pages="pagination.totalPages", page-change="pagination.pageChange")
+
+.modal-footer.no-top-margin.white-footer
+  button.btn.btn-default.pull-right.modal-cancel-button(ng-click="cancel()") Cancel

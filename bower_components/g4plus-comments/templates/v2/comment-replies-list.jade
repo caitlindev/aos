@@ -1,0 +1,15 @@
+ul.comment-list.list-unstyled.comment-replies-list
+  li.comment-item.reply-item.comment-reply(ng-repeat='reply in comment.replies | orderBy: "dateCreatedTimestamp"')
+    .comment.media
+      div.comment-attachment.pull-left(id="attach_{{reply.id}}", ng-if='reply.attachments.length')
+        img.comment-attachment__image.media-object(src='//placehold.it/80')
+        div(g4-file-info-custom='reply.attachments[0]') {{ reply.attachments[0].name }}
+        a.comment-attachment__delete(href='javascript:void(0)', ng-click='deleteAttachment(reply, "v2", comment)', ng-show='canDeleteAttachment(reply)', title='Delete attachment') ×
+      .media-body
+        .comment-header.clearfix
+          small.pull-left
+            span.comment-number Reply {{$index + 1}} of {{comment.replies.length}}:&nbsp;
+            span.comment-author-date
+              span.comment-author {{reply.creatingUser.fullName}}
+              time.timeago {{ formatDate(reply.dateCreatedTimestamp) }}
+        p.comment-body {{reply.text}}

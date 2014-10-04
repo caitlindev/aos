@@ -1,0 +1,36 @@
+.g4-mapbox-wrap {
+  position: relative;
+}
+#dashboard_map {
+  width:92%;
+  min-height:440px;
+  @media only screen and (min-device-height: 800px) {
+    min-height: 480px;
+  }
+  @media only screen and (min-device-height: 1200px) {
+    min-height: 600px;
+  }
+  background-color: transparent;
+  margin: 1.0em auto;
+  border-bottom: solid 1px #6683B2;
+  .tailMarker {
+    background-image: url("/img/airplane-marker.png");
+    @media
+    only screen and (-webkit-min-device-pixel-ratio : 1.5),
+    only screen and (min-device-pixel-ratio : 1.5) {
+      background-image: url("/img/airplane-marker@2x.png")
+    }
+  }
+  .leaflet-popup-content-wrapper {
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    .popupWrap {
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}

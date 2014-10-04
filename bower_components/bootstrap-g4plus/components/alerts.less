@@ -1,0 +1,36 @@
+// These styles solve the issue of not using .alert-dismissable
+// and putting the .close button at the bottom.
+.alert {
+  position: relative;
+  padding-right: @bootstrap-gutter-width + 5px;
+  color:#ed1c24;
+  background:white;
+  font-family: "Helvetica-Bold", Arial, sans-serif;
+
+  .close {
+    position: absolute;
+    top: (@bootstrap-gutter-width/2);
+    right: (@bootstrap-gutter-width);
+  }
+}
+
+.alert.alert-info {
+  border:solid 2px #31708f;
+  color:#31708f;
+}
+
+.alert.alert-success {
+  border:solid 2px #50b515;
+  color:#50B515;
+}
+
+.alert.alert-danger {
+  border:solid 2px #ed1c24;
+  color:#ed1c24;
+}
+
+.alert.alert-warning {
+  border:solid 2px #8a6d3b;
+  color:#8a6d3b;
+}
+

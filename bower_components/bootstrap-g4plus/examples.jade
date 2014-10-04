@@ -1,0 +1,277 @@
+//- Set tab lengths to 2
+//- Chaining is the preferred way of adding classes to element.
+header.page-header
+  div.row
+    div.col-xs-2
+      a.btn.btn-success
+        i.icon-plus &nbsp;
+        != 'Add Task Card'
+    h1.col-xs-8.text-center
+      span Fleet:
+      != ' Airbus 320 Family'
+      != 'Fleet: Aurbus 320 Family'
+    div.col-xs-2.text-right
+      div.btn-group
+        button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Actions&nbsp;
+            span.caret
+        ul.dropdown-menu.no-padding.pull-right.text-left
+          li
+            a(href="#")
+              i.icon-plus
+              != ' Add Task Card'
+          li
+            a(href="#")
+              i.icon-question-sign
+              != ' Help'
+
+div(class="row")
+  section(class="widget with-header col-md-12")
+    div(class="widget-wrapper")
+      header(class="widget-header")
+        h2
+          != ' Information'
+      section(class="widget-body")
+        form(class="form-horizontal clearfix pad-top")
+          fieldset(class="col-md-8")
+            div(class="form-group")
+              label(class="col-md-2") Title:
+              div(class="col-md-9")
+                input(type="text", class="form-control")
+            div(class="form-group")
+              label(class="col-md-2") Category:
+              div(class="col-md-4 no-right-padding")
+                div(class="input-group")
+                  span(class="input-group-addon")
+                    i(class="icon-envelope")
+                  input(type="text", class="form-control")
+              div(class="col-md-1 no-left-padding")
+                  button(class="btn btn-primary")
+                    i(class="icon-search")
+                    != ' Find'
+            div(class="form-group")
+              label(class="col-md-2") ATA:
+              div(class="col-md-4")
+                input(type="text", class="form-control")
+            div(class="form-group")
+              label(class="col-md-2") Zones:
+              div(class="col-md-9")
+                input(type="text", class="form-control")
+            div(class="form-group")
+              label(class="col-md-2") Panel:
+              div(class="col-md-9")
+                input(type="text", class="form-control")
+
+          fieldset(class="col-md-4")
+            p Fields on the right.
+
+          fieldset(class="col-md-12 form-actions pad-bottom")
+            input(type="submit", class="btn btn-success pull-left")
+            a(href="#", class="btn btn-default pull-left margin-left") Cancel
+
+          fieldset(class="col-md-12 form-actions pad-bottom")
+            input(type="submit", class="btn btn-success pull-right")
+            a(href="#", class="btn btn-default pull-right margin-right") Cancel
+
+div(class="row")
+    section(class="widget col-md-12")
+        section(class="widget-body")
+            p Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed molestie augue sit amet leo consequat posuere. Vestibulum ante ipsum primis in.
+
+div(class="row")
+    section(class="widget with-header col-md-12")
+        div(class="widget-wrapper")
+            header(class="widget-header")
+                h2 My Header Two
+            section(class="widget-body")
+                p(class="col-md-12 pad-top") Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed molestie augue sit amet leo consequat posuere. Vestibulum ante ipsum primis in.
+
+
+header(class="page-header")
+    div(class="row")
+        h1(class="col-xs-8")
+            != ' Program Task Cards'
+        div(class="col-xs-4 text-right")
+            div(class="btn-group")
+                button(class="btn btn-success btn-sm dropdown-toggle", data-toggle="dropdown") Actions&nbsp;
+                    span(class="caret")
+                ul(class="dropdown-menu no-padding pull-right text-left")
+                    li
+                        a(href="#")
+                            i(class="icon-plus")
+                            != ' Add Task Card'
+                    li
+                        a(href="#") Help
+                            i(class="icon-question-sign")
+                            != ' Help'
+div(class="row")
+    p(class="text-muted col-md-12") Example widget without a header.
+    section(class="widget col-md-12")
+        div(class="widget-wrapper")
+            //header(class="widget-header")
+                h2 Program Task Cards
+            section(class="widget-body")
+                form(class="table-tools form-horizontal row no-left-padding no-right-padding")
+                    fieldset
+                        ul(class="horizontal col-md-12")
+                            li
+                                div(class="btn-group text-left")
+                                    button(class="btn btn-default btn-sm dropdown-toggle", data-toggle="dropdown") Select Fleet&nbsp;
+                                        span(class="caret")
+                                    ul(class="dropdown-menu no-padding pull-left")
+                                        li
+                                            a(href="#") Fleet 1
+                                        li
+                                            a(href="#") Fleet 2
+                            li
+                                select(id="items-per-page", class="form-control")
+                                    option 10
+                                    option 25
+                                    option 50
+                                    option 100
+                                != '&nbsp;'
+                                label(for="items-per-page", class="control-label no-left-padding") Items per page
+                            li(class="pull-right")
+                                label(for="table-filter", class="control-label text-right", ) Filter:
+                                input(id="table-filter", type="text", class="form-control")
+
+                table(class="table-lined rounded")
+                    thead
+                        tr
+                            th(scope="col") A/C Type
+                            th(scope="col") Chapter
+                            th(scope="col") Title
+                            th(scope="col") Effective Date
+                            th(scope="col") Continue Date
+                            th(scope="col", class="actions")
+                    tbody
+                        tr(ng-repeat="card in taskcards")
+                            td {{card.aircraftTypeText||'All'}}
+                            td {{card.ataCode}}
+                            td {{card.title}}
+                            td {{card.effectiveDate||'--'}}
+                            td {{card.ContinueDate||'--'}}
+                            td
+                                a(href="/ataAdmin/view/{{card.ataCode}}") view &raquo; &nbsp;
+                                a(href="/ataAdmin/view/{{card.ataCode}}") edit &raquo;
+                        tr(ng-repeat="card in taskcards")
+                            td {{card.aircraftTypeText||'All'}}
+                            td {{card.ataCode}}
+                            td {{card.title}}
+                            td {{card.effectiveDate||'--'}}
+                            td {{card.ContinueDate||'--'}}
+                            td
+                                a(href="/ataAdmin/view/{{card.ataCode}}") view &raquo; &nbsp;
+                                a(href="/ataAdmin/view/{{card.ataCode}}") edit &raquo;
+                div(class="table-tools clearfix")
+                    p(class="pull-left")
+                        strong Showing 1 of n Entries
+                    ul(class="pagination pagination-sm pull-right")
+                        li
+                            a(href="#") &larr; Prev
+                        li
+                            a(href="#") 1
+                        li
+                            a(href="#") 2
+                        li
+                            a(href="#") 3
+                        li
+                            a(href="#") 4
+                        li
+                            a(href="#") Next &rarr;
+
+div(class="row")
+    p(class="text-muted col-md-12 no-padding-left") Example widget with a header.
+    section(class="widget with-header col-md-10")
+        div(class="widget-wrapper")
+            header(class="widget-header")
+                h2 Program Task Cards
+
+            section(class="widget-body")
+                form(class="table-tools form-horizontal row no-left-padding no-right-padding")
+                    fieldset
+                        ul(class="horizontal col-md-12")
+                            li
+                                div(class="btn-group text-left")
+                                    button(class="btn btn-default btn-sm dropdown-toggle", data-toggle="dropdown") Select Fleet&nbsp;
+                                        span(class="caret")
+                                    ul(class="dropdown-menu no-padding pull-left")
+                                        li
+                                            a(href="#") Fleet 1
+                                        li
+                                            a(href="#") Fleet 2
+                            li
+                                select(id="items-per-page", class="form-control")
+                                    option 10
+                                    option 25
+                                    option 50
+                                    option 100
+                                != '&nbsp;'
+                                label(for="items-per-page", class="control-label no-left-padding") Items per page
+                            li(class="pull-right")
+                                label(for="table-filter", class="control-label text-right", ) Filter:
+                                input(id="table-filter", type="text", class="form-control")
+
+                table(class="table-lined")
+                    thead
+                        tr
+                            th(scope="col") A/C Type
+                            th(scope="col") Chapter
+                            th(scope="col") Title
+                            th(scope="col") Effective Date
+                            th(scope="col") Continue Date
+                            th(scope="col", class="actions")
+                    tbody
+                        tr(ng-repeat="card in taskcards")
+                            td {{card.aircraftTypeText||'All'}}
+                            td {{card.ataCode}}
+                            td {{card.title}}
+                            td {{card.effectiveDate||'--'}}
+                            td {{card.ContinueDate||'--'}}
+                            td
+                                a(href="/ataAdmin/view/{{card.ataCode}}") view &raquo; &nbsp;
+                                a(href="/ataAdmin/view/{{card.ataCode}}") edit &raquo;
+                        tr(ng-repeat="card in taskcards")
+                            td {{card.aircraftTypeText||'All'}}
+                            td {{card.ataCode}}
+                            td {{card.title}}
+                            td {{card.effectiveDate||'--'}}
+                            td {{card.ContinueDate||'--'}}
+                            td
+                                a(href="/ataAdmin/view/{{card.ataCode}}") view &raquo; &nbsp;
+                                a(href="/ataAdmin/view/{{card.ataCode}}") edit &raquo;
+
+    section(class="widget col-md-6")
+        p(class="text-muted col-md-12") Example widget without a header.
+        div(class="widget-wrapper")
+            header(class="widget-header")
+                h2 Program Task Cards
+
+            section(class="widget-body")
+                table(class="table-lined side-table")
+                    thead
+                        tr
+                            th(scope="col") A/C Type
+                            th(scope="col") Chapter
+                            th(scope="col") Title
+                            th(scope="col") Effective Date
+                            th(scope="col") Continue Date
+                            th(scope="col", class="actions")
+                    tbody
+                        tr(ng-repeat="card in taskcards")
+                            td {{card.aircraftTypeText||'All'}}
+                            td {{card.ataCode}}
+                            td {{card.title}}
+                            td {{card.effectiveDate||'--'}}
+                            td {{card.ContinueDate||'--'}}
+                            td
+                                a(href="/ataAdmin/view/{{card.ataCode}}") view &raquo; &nbsp;
+                                a(href="/ataAdmin/view/{{card.ataCode}}") edit &raquo;
+                        tr(ng-repeat="card in taskcards")
+                            td {{card.aircraftTypeText||'All'}}
+                            td {{card.ataCode}}
+                            td {{card.title}}
+                            td {{card.effectiveDate||'--'}}
+                            td {{card.ContinueDate||'--'}}
+                            td
+                                a(href="/ataAdmin/view/{{card.ataCode}}") view &raquo; &nbsp;
+                                a(href="/ataAdmin/view/{{card.ataCode}}") edit &raquo;

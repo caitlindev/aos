@@ -1,0 +1,13 @@
+{
+    "name": "g4plus-retryWs-directive",
+    "version": "0.1.0",
+    "authors": [
+        "Allegiant"
+    ],
+    "dependencies": {"lodash": "~2.2.1"},
+    "description": "G4Plus Retry WS Directive",
+    "main": [
+        "./flashMessages.coffee"
+    ],
+    "private": true
+}

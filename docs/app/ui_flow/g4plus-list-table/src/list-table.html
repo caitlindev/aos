@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>list-table.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>list-table.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-string">"use strict"</span>
+
+
+listTable = angular.<span class="hljs-built_in">module</span> <span class="hljs-string">"g4plus-list-table.directive"</span>, [
+  <span class="hljs-string">"ui.bootstrap"</span>
+]
+
+
+listTable.directive <span class="hljs-string">"g4plusListTable"</span>, [<span class="hljs-string">"$filter"</span>, <span class="hljs-function"><span class="hljs-params">($filter)</span> -&gt;</span>
+  <span class="hljs-attribute">restrict</span>: <span class="hljs-string">"A"</span>
+  <span class="hljs-attribute">templateUrl</span>: <span class="hljs-string">"g4plus-list-table-template.html"</span>
+  <span class="hljs-attribute">transclude</span>: <span class="hljs-literal">false</span>
+  <span class="hljs-attribute">scope</span>: {
+    <span class="hljs-attribute">options</span>: <span class="hljs-string">"=g4plusListTable"</span>
+
+  }
+
+  <span class="hljs-attribute">link</span>: <span class="hljs-function"><span class="hljs-params">(scope, el, attr)</span> -&gt;</span>
+    scope.stationValues = []
+    scope.f<span class="hljs-function"><span class="hljs-title">ilterByStation</span> = <span class="hljs-params">(input)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> jQuery.inArray(input.station.toUpperCase(), scope.filterArr) != -<span class="hljs-number">1</span>
+
+    scope.p<span class="hljs-function"><span class="hljs-title">arseData</span> = <span class="hljs-params">(item, column)</span> -&gt;</span>
+
+      <span class="hljs-keyword">if</span> column.field.indexOf(<span class="hljs-string">'.'</span>) &gt; -<span class="hljs-number">1</span>
+        multipleColumns = column.field.split(<span class="hljs-string">'.'</span>)
+        itemField = item[multipleColumns[<span class="hljs-number">0</span>]][multipleColumns[<span class="hljs-number">1</span>]]
+      <span class="hljs-keyword">else</span>
+        itemField = item[column.field]
+      <span class="hljs-keyword">if</span> column.field.indexOf(<span class="hljs-string">'ataCode'</span>) &gt; -<span class="hljs-number">1</span>
+        itemField = item.ataCode[<span class="hljs-number">0</span>].chapter + item.ataCode[<span class="hljs-number">0</span>].section
+
+      <span class="hljs-keyword">if</span> column.field?
+        <span class="hljs-keyword">if</span> column.filter
+          <span class="hljs-keyword">return</span> $filter([column.filter])(itemField, column.filterData) <span class="hljs-keyword">if</span> column.filterData
+          <span class="hljs-keyword">return</span> $filter(itemField)(itemField)
+        <span class="hljs-keyword">else</span>
+          <span class="hljs-keyword">return</span> itemField
+      <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>
+
+    scope.h<span class="hljs-function"><span class="hljs-title">asAction</span> = <span class="hljs-params">(action)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> scope.options?.actions?[ action + <span class="hljs-string">"Action"</span> ]
+
+    scope.h<span class="hljs-function"><span class="hljs-title">asState</span> = <span class="hljs-params">(action)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> scope.options?.actions?[ action + <span class="hljs-string">"State"</span> ] \
+        &amp;&amp; scope.options?.actions?[ action + <span class="hljs-string">"StateParam"</span> ] \
+        &amp;&amp; <span class="hljs-keyword">not</span> scope.options?.actions?[ action + <span class="hljs-string">"Action"</span> ]
+
+    scope.h<span class="hljs-function"><span class="hljs-title">asLink</span> = <span class="hljs-params">(action)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> scope.options?.actions?[ action + <span class="hljs-string">"Link"</span> ] \
+        &amp;&amp; <span class="hljs-keyword">not</span> scope.options?.actions?[ action + <span class="hljs-string">"Action"</span> ] \
+        &amp;&amp; <span class="hljs-keyword">not</span> scope.options?.actions?[ action + <span class="hljs-string">"State"</span> ]
+
+    scope.s<span class="hljs-function"><span class="hljs-title">etSortColumn</span> = <span class="hljs-params">(column)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> scope?.options?.sortColumn &amp;&amp; scope?.options?.sortColumn <span class="hljs-keyword">is</span> column.field
+        scope.options.sortDirection = (<span class="hljs-keyword">if</span> (scope.options.sortDirection <span class="hljs-keyword">is</span> <span class="hljs-string">"-"</span>) <span class="hljs-keyword">then</span> <span class="hljs-string">""</span> <span class="hljs-keyword">else</span> <span class="hljs-string">"-"</span>)
+
+      scope.options.sortColumn = column.field
+
+      scope.options?.onSortColumn?(scope.options.sortColumn, scope.options.sortDirection)
+
+    scope.h<span class="hljs-function"><span class="hljs-title">asSorting</span> = <span class="hljs-params">(column)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> (column.sorting)
+
+    scope.g<span class="hljs-function"><span class="hljs-title">etSortingClass</span> = <span class="hljs-params">(column)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> column?.field? &amp;&amp; scope.options.sortColumn <span class="hljs-keyword">is</span> column.field
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"icon-sort-"</span> + (<span class="hljs-keyword">if</span> (scope.options.sortDirection <span class="hljs-keyword">is</span> <span class="hljs-string">"-"</span>) <span class="hljs-keyword">then</span> <span class="hljs-string">"down"</span> <span class="hljs-keyword">else</span> <span class="hljs-string">"up"</span>)
+      <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"icon-sort"</span>
+
+    scope.g<span class="hljs-function"><span class="hljs-title">etColumnClass</span> = <span class="hljs-params">(column)</span> -&gt;</span>
+      columnClass = (<span class="hljs-keyword">if</span> (column?.columnClass?) <span class="hljs-keyword">then</span> column.columnClass <span class="hljs-keyword">else</span> <span class="hljs-string">""</span>)
+      <span class="hljs-keyword">if</span> column?.sorting &amp;&amp; scope.options.sortColumn <span class="hljs-keyword">is</span> column.field
+        columnClass += <span class="hljs-string">' col-control'</span>
+      <span class="hljs-keyword">return</span> columnClass
+]
+
+listTable.run [<span class="hljs-string">"$templateCache"</span>, <span class="hljs-function"><span class="hljs-params">($templateCache)</span> -&gt;</span>
+  <span class="hljs-keyword">return</span> $templateCache.put <span class="hljs-string">"g4plus-list-table-template.html"</span>, <span class="hljs-string">"""
+    &lt;table ng-class="options.tableClass" ng-show="options.items.length"&gt;
+      &lt;thead&gt;
+        &lt;tr class="header_bar"&gt;
+          &lt;th ng-repeat="column in options.columns" ng-class="getColumnClass(column)" scope="col"&gt;{{ column.title }}
+            &lt;a href="javascript:void(0);" ng-if="hasSorting(column)" ng-click="setSortColumn(column)"&gt;
+              &lt;i ng-class="getSortingClass(column)"&gt;&lt;/i&gt;
+            &lt;/a&gt;
+          &lt;/th&gt;
+          &lt;th ng-if="options.actions" class="actions medium" scope="col"&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr ng-repeat="item in options.items"&gt;
+          &lt;td ng-repeat="column in options.columns" ng-class="column.cellClass"&gt;
+            &lt;a ng-click, href="/#/view/{{item.id}}"&gt;{{ parseData(item, column) }}&lt;/a&gt;
+          &lt;/td&gt;
+          &lt;td ng-if="options.actions" class="actions"&gt;
+            &lt;div class="clearfix"&gt;
+              &lt;a class="pull-right margin-left text-muted text-delete"
+                 ng-if="hasAction('delete')"
+                 ng-click="options.actions.deleteAction(item)"&gt;
+                &lt;i class="fa g4-icon-trash"&gt;&lt;/i&gt; Delete
+              &lt;/a&gt;
+              &lt;a class="pull-right margin-left text-muted text-delete"
+                 ng-if="hasLink('delete')"
+                 ng-href="{{ options.actions.deleteLink + item.id }}"&gt;
+                &lt;i class="fa g4-icon-trash"&gt;&lt;/i&gt; Delete
+              &lt;/a&gt;
+              &lt;a class="pull-right margin-left text-muted text-delete"
+                 ng-if="hasState('delete')"
+                 ui-sref="{{ options.actions.deleteState + '({' + options.actions.deleteStateParam + ': item.id })' }}"&gt;
+                &lt;i class="fa g4-icon-trash"&gt;&lt;/i&gt; Delete
+              &lt;/a&gt;
+              &lt;a class="pull-right primary margin-left"
+                 ng-if="hasAction('edit')"
+                 ng-click="options.actions.editAction(item)"&gt;
+                &lt;i class="fa g4-icon-edit"&gt;&lt;/i&gt; Edit
+              &lt;/a&gt;
+              &lt;a class="pull-right primary margin-left"
+                 ng-if="hasLink('edit')"
+                 ng-href="{{ options.actions.editLink + item.id }}"&gt;
+                &lt;i class="fa g4-icon-edit"&gt;&lt;/i&gt; Edit
+              &lt;/a&gt;
+              &lt;a class="pull-right primary margin-left"
+                 ng-if="hasState('edit')"
+                 ui-sref="{{ options.actions.editState + '({' + options.actions.editStateParam + ': item.id })' }}"&gt;
+                &lt;i class="fa g4-icon-edit"&gt;&lt;/i&gt; Edit
+              &lt;/a&gt;
+              &lt;a class="pull-right margin-left text-muted text-view"
+                 ng-if="hasAction('view')"
+                 ng-click="options.actions.viewAction(item)"&gt;
+                &lt;i class="fa g4-icon-view"&gt;&lt;/i&gt; View
+              &lt;/a&gt;
+              &lt;a class="pull-right margin-left text-muted text-view"
+                 ng-if="hasLink('view')"
+                 ng-href="{{ options.actions.viewLink + item.id }}"&gt;
+                &lt;i class="fa g4-icon-view"&gt;&lt;/i&gt; View
+              &lt;/a&gt;
+              &lt;a class="pull-right margin-left text-muted text-view"
+                 ng-if="hasState('view')"
+                 ui-sref="{{ options.actions.viewState + '({' + options.actions.viewStateParam + ': item.id })' }}"&gt;
+                &lt;i class="fa g4-icon-view"&gt;&lt;/i&gt; View
+              &lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;p class="clearfix alert alert-warning margin-left margin-right margin-top"
+       ng-show="!options.items.length &amp;&amp; options.noItemsFoundMessage"&gt;
+      {{ options.noItemsFoundMessage }}
+      &lt;a href="javascript:void(0);" ng-click="options.resetFilter()" ng-show="options.resetFilter"&gt;
+       clear filter &lt;i class="icon-remove"&gt;&lt;/i&gt;
+      &lt;/a&gt;
+    &lt;/p&gt;
+  """</span>
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,352 @@
+header
+  div.row.header_bar
+    div.action_btns.col-sm-4.text-left
+      a.active(ng-click="goToPath($event, '/view/' + event.id)")
+        i.fa.fa-angle-left &nbsp;&nbsp;
+        span AOS Event
+
+    div.row.col-sm-4
+      h1 Road Trip to AOS {{event.tailNbr}}
+
+    div.action_btns.col-sm-4.pull-right
+      div.btn-group.pull-right
+        button.btn.btn-action.btn-solid.btn-default(ng-click="openRTDeleteModal()")
+          | Close Road Trip
+
+      div.pull-right &nbsp;&nbsp;
+      div.btn-group.pull-right
+        button.btn.btn-action.btn-solid.btn-default(ng-click="goToPath($event, '/roadtrip/edit/' + event.id)")
+          | Edit Road Trip
+
+
+div.row#content_body
+  section#roadtrip_info
+    div.border-top
+      div.col-sm-6
+        h2 AOG Tracking Details
+      div.col-sm-6
+        i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_tracking_details", ng-click="isCollapsed_tracking_details = !isCollapsed_tracking_details")
+        i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_tracking_details", ng-click="isCollapsed_tracking_details = !isCollapsed_tracking_details")
+      div.clearfix
+      div.collapse-section(collapse="isCollapsed_tracking_details")
+        div.col-sm-3
+          span Tail No.:
+          h3 {{event.tailNbr}}
+        div.col-sm-4
+          span AOG Date:
+          h3(g4-unix-timestamp-converter="", formatting="MM/DD/YYYY HH:mm", duration-or-conversion="conversion", timestamp="event.createdUnixTimestamp",event="event")
+        div.col-sm-3
+          span Flight No.:
+          h3 {{event.flightInfo.routes[2].currentInfo.flightNbr}}
+        div.col-sm-2
+          span Station:
+          h3 {{event.station.toUpperCase()}}
+        div.clearfix
+        div.col-sm-12.margin-top-large.margin-bottom-large
+          span Reason:
+          p(ng-show="event.description!=''") {{event.description}}
+          p(ng-show="event.description==''") No description has been added to this event.
+        div.clearfix.margin-top-large.margin-bottom
+        div.col-sm-3
+          span ATA Code:
+          span
+            strong(ng-repeat="code in event.ataCode") {{code.chapter}}{{code.section}}
+        div.col-sm-5
+          span Description:
+          span
+            strong Air Conditioning and Pressurization
+        div.col-sm-4
+          span Inspector Req:
+          span
+            strong {{roadTrip.inspectionRequired}}
+        div.clearfix.margin-top-large
+        div.col-sm-12.margin-top
+          span Special Equiptment Requirements:
+          p(ng-show="roadTrip.specialEquipmentReqs!=undefined") {{roadTrip.specialEquipmentReqs}}
+          p(ng-show="roadTrip.specialEquipmentReqs==undefined") No equiptment requirements have been added to this road trip.
+        div.clearfix
+
+
+    div.border-top
+      div.col-sm-6
+        h2 Parts
+          strong(ng-show="roadTrip.parts.length>0") &nbsp;({{roadTrip.parts.length}})
+      div.col-sm-6
+        i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_parts", ng-click="isCollapsed_parts = !isCollapsed_parts")
+        i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_parts", ng-click="isCollapsed_parts = !isCollapsed_parts")
+    div.clearfix
+    div.collapse-section(collapse="isCollapsed_parts")
+      div.clearfix(ng-show="roadTrip.parts.length>0", ng-repeat="part in roadTrip.parts")
+        div.col-sm-2
+          span Qty:
+          span
+            strong {{part.qty}}
+        div.col-sm-3
+          span Part No.:
+          span
+            strong {{part.partNbr}}
+        div.col-sm-7
+          span Description:
+          span
+            strong {{part.description}}
+
+        div.clearfix
+      div.col-sm-12(ng-show="roadTrip.parts.length==0")
+        p No parts have been added to this road trip.
+      div.clearfix
+
+      div.col-sm-12
+        h2 Tooling
+          strong(ng-show="roadTrip.tooling.length>0") &nbsp;({{roadTrip.tooling.length}})
+      div.clearfix(ng-show="roadTrip.tooling.length>0", ng-repeat="tool in roadTrip.tooling")
+        div.col-sm-2
+          span Qty:
+          span
+            strong 1
+        div.col-sm-3
+          span Part No.:
+          span
+            strong {{tool.toolNbr}}
+        div.col-sm-7
+          span Description:
+          span
+            strong {{tool.description}}
+
+        div.clearfix
+      div.col-sm-12(ng-show="roadTrip.tooling.length==0")
+        p No tools have been added to this road trip.
+      div.clearfix
+
+
+    div.border-top
+      div.col-sm-6
+        h2 Prescribed Repair Scheme
+      div.col-sm-6
+        i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_repair_scheme", ng-click="isCollapsed_repair_scheme = !isCollapsed_repair_scheme")
+        i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_repair_scheme", ng-click="isCollapsed_repair_scheme = !isCollapsed_repair_scheme")
+    div.clearfix
+    div.collapse-section(collapse="isCollapsed_repair_scheme")
+      div.col-sm-12
+        p(ng-show="roadTrip.repairScheme!=undefined") {{roadTrip.repairScheme}}
+        p(ng-show="roadTrip.repairScheme==undefined") No repair scheme has been added to this road trip.
+      div.clearfix
+
+
+
+
+
+    div.border-top
+      div.col-sm-6
+        h2 Traveler Information
+          strong(ng-show="roadTrip.roadTripTraveler.length>0") &nbsp;({{roadTrip.roadTripTraveler.length}})
+      div.col-sm-6
+        i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_traveler_info", ng-click="isCollapsed_traveler_info = !isCollapsed_traveler_info")
+        i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_traveler_info", ng-click="isCollapsed_traveler_info = !isCollapsed_traveler_info")
+    div.clearfix
+    div.collapse-section#traveler_info(collapse="isCollapsed_traveler_info")
+      div.col-sm-12.pull-right.margin-bottom-large
+        div.icon_container.col-sm-1
+          i.fa.fa-mail-reply
+        div.col-sm-3.text-left
+          a(href="http://www.globalcrewlogistics.com/", target="_blank") Global Crew Logistics Website
+
+      div.person(ng-repeat="person in roadTrip.roadTripTraveler")
+        div.col-sm-12
+          div.icon_container.col-sm-1
+            i.fa.fa-user
+          div.col-sm-2.text-left
+            h3 {{person.employee.firstName}} {{person.employee.lastName}}
+          div.col-sm-1.text-center
+            span ID:
+            span
+              strong {{person.employee.id}}
+          div.col-sm-3.text-center
+            span Phone:
+            span
+              strong {{person.employee.phone}}
+          div.col-sm-1.text-center
+            span Base:
+            span
+              strong {{person.employee.base}}
+          div.col-sm-3.text-center
+            span D.O.B:
+            span
+              strong {{person.employee.DOB}}
+          div.col-sm-1.text-center
+            span Gender:
+            span
+              strong {{person.employee.gender}}
+
+
+        div.col-sm-12.pull-right(ng-show="person.travelInfo.hotel.length || person.travelInfo.airline.length || person.travelInfo.car.length")
+          div.icon_container.col-sm-1(ng-init="isCollapsed_travel_arrangements=true")
+          a.col-sm-2(ng-show="!isCollapsed_travel_arrangements", ng-click="isCollapsed_travel_arrangements = !isCollapsed_travel_arrangements") Travel Arrangements -
+          a.col-sm-2(ng-show="isCollapsed_travel_arrangements", ng-click="isCollapsed_travel_arrangements = !isCollapsed_travel_arrangements") Travel Arrangements >
+
+        div.clearfix.margin-top
+        div.margin-top(collapse="isCollapsed_travel_arrangements")
+
+          div.col-sm-12.travel_arrangement(ng-show="person.travelInfo.hotel.length")
+            div(ng-repeat="hotel in person.travelInfo.hotel")
+              div.icon_container.col-sm-1
+              div.col-sm-3.text-left
+                span
+                  strong Hotel:
+                span {{hotel.name}}
+              div.col-sm-3.text-left
+                span
+                span {{hotel.address}} {{hotel.city}}, {{hotel.state}} {{hotel.zip}}
+              div.col-sm-3.text-center
+                span Phone:
+                span {{hotel.phone}}
+              div.col-sm-2.text-right
+                span Conf. No.:
+                span {{hotel.confNbr}}
+              div.clearfix
+
+            //div.clearfix
+            //  div.icon_container.col-sm-1
+            //  a.col-sm-2 Edit
+
+          div.col-sm-12.travel_arrangement(ng-show="person.travelInfo.airline.length")
+            div(ng-repeat="airline in person.travelInfo.airline")
+              div.icon_container.col-sm-1
+              div.col-sm-3.text-left
+                span
+                  strong Airline:
+                span {{airline.name}}
+              div.col-sm-1.text-left
+                span
+                span {{airline.departure.flightNbr}}
+              div.col-sm-2.text-left
+                span
+                  strong {{airline.departure.station}}
+                span(g4-unix-timestamp-converter="", formatting="MM/DD/YYYY HH:mm", duration-or-conversion="conversion", timestamp="airline.departure.departUnixTimestamp",event="event")
+              div.col-sm-2.text-left
+                span Seat:
+                span {{airline.departure.seat}}
+              div.col-sm-2.text-right
+                span Conf. No.:
+                span {{airline.departure.confNbr}}
+
+              div.clearfix
+
+              div.icon_container.col-sm-1
+              div.col-sm-3
+              div.col-sm-1.text-left
+                span
+                span {{airline.arrival.flightNbr}}
+              div.col-sm-2.text-left
+                span
+                  strong {{airline.arrival.station}}
+                span(g4-unix-timestamp-converter="", formatting="MM/DD/YYYY HH:mm", duration-or-conversion="conversion", timestamp="airline.arrival.arriveUnixTimestamp",event="event")
+              div.col-sm-2.text-left
+                span Seat:
+                span {{airline.arrival.seat}}
+              div.col-sm-2.text-right
+                span Conf. No.:
+                span {{airline.arrival.confNbr}}
+              div.clearfix
+
+            //div.clearfix
+            //  div.icon_container.col-sm-1
+            //  a.col-sm-2 Edit
+
+
+          div.col-sm-12.travel_arrangement(ng-show="person.travelInfo.car.length")
+            div(ng-repeat="car in person.travelInfo.car")
+              div.icon_container.col-sm-1
+              div.col-sm-3.text-left
+                span
+                  strong Car:
+                span {{car.name}}
+              div.col-sm-3.text-left
+                span
+                span {{car.address}} {{car.city}}, {{car.state}} {{car.zip}}
+              div.col-sm-3.text-center
+                span Phone:
+                span {{car.phone}}
+              div.col-sm-2.text-right
+                span Conf. No.:
+                span {{car.confNbr}}
+              div.clearfix
+
+            //div.clearfix
+            //  div.icon_container.col-sm-1
+            //  a.col-sm-2 Edit
+
+          div.clearfix
+
+
+
+
+    div.border-top
+      div.col-sm-6
+        h2 Station Information
+      div.col-sm-6
+        i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_station_info", ng-click="isCollapsed_station_info = !isCollapsed_station_info")
+        i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_station_info", ng-click="isCollapsed_station_info = !isCollapsed_station_info")
+    div.clearfix
+    div.collapse-section(collapse="isCollapsed_station_info")
+      div.col-sm-4
+        span Manager:
+        span
+          strong {{roadTrip.stationManager.firstName}} {{roadTrip.stationManager.lastName}}
+        div.clearfix
+        span Address:
+        span
+          strong {{roadTrip.stationManager.address}} {{roadTrip.stationManager.city}}, {{roadTrip.stationManager.state}} {{roadTrip.stationManager.zip}}
+        div.clearfix
+      div.col-sm-3
+        span Phone:
+        span
+          strong {{roadTrip.stationManager.phone}}
+      div.col-sm-2
+        span On Call:
+        span
+          strong {{roadTrip.stationOnCall.firstName}} {{roadTrip.stationOnCall.lastName}}
+      div.col-sm-3
+        span Phone:
+        span
+          strong {{roadTrip.stationOnCall.phone}}
+
+      div.clearfix
+
+
+
+    div.border-top
+      div.col-sm-6
+        h2 On-Call Maintenance Vendor Information
+      div.col-sm-6
+        i.pull-right.fa.fa-angle-down(ng-show="isCollapsed_vendor_info", ng-click="isCollapsed_vendor_info = !isCollapsed_vendor_info")
+        i.pull-right.fa.fa-angle-up(ng-show="!isCollapsed_vendor_info", ng-click="isCollapsed_vendor_info = !isCollapsed_vendor_info")
+    div.clearfix
+    div.collapse-section(collapse="isCollapsed_vendor_info")
+      div(ng-repeat="vendor in vendors")
+        div.col-sm-4
+          span Name:
+          span
+            strong {{vendor.name}}
+          div.clearfix
+          span Address:
+          span
+            strong {{vendor.address}} {{vendor.city}}, {{vendor.state}} {{vendor.zip}}
+          div.clearfix
+          span Contract No.:
+          span
+            strong {{vendor.contract}}
+
+        div.col-sm-3
+          span Contact:
+          span
+            strong {{vendor.contactFirstName}} {{vendor.contactLastName}}
+        div.col-sm-3
+          span Phone:
+          span
+            strong {{vendor.phone}}
+        div.col-sm-2
+          span Fax:
+          span
+            strong {{vendor.fax}}
+        div.clearfix.margin-bottom
+

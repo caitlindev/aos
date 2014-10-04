@@ -1,0 +1,25 @@
+div#menu(ng-controller="MenuCtrl", g4-app-code)
+  a(id="menu-button", title="G4Plus Menu")
+    i.icon-reorder
+  div#menu-popover.popover.bottom(ng-class="recentApps.length ? '' : 'narrow-menu'")
+    span.arrow
+    div.apps.col-sm-8.pull-right
+      div.page-header.clearfix
+        div.search.pull-left
+          a(href="javascript:void(0)", ng-click="searchTrigger()")
+            i.icon-search
+          form.hide
+            input.form-control(type="text", ng-model="searchTerm", class="ng-override")
+            a.pull-left(href="javascript:void(0)", ng-click="searchTrigger()") Cancel Search
+        ul.list-unstyled.breadcrumbs.clearfix
+          li
+            a.apps-home(href="#") Home
+      div(apps-list, trigger="#menu-button", depth="6", back-button=".apps-list .back", home-button=".apps-home", breadcrumbs="{{breadcrumbSelector}}", list-width="387", search-filter="{{searchTerm}}")
+
+    div.recent.col-sm-4(ng-show="recentApps.length")
+      h4 Recent Apps
+      ul.list-unstyled
+        li(ng-repeat="app in recentApps")
+          a.normal(href="{{app.path}}")
+            i.icon-caret-right
+            = '{{app.name}}'

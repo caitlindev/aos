@@ -1,0 +1,75 @@
+.form-control {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+// form error colors, they need to appear in this order.
+input.ng-dirty {
+  border-color: @g4-input-border-color;
+  background-color: #fff;
+}
+
+input.ng-valid {
+  border-color: #393;
+  background-color: #efe;
+}
+
+input.ng-invalid {
+  border-color: #f66;
+  background-color: #ffeeee;
+}
+
+input.ng-pristine {
+  border-color: @g4-input-border-color;
+  background-color: #fff;
+}
+
+
+/* Dropdown menu */
+
+.dropdown-menu {
+  color: #000000;
+  border-radius: 0;
+}
+
+.dropdown {
+  margin-bottom:4px;
+}
+
+.dropdown ul li {
+  cursor:pointer;
+}
+
+.dropdown .btn {
+  background:white;
+  position:relative;
+  padding-right:20px;
+  padding-top:4px;
+  .font-size(12);
+}
+
+
+.dropdown {
+  i.fa-angle-right,
+  i.fa-angle-down {
+    color:#7c7c7c;
+    .font-size-important(20);
+    position:absolute;
+    right:0;
+    top:2px;
+  }
+}
+
+.outlined .btn,
+.outlined.open .btn {
+  background:none;
+  border:solid 1px white;
+  color:white;
+  .font-size(10);
+  height:24px;
+  padding:3px 10px;
+}
+
+.outlined .btn .fa.fa-angle-down {
+  color:white;
+}

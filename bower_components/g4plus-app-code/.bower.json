@@ -1,0 +1,28 @@
+{
+  "name": "g4plus-app-code",
+  "authors": [
+    "emanuel.arambula"
+  ],
+  "description": "Adds appcode inside every request.",
+  "main": "app.coffee",
+  "dependencies": {
+    "angular": "1.2"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "2ebd2099d8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2ebd2099d81bdeee14bd170228124af71403ae8f"
+  },
+  "_source": "ssh://git@git.allegiantair.com:7999/bc/g4plus-app-code.git",
+  "_target": "*",
+  "_originalSource": "ssh://git@git.allegiantair.com:7999/bc/g4plus-app-code.git"
+}

@@ -1,0 +1,21 @@
+mixin header()
+  header#header.container.clearfix
+    div.pull-left.col-sm-5.padding-none
+      include menu
+      h2(ng-if="appTitle", ng-bind="appTitle")
+      div.pull-left(g4plus-breadcrumb)
+    div#logo.text-center.col-sm-2
+      img(src="img/logo.png")
+    div.pull-right.col-sm-5.padding-none
+      //i.fa.fa-question-circle.pull-right.margin-right
+
+      // time
+      div.btn-group.pull-right.clock(ng-controller="ClockCtrl")
+        button.btn.dropdown-toggle(data-toggle="dropdown", type="button")
+          span
+          i.fa.fa-angle-down
+        ul.dropdown-menu.no-padding
+          li(ng-repeat="clock in clockItems")
+            a(href="javascript:void(0);", role="button", ng-click="saveTimeZone(clock)", tooltip-placement="left", tooltip="Set {{clock.zone}} as Default")
+      // user profile
+      user-dropdown

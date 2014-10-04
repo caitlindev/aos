@@ -1,0 +1,126 @@
+.btn {
+
+  .input-size(@input-height; @input-padding-vert - 2; @input-padding-horz; @body-font-size; @body-line-height; 3px);
+
+  border-radius: 2px;
+  &:focus {
+    outline: 0;
+    color:white;
+  }
+
+  padding:7px 12px;
+  line-height:18px;
+  color:white;
+
+  .caret {
+    border-top-color:white;
+  }
+
+  border:0;
+
+}
+
+.input-group {
+  .input-group-addon {
+    // - 2 on the vertical padding to account for the border
+    .input-size(@input-height; @input-padding-vert - 2; @input-padding-horz; @body-font-size; @body-line-height; 0);
+
+    &:first-child {
+      .border-left-radius(3px);
+    }
+
+    &:last-child {
+      .border-left-radius(0) !important;
+    }
+  }
+}
+
+
+
+.btn-larger {
+  padding: 10px 30px;
+  height:auto;
+}
+
+.btn-primary {
+  &:focus {
+    outline: 0;
+  }
+}
+
+.btn-rght-rounded {
+  border-radius: 0px 2px 2px 0px;
+}
+
+.btn-search {
+  .font-size(18);
+  height:40px;
+  padding-top:10px;
+  // line-height: 28px;
+}
+
+.btn-action {
+  height: 30px;
+  padding:  7px 10px;
+  color:  white;
+  border: 0;
+}
+
+.btn-translucent {
+  background: @translucent-black;
+}
+
+.btn-translucent:hover,
+.btn-translucent:focus {
+  background: #ababab;
+  color:white;
+}
+
+.btn-primary,
+.btn-solid {
+  background: #00559a;
+}
+
+.btn-secondary {
+  background: #3266cc;
+}
+
+.btn-negative {
+  background: #ff6600;
+}
+
+.btn-disabled {
+  background: #d7d7d7;
+}
+
+
+
+
+/* BUTTON HOVER STYLES */
+.btn-solid:hover,
+.btn-solid:focus,
+.btn-primary:hover,
+.btn-primary:focus, {
+  color:white;
+  background: #4c88b8;
+}
+
+.btn-secondary:hover {
+  background: #609de0;
+  color:white;
+}
+
+.btn-negative:hover {
+  background: #fe8129;
+  color:white;
+}
+
+
+
+
+.btn-cancel {
+  background: @medium-gray;
+}
+
+
+

@@ -1,0 +1,88 @@
+fieldset
+  div.form-group
+    label.col-sm-2.text-right(for="aircraft-program-list")
+      span.required.text-danger *&nbsp;
+      = "Aircraft Program:"
+    div.col-sm-2
+      select.form-control(
+      name="aircraft_program_list"
+      id="aircraft-program-list"
+      ng-required="true"
+      required="required"
+      ng-model="code.programGroupId"
+      ng-disabled="noModify"
+      ng-options="key as value for (key, value) in group"
+      g4-autofocus
+      )
+        option(value="") -- Select a Program --
+      p.small.no-bottom-margin.text-danger(ng-show="FecForm.aircraft_program_list.$error.required && FecForm.aircraft_program_list.$dirty") Aircraft Program is required.
+
+  div.form-group
+    label.col-sm-2.text-right(for="fec-code")
+      span.required.text-danger *&nbsp;
+      = "Code:"
+    div.col-sm-2
+      input.form-control(
+        name="fec_code"
+        id="fec-code"
+        type="text"
+        ng-model="code.code"
+        ng-required="true"
+        required="required"
+        ng-minlength=1
+        ng-maxlength=10
+        ng-disabled="noModify"
+      )
+      p.small.no-bottom-margin.text-danger(ng-show="FecForm.fec_code.$error.required && FecForm.fec_code.$dirty") Code is required.
+      p.small.no-bottom-margin.text-danger(ng-show="FecForm.fec_code.$error.maxlength") Code is only up to 10 characters.
+
+  div.form-group
+    label.col-sm-2.text-right(for="fec-title")
+      span.required.text-danger *&nbsp;
+      = "Title:"
+    div.col-sm-5
+      input.form-control(
+        name="fec_title"
+        id="fec-title"
+        type="text"
+        ng-model="code.title"
+        ng-required="true"
+        required="required"
+        ng-minlength=1
+        ng-maxlength=50
+        ng-disabled="noModify"
+      )
+      p.small.no-bottom-margin.text-danger(ng-show="FecForm.fec_title.$error.required && FecForm.fec_title.$dirty") Title is required.
+      p.small.no-bottom-margin.text-danger(ng-show="FecForm.fec_title.$error.maxlength") Title is only up to 45 characters.
+
+  div.form-group
+    label.col-sm-2.text-right(for="fec-effective-date")
+      | Effective Date:
+    div.col-sm-2.input-group
+      span.input-group-addon
+        i.fa.fa-calendar
+      input.form-control.ng-isolate-scope.ng-dirty.ng-valid-date.ng-valid.ng-valid-required(
+        name="fec_effective_date"
+        id="fec-effective-date"
+        type="text"
+        ng-model="code.effectiveDate"
+        ng-disabled="noModify"
+        g4plus-date="code.effectiveDate"
+      )
+    p.small.no-bottom-margin.text-danger(ng-show="FecForm.fec_effective_date.$invalid") Effective Date must be formatted properly.
+
+  div.form-group
+    label.col-sm-2.text-right(for="fec-discontinue-date")
+      | Discontinue Date:
+    div.col-sm-2.input-group
+      span.input-group-addon
+        i.fa.fa-calendar
+      input.form-control(
+        name="fec_discontinue_date"
+        id="fec-discontinue-date"
+        type="text"
+        ng-model="code.discontinueDate"
+        ng-disabled="noModify"
+        g4plus-date="code.discontinueDate"
+      )
+    p.small.no-bottom-margin.text-danger(ng-show="FecForm.fec_discontinue_date.$dirty && FecForm.fec_discontinue_date.$invalid") Discontinue Date must be formatted properly.
