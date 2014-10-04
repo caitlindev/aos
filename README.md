@@ -7,7 +7,7 @@ This is a project I am currently working on for Allegiant. The current state of 
 
 - I have mocked most of the web services I am using, though some parts of the application may be trying to call live services which you won't have access to outside of Allegiant's network.
 
-- I would noramlly create a gitignore on the bower components and node modules, but due to lack of network I have included these directories in my commit.
+- I would normally create a gitignore on the bower components and node modules, but due to lack of network I have included these directories in my commit.
 
 - No, I did not write all of these components, but I wrote a few.
 
